@@ -24,7 +24,7 @@ for Command in $CommandList; do
             chmod 755 $CommandFile
             break 1
         else
-            curl -o $CommandFile http://git.oschina1.net/quefei/mycommand/raw/master/src/$Command
+            curl -o $CommandFile http://git.oschina.net/quefei/mycommand/raw/master/src/$Command
         fi
     done
     
