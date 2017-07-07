@@ -19,6 +19,8 @@ else
     exit 1
 fi
 
+# 例如：mymake "~/test/test.sh"
+
 # 创建文件及目录
 Path=$1
 
@@ -27,7 +29,7 @@ if [[ $Path == "" ]]; then
     exit 1
 fi
 
-checkCommand mypath
+checkCommand mypath || exit 1
 
 Path=$(mypath $Path)
 
