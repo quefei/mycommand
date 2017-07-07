@@ -1,0 +1,37 @@
+#!/bin/bash
+export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+echoSuccess()    { echo -n -e "\e[0;32mSuccess: \e[0m"; echo $1; }
+echoWarning()    { echo -n -e "\e[0;33mWarning: \e[0m"; echo $1; }
+echoError()      { echo -n -e "\e[0;31mError: \e[0m"; echo $1; }
+displaySuccess() { echo -e "\e[0;32mSuccess\e[0m"; }
+displayError()   { echo -e "\e[0;31mError\e[0m"; }
+
+if [ $(id -u) != "0" ]; then
+    echoError "must run with root"; exit 1
+fi
+
+#
+if [ -f /usr/local/bin/myfunction.sh ]; then
+    . /usr/local/bin/myfunction.sh
+else
+    echoError "myfunction.sh not found"
+    exit 1
+fi
+
+# 创建文件及目录
+Path=$1
+
+if [[ $Path == "" ]]; then
+    echoError "mymake missing operand"
+    exit 1
+fi
+
+Directory=$(filePath $Path)
+
+if ( mkdir -p $Directory ); then
+    touch $Path
+else
+    displayError
+    exit 1
+fi
