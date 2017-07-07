@@ -12,7 +12,7 @@ if [ $(id -u) != "0" ]; then
 fi
 
 #
-CommandList="mypath"
+CommandList="mypath123"
 
 for Command in $CommandList; do
     CommandFile=/usr/local/bin/$Command
@@ -31,6 +31,13 @@ for Command in $CommandList; do
     if (( i == 10 )); then
         echoError "$Command download failed"
         exit 1
+    fi
+    
+    if ( sed -n "1p" $CommandFile | grep '^#!/bin/bash$' &> /dev/null ); then
+        :
+    else
+        rm -rf $CommandFile
+        echoWarning "$Command is not MyCommand"
     fi
 done
 
