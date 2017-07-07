@@ -12,7 +12,7 @@ if [ $(id -u) != "0" ]; then
 fi
 
 #
-CommandList="mypath"
+CommandList="mypath myfunction.sh"
 
 for Command in $CommandList; do
     CommandFile=/usr/local/bin/$Command
