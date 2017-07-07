@@ -27,6 +27,10 @@ if [[ $Path == "" ]]; then
     exit 1
 fi
 
+checkCommand mypath
+
+Path=$(mypath $Path)
+
 Directory=$(filePath $Path)
 
 if ( mkdir -p $Directory ); then
