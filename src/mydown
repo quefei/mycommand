@@ -85,6 +85,7 @@ for File in $FileList; do
             
         else
             
+            # 创建目录
             mymake $Directory/$File || exit 1
             
             if [[ $Download == "--wget" ]]; then
@@ -104,6 +105,7 @@ for File in $FileList; do
                 wget -c -P $Directory/$FileHead $Url/$File
                 
             else
+                # 默认使用 curl 下载
                 curl -o $Directory/$File $Url/$File
                 
             fi
