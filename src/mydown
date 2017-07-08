@@ -88,6 +88,7 @@ for File in $FileList; do
             # 创建目录
             mymake $Directory/$File || exit 1
             
+            # 使用 wget 下载，如果 wget 不存在就安装它
             if [[ $Download == "--wget" ]]; then
                 
                 if ( checkCommand wget &> /dev/null ); then
