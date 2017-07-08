@@ -114,11 +114,13 @@ for File in $FileList; do
     
     FileTail=$(filePath $File -f)
     
+    # 下载失败
     if (( i == Value )); then
         echoError "$FileTail download failed"
         exit 1
     fi
     
+    # 下载的文件不存在
     if [[ $Download != "--wget" ]]; then
         if ( grep "<title>.*404.*</title>" $Directory/$File &> /dev/null ); then
             mv $Directory/$File $Directory/$File-404-$(date +"%Y%m%d%H%M%S")
