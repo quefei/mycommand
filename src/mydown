@@ -22,20 +22,14 @@ fi
 # 批量下载
 Value=10
 
-echo " $*" | grep "[ \t]-f[ \t]" && echo 1
-echo " $*" | grep "[ \t]-d[ \t]" && echo 2
-echo " $*" | grep "[ \t]--md5[ \t]" && echo 3
-echo " $*" | grep "[ \t]--no[ \t]" && echo 4
-echo " $*" | grep "[ \t]--wget[ \t]" && echo 5
-echo " $*" | grep "[ \t]http" && echo 6
+Option=$(IFS=: && echo ":$*:")
 
-
-
-
-
-
-
-
+echo $Option | grep ":-f:" && echo 1
+echo $Option | grep ":-d:" && echo 2
+echo $Option | grep ":--md5:" && echo 3
+echo $Option | grep ":--no:" && echo 4
+echo $Option | grep ":--wget:" && echo 5
+echo $Option | grep ":http" && echo 6
 
 
 
