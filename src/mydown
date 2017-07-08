@@ -20,6 +20,7 @@ else
 fi
 
 # 批量下载
+# 获取选项
 Value=10
 
 Option=$(IFS=: && echo ":$*:")
@@ -39,6 +40,7 @@ Url=$(echo $Url | sed "s/\/$//g")
 FileList=$(echo $FileList | sed "s/^\///g")
 FileList=$(echo $FileList | sed "s/[ \t]\// /g")
 
+#
 if [[ $Url == "" ]]; then
     echoError "mydown missing URL"
     exit 1
