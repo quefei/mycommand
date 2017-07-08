@@ -22,12 +22,12 @@ fi
 # 批量下载
 Value=10
 
-echo "$*" | grep "[ \t]-f[ \t]"
-echo "$*" | grep "[ \t]-d[ \t]"
-echo "$*" | grep "[ \t]--md5[ \t]"
-echo "$*" | grep "[ \t]--no[ \t]"
-echo "$*" | grep "[ \t]--wget[ \t]"
-echo "$*" | grep "[ \t]http"
+echo "$*" | grep "[ \t]-f[ \t]" && echo 1
+echo "$*" | grep "[ \t]-d[ \t]" && echo 2
+echo "$*" | grep "[ \t]--md5[ \t]" && echo 3
+echo "$*" | grep "[ \t]--no[ \t]" && echo 4
+echo "$*" | grep "[ \t]--wget[ \t]" && echo 5
+echo "$*" | grep "[ \t]http" && echo 6
 
 
 
