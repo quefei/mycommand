@@ -35,6 +35,18 @@ echo $Option | grep ":http[s]*://" &> /dev/null && Url="htt$UrlHead:$UrlTail"
 echo $Option | grep ":--no:" &> /dev/null && Change="--no"
 echo $Option | grep ":--wget:" &> /dev/null && Download="--wget"
 
+Url=$(echo $Url | sed "s/\/$//g")
+FileList=$(echo $FileList | sed "s/^\///g")
+FileList=$(echo $FileList | sed "s/[ \t]\// /g")
+
+
+
+
+
+
+
+
+
 
 
 
