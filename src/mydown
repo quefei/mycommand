@@ -71,6 +71,7 @@ for File in $FileList; do
         
         if [ -s $Directory/$File ]; then
             
+            # 如果 MD5 存在就检验 MD5，默认不检验
             if [[ $Md5 != "" ]]; then
                 
                 if [[ $Md5 == $(md5sum $Directory/$File | awk '{ print $1 }') ]]; then
