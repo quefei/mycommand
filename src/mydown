@@ -55,7 +55,7 @@ if [[ $Directory == "" ]]; then
     Directory=$(pwd)
 fi
 
-#
+# 检测命令是否存在
 checkCommand "mypath mymake" || exit 1
 
 Directory=$(mypath $Directory)
