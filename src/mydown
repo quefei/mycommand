@@ -39,79 +39,89 @@ Url=$(echo $Url | sed "s/\/$//g")
 FileList=$(echo $FileList | sed "s/^\///g")
 FileList=$(echo $FileList | sed "s/[ \t]\// /g")
 
-
-
-
-
-
-
-
-
-
-
-
-
-echo $Url
-echo $FileList
-echo $Directory
-echo $Change
-echo $Download
-echo $Md5
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+if [[ $Url == "" ]]; then
+    echoError "mydown missing URL"
+    exit 1
+fi
+
+if [[ $FileList == "" ]]; then
+    FileList=$(echo $Url | awk -F/ '{ print $NF }')
+    Url=$(echo $Url | sed "s/\/$FileList$//g")
+fi
+
+if [[ $Directory == "" ]]; then
+    Directory=$(pwd)
+fi
+
+checkCommand "mypath mymake" || exit 1
+
+Directory=$(mypath $Directory)
+
+for File in $FileList; do
+    
+    if [[ $Change != "--no" ]]; then
+        [ -f $Directory/$File ] && rm -rf $Directory/$File
+    fi
+    
+    for (( i = 0; i < Value; i++ )); do
+        
+        if [ -s $Directory/$File ]; then
+            
+            if [[ $Md5 != "" ]]; then
+                
+                if [[ $Md5 == $(md5sum $Directory/$File | awk '{ print $1 }') ]]; then
+                    break 1
+                else
+                    rm -rf $Directory/$File
+                fi
+                
+            else
+                break 1
+            fi
+            
+        else
+            
+            mymake $Directory/$File || exit 1
+            
+            if [[ $Download == "--wget" ]]; then
+                
+                if ( checkCommand wget &> /dev/null ); then
+                    :
+                else
+                    for (( a = 0; a < 5; a++ )); do
+                        yum -y install wget
+                    done
+                    
+                    checkCommand wget || exit 1
+                fi
+                
+                FileHead=$(filePath $File)
+                
+                wget -c -P $Directory/$FileHead $Url/$File
+                
+            else
+                curl -o $Directory/$File $Url/$File
+                
+            fi
+            
+        fi
+        
+    done
+    
+    FileTail=$(filePath $File -f)
+    
+    if (( i == Value )); then
+        echoError "$FileTail download failed"
+        exit 1
+    fi
+    
+    if [[ $Download != "--wget" ]]; then
+        if ( grep "<title>.*404.*</title>" $Directory/$File &> /dev/null ); then
+            mv $Directory/$File $Directory/$File-404-$(date +"%Y%m%d%H%M%S")
+            echoWarning "$FileTail not found - 404"
+        fi
+    fi
+    
+done
+
+displaySuccess
