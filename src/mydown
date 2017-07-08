@@ -28,12 +28,12 @@ FileList=$(echo $Option | grep ":-f:" | awk -F":-f:" '{ print $2 }' | awk -F: '{
 Directory=$(echo $Option | grep ":-d:" | awk -F":-d:" '{ print $2 }' | awk -F: '{ print $1 }')
 Md5=$(echo $Option | grep ":--md5:" | awk -F":--md5:" '{ print $2 }' | awk -F: '{ print $1 }')
 
-echo $Option | grep ":--no:" &> /dev/null && Change="--no"
-echo $Option | grep ":--wget:" &> /dev/null && Download="--wget"
-
 UrlHead=$(echo $Option | grep ":http[s]*://" | awk -F":htt" '{ print $2 }' | awk -F: '{ print $1 }')
 UrlTail=$(echo $Option | grep ":http[s]*://" | awk -F":htt" '{ print $2 }' | awk -F: '{ print $2 }')
-Url="htt$UrlHead:$UrlTail"
+echo $Option | grep ":http[s]*://" &> /dev/null && Url="htt$UrlHead:$UrlTail"
+
+echo $Option | grep ":--no:" &> /dev/null && Change="--no"
+echo $Option | grep ":--wget:" &> /dev/null && Download="--wget"
 
 
 
