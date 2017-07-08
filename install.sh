@@ -12,7 +12,7 @@ if [ $(id -u) != "0" ]; then
 fi
 
 #
-CommandList="mypath myfunction.sh mymake"
+CommandList="mypath myfunction.sh mymake mydown"
 
 for Command in $CommandList; do
     CommandFile=/usr/local/bin/$Command
