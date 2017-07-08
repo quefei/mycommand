@@ -29,7 +29,7 @@ echo $Option | grep ":-d:" | awk -F":-d:" '{ print $2 }' | awk -F: '{ print $1 }
 echo $Option | grep ":--md5:" | awk -F":--md5:" '{ print $2 }' | awk -F: '{ print $1 }'
 echo $Option | grep ":--no:" &> /dev/null && echo "--no"
 echo $Option | grep ":--wget:" &> /dev/null && echo "--wget"
-echo $Option | grep ":http[s]*:\/\/"
+echo $Option | grep ":http[s]*://"
 
 
 
