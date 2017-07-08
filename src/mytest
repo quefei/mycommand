@@ -12,7 +12,7 @@ if [ $(id -u) != "0" ]; then
 fi
 
 # 创建脚本用来测试
-if [[ $1 != "--rm" ]]; then
+if [[ $1 != "-r" ]]; then
 	for (( i = 1; i < 100; i++ )); do
 		if ( type test$i.sh &> /dev/null ); then
 			:
