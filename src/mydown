@@ -19,6 +19,10 @@ else
     exit 1
 fi
 
+# 例如：mydown "URL/文件"
+# 例如：mydown -f "文件" -d "目录" --md5 "MD5" --no --wget "URL"
+# 例如：mydown -f "文件1 文件2 文件3" -d "目录" --md5 "MD5" --no --wget "URL"
+
 # 批量下载
 # 获取选项
 Value=10
