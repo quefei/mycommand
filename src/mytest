@@ -11,6 +11,8 @@ if [ $(id -u) != "0" ]; then
 	echoError "must run with root"; exit 1
 fi
 
+# 例如：mytest; mytest -r; mytest -r 1 2 3 4 5
+
 # 创建脚本用来测试
 if [[ $1 != "-r" ]]; then
 	for (( i = 1; i < 100; i++ )); do
@@ -50,10 +52,15 @@ else
 	if [[ $2 == "" ]]; then
 		find /usr/local/bin -name "test*.sh" -type f -exec rm -rf {} \;
 		find /root -name "test*.sh" -type l -exec rm -rf {} \;
-		echoSuccess 'delete test*.sh'
+		echoSuccess "remove all scripts"
 	else
-		[ -f /usr/local/bin/test$2.sh ] || exit 1
-		rm -rf {/usr/local/bin/test$2.sh,/root/test$2.sh}
-		echoSuccess "delete test$2.sh"
+		for Option in $(echo "$*" | sed "s/$1//g"); do
+			if [ -f /usr/local/bin/test$Option.sh ]; then
+				rm -rf {/usr/local/bin/test$Option.sh,/root/test$Option.sh}
+				echoSuccess "remove test$Option.sh"
+			else
+				echoWarning "test$Option.sh not found"
+			fi
+		done
 	fi
 fi
