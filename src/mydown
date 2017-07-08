@@ -30,8 +30,8 @@ echo $Option | grep ":--md5:" | awk -F":--md5:" '{ print $2 }' | awk -F: '{ prin
 echo $Option | grep ":--no:" &> /dev/null && echo "--no"
 echo $Option | grep ":--wget:" &> /dev/null && echo "--wget"
 #echo $Option | grep ":http[s]*://" | awk -F":http[s]*://" '{ print $2 }' | awk -F: '{ print $1 }'
-echo $Option | grep ":http[s]*://" | awk -F":http[s]*://" '{ print $1 }'
-
+Delete=$(echo $Option | grep ":http[s]*://" | awk -F":http[s]*://" '{ print $1 }')
+echo $Option | sed "s/^$Delete//g"
 
 
 
