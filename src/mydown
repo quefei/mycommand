@@ -24,9 +24,9 @@ Value=10
 
 Option=$(IFS=: && echo ":$*:")
 
-echo $Option | grep ":-f:" && echo 1
-echo $Option | grep ":-d:" && echo 2
-echo $Option | grep ":--md5:" && echo 3
+echo $Option | grep ":-f:" | awk -F":-f:" '{ print $2 }' | awk -F: '{ print $1 }'
+echo $Option | grep ":-d:" | awk -F":-d:" '{ print $2 }' | awk -F: '{ print $1 }'
+echo $Option | grep ":--md5:" | awk -F":--md5:" '{ print $2 }' | awk -F: '{ print $1 }'
 echo $Option | grep ":--no:" && echo 4
 echo $Option | grep ":--wget:" && echo 5
 echo $Option | grep ":http" && echo 6
