@@ -62,6 +62,7 @@ Directory=$(mypath $Directory)
 
 for File in $FileList; do
     
+    # 默认删除旧文件
     if [[ $Change != "--no" ]]; then
         [ -f $Directory/$File ] && rm -rf $Directory/$File
     fi
