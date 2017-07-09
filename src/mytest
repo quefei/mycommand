@@ -36,13 +36,13 @@ if [[ $1 != "-r" ]]; then
 				displayError()   { echo $(echoColor "Error" "31" "40"); }
 
 				if [ $(id -u) != "0" ]; then
-					echoError "must run with root"; exit 1
+				    echoError "must run with root"; exit 1
 				fi
 
 				if [ -s /usr/local/bin/myfunction.sh ]; then
-					. /usr/local/bin/myfunction.sh
+				    . /usr/local/bin/myfunction.sh
 				else
-					echoError "myfunction.sh not found"; exit 1
+				    echoError "myfunction.sh not found"; exit 1
 				fi
 
 				#
