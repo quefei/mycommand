@@ -13,7 +13,7 @@ if [ $(id -u) != "0" ]; then
     echoError "must run with root"; exit 1
 fi
 
-# 例如：mydir; mydir -f
+# 例如：mydir "路径"; mydir "路径" -f
 
 # 获取文件与目录
 Path=$1
