@@ -25,4 +25,4 @@ checkCommand()
 }
 
 # 运行函数
-checkCommand "mypath mydir mymake mydown"
+checkCommand "mypath mydir mymake mydown mytime"
