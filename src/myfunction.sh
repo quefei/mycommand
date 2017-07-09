@@ -25,4 +25,4 @@ checkCommand()
 }
 
 # 运行函数
-checkCommand "mypath mydir mymake mydown mytime"
+checkCommand "quenong-md5 mypath mydir mymake mydown mytime"

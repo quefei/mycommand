@@ -1,0 +1,36 @@
+#!/bin/bash
+export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+echoColor()      { echo -e "\e[1m\e[$3;$2m$1\e[0m"; }
+echoLine()       { echo -n $(echoColor "$1" "$2" "$3" ); }
+echoSuccess()    { echo $(echoLine "Success: " "32" "40")$(echoColor "$1" "37" "40"); }
+echoWarning()    { echo $(echoLine "Warning: " "33" "40")$(echoColor "$1" "37" "40"); }
+echoError()      { echo $(echoLine "Error: " "31" "40")$(echoColor "$1" "37" "40"); }
+displaySuccess() { echo $(echoColor "Success" "32" "40"); }
+displayError()   { echo $(echoColor "Error" "31" "40"); }
+
+if [ $(id -u) != "0" ]; then
+    echoError "must run with root"; exit 1
+fi
+
+# 检测 Quenong 的完整性
+if [[ $1 != "-s" ]]; then
+    if [ -s ~/.quenong.md5 ]; then
+        if (diff ~/.quenong.md5 <(find ~/.quenong -type f -exec md5sum {} \;) &> /dev/null); then
+            :
+        else
+            echoError "Quenong is corrupted"
+            exit 1
+        fi
+    else
+        echoError "~/.quenong.md5 not found"
+        exit 1
+    fi
+else
+    if [ -d ~/.quenong ]; then
+        find ~/.quenong -type f -exec md5sum {} \; > ~/.quenong.md5
+    else
+        echoError "~/.quenong not found"
+        exit 1
+    fi
+fi
