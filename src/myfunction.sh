@@ -25,4 +25,4 @@ checkCommand()
 }
 
 # 运行函数
-checkCommand ""
+checkCommand "mypath"

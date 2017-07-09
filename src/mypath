@@ -1,0 +1,33 @@
+#!/bin/bash
+export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+echoColor()      { echo -e "\e[1m\e[$3;$2m$1\e[0m"; }
+echoLine()       { echo -n $(echoColor "$1" "$2" "$3" ); }
+echoSuccess()    { echo $(echoLine "Success: " "32" "40")$(echoColor "$1" "37" "40"); }
+echoWarning()    { echo $(echoLine "Warning: " "33" "40")$(echoColor "$1" "37" "40"); }
+echoError()      { echo $(echoLine "Error: " "31" "40")$(echoColor "$1" "37" "40"); }
+displaySuccess() { echo $(echoColor "Success" "32" "40"); }
+displayError()   { echo $(echoColor "Error" "31" "40"); }
+
+if [ $(id -u) != "0" ]; then
+    echoError "must run with root"; exit 1
+fi
+
+# 例如：var="~/test" && mypath $var
+
+# 获取绝对路径
+Path=$1
+
+if [[ $Path == "" ]]; then
+    Path=$(pwd)
+fi
+
+if ( echo $Path | grep "^/" &> /dev/null ); then
+    :
+elif ( echo $Path | grep "^~" &> /dev/null ); then
+    Path=$(echo ~)$(echo $Path | awk -F~ '{ print $2 }')
+else
+    Path=$(pwd)/$Path
+fi
+
+echo $Path
