@@ -43,3 +43,22 @@ filePath()
         echo $Directory
     fi
 }
+
+# 计时
+# 字颜色：30 黑 31 红 32 绿 33 黄 34 蓝 35 紫 36 天蓝 37 白
+# 字背景：40 黑 41 红 42 绿 43 黄 44 蓝 45 紫 46 天蓝 47 白
+timeUsed()
+{
+    if [[ $START != "" ]]; then
+        END=$(date "+%s")
+        minutes=$(( (END - START) / 60 ))
+        seconds=$(( (END - START) % 60 ))
+        
+        echo -n -e "\e[$3;$1m$minutes\e[0m"
+        echo -n -e "\e[$3;$2m minutes \e[0m"
+        echo -n -e "\e[$3;$1m$seconds\e[0m"
+        echo -e    "\e[$3;$2m seconds\e[0m"
+    fi
+}
+
+myTime() { timeUsed 33 32 0; }
