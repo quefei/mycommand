@@ -29,7 +29,9 @@ if [[ $Path == "" ]]; then
     exit 1
 fi
 
-Directory=$(mydir $(mypath $Path))
+Path=$(mypath $Path)
+
+Directory=$(mydir $Path)
 
 if ( mkdir -p $Directory ); then
     touch $Path
