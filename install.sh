@@ -23,7 +23,7 @@ for Command in $CommandList; do
     
     for (( i = 0; i < 10; i++ )); do
         if [ -s $CommandFile ]; then
-            [[ $Command != "myfunction.sh" ]] || chmod 755 $CommandFile
+            [[ $Command != "myfunction.sh" ]] && chmod 755 $CommandFile
             break 1
         else
             curl -o $CommandFile http://git.oschina.net/quefei/mycommand/raw/master/src/$Command
