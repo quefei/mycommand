@@ -1,0 +1,111 @@
+#!/bin/bash
+
+#
+longOption()
+{
+    echo $1
+}
+
+longArgument()
+{
+    echo $1
+}
+
+shortOption()
+{
+    echo $1
+}
+
+shortArgument()
+{
+    echo $1
+}
+
+argumentEnd()
+{
+    echo $1
+}
+
+argumentTwo()
+{
+    echo $1
+}
+
+# 指令参数的个数：不存在、1个、2个
+ArgumentNumber=2
+
+# 默认选项
+DefaultOption=
+
+# 处理选项与参数：不可包含 ####号 与 #//号，除URL外不可包含 :号
+OptionList=$(IFS=: && echo "$*")
+
+if [[ $OptionList == "" ]]; then
+    OptionList=$DefaultOption
+fi
+
+OptionList=$(echo $OptionList | sed "s/#\/\///g")
+OptionList=$(echo $OptionList | sed "s/####//g")
+OptionList=$(echo $OptionList | sed "s/:\/\//#\/\//g")
+OptionList=$(echo $OptionList | sed "s/[ \t]/####/g")
+OptionList=$(echo $OptionList | sed "s/:/ /g")
+OptionList=$(echo $OptionList | sed "s/####/:/g")
+
+ArgumentEnd=$(echo $OptionList | awk '{ print $NF }')
+ArgumentTwo=$(echo $OptionList | awk '{ if ( NF > 1 ) { print $(NF-1) } }')
+
+if [[ $ArgumentNumber == "2" ]]; then
+    :
+elif [[ $ArgumentNumber == "1" ]]; then
+    ArgumentTwo=
+else
+    ArgumentEnd=
+    ArgumentTwo=
+fi
+
+# 获取选项与参数
+for Option in $OptionList; do
+    if ( echo $Option | grep "^-" &> /dev/null ); then
+        if ( echo $Option | grep "^--" &> /dev/null ); then
+            if ( echo $Option | grep "=" &> /dev/null ); then
+                # 长选项 7.4
+                LongOption=$(echo $Option | awk -F= '{ print $1 }')
+                longOption $LongOption
+                # 长选项参数 7.5
+                Option=$(echo $Option | awk -F= '{ print $2 }')
+                LongArgumentList=$(echo $Option | sed "s/:/ /g" | sed "s/#\/\//:\/\//g")
+                for LongArgument in $LongArgumentList; do
+                    longArgument $LongArgument
+                done
+            else
+                # 长选项 7.3
+                LongOption=$Option
+                longOption $LongOption
+            fi
+        else
+            # 短选项 7.1
+            ShortOption=$Option
+            shortOption $ShortOption
+        fi
+    else
+        if [[ $Option == $ArgumentEnd ]]; then
+            # 最后一个指令参数 7.6
+            ArgumentEndList=$(echo $Option | sed "s/:/ /g" | sed "s/#\/\//:\/\//g")
+            for ArgumentEnd in $ArgumentEndList; do
+                argumentEnd $ArgumentEnd
+            done
+        elif [[ $Option == $ArgumentTwo ]]; then
+            # 倒数第二个指令参数 7.7
+            ArgumentTwoList=$(echo $Option | sed "s/:/ /g" | sed "s/#\/\//:\/\//g")
+            for ArgumentTwo in $ArgumentTwoList; do
+                argumentTwo $ArgumentTwo
+            done
+        else
+            # 短选项参数 7.2
+            ShortArgumentList=$(echo $Option | sed "s/:/ /g" | sed "s/#\/\//:\/\//g")
+            for ShortArgument in $ShortArgumentList; do
+                shortArgument $ShortArgument
+            done
+        fi
+    fi
+done
