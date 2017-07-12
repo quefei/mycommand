@@ -107,7 +107,7 @@ for Option in $OptionList; do
             for ArgumentEnd in $ArgumentEndList; do
                 argumentEnd $ArgumentEnd
             done
-        elif [[ $Option == $ArgumentTwo ]]; then
+        elif [[ $Option == $ArgumentTwo ]] && ( echo $ArgumentEnd | grep -v "^-" &> /dev/null ); then
             # 倒数第二个指令参数 7.7
             ArgumentTwoList=$(echo $Option | sed "s/:/ /g" | sed "s/#\/\//:\/\//g")
             for ArgumentTwo in $ArgumentTwoList; do
