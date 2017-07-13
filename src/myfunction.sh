@@ -63,12 +63,12 @@ myOption()
 
         argumentEnd()
         {
-            echoColor "Argument End:   $1" "34" "40"
+            echoColor "Argument End:   $1" "36" "40"
         }
 
         argumentTwo()
         {
-            echoColor "Argument Two:   $1" "36" "40"
+            echoColor "Argument Two:   $1" "34" "40"
         }
     fi
 }
