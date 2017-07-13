@@ -28,6 +28,10 @@ DefaultOption=
 # 查找 myoption.sh 文件
 myOption
 
+# 标识
+Value=0
+Tag=0
+
 # 处理选项与参数：不可包含 ####号 与 #//号，除URL外不可包含 :号
 OptionList=$(IFS=: && echo "$*")
 
@@ -71,11 +75,9 @@ if [[ $ShortOption1 != $ShortOption2 ]] || [[ $LongOption1 != $LongOption2 ]]; t
     exit 1
 fi
 
-i=0
-
 # 获取选项与参数
 for Option in $OptionList; do
-    (( i++ ))
+    (( Value++ ))
     
     if ( echo $Option | grep "^-" &> /dev/null ); then
         if ( echo $Option | grep "^--" &> /dev/null ); then
@@ -96,17 +98,18 @@ for Option in $OptionList; do
             fi
         else
             # 短选项 7.1
+            Tag=1
             ShortOption=$Option
             shortOption $ShortOption
         fi
     else
-        if [[ $Option == $ArgumentEnd ]] && (( i == $# )); then
+        if [[ $Option == $ArgumentEnd ]] && (( Value == $# )); then
             # 最后一个指令参数 7.6
             ArgumentEndList=$(echo $Option | sed "s/:/ /g" | sed "s/#\/\//:\/\//g")
             for ArgumentEnd in $ArgumentEndList; do
                 argumentEnd $ArgumentEnd
             done
-        elif [[ $Option == $ArgumentTwo ]] && (( i == $#-1 )) && ( echo $ArgumentEnd | grep -v "^-" &> /dev/null ); then
+        elif [[ $Option == $ArgumentTwo ]] && (( Value == $#-1 )) && ( echo $ArgumentEnd | grep -v "^-" &> /dev/null ); then
             # 倒数第二个指令参数 7.7
             ArgumentTwoList=$(echo $Option | sed "s/:/ /g" | sed "s/#\/\//:\/\//g")
             for ArgumentTwo in $ArgumentTwoList; do
@@ -114,10 +117,13 @@ for Option in $OptionList; do
             done
         else
             # 短选项参数 7.2
-            ShortArgumentList=$(echo $Option | sed "s/:/ /g" | sed "s/#\/\//:\/\//g")
-            for ShortArgument in $ShortArgumentList; do
-                shortArgument $ShortArgument
-            done
+            if (( Tag == 1 )); then
+                Tag=0
+                ShortArgumentList=$(echo $Option | sed "s/:/ /g" | sed "s/#\/\//:\/\//g")
+                for ShortArgument in $ShortArgumentList; do
+                    shortArgument $ShortArgument
+                done
+            fi
         fi
     fi
 done
