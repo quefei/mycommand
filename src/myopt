@@ -91,7 +91,7 @@ for Option in $OptionList; do
                 Option=$(echo $Option | awk -F= '{ print $2 }')
                 LongArgumentList=$(echo $Option | sed "s/:/ /g" | sed "s/#\/\//:\/\//g")
                 for LongArgument in $LongArgumentList; do
-                    longArgument $LongArgument
+                    longArgument $LongArgument::$LongOption
                 done
             else
                 # 长选项 7.3
@@ -123,7 +123,7 @@ for Option in $OptionList; do
                 Tag=0
                 ShortArgumentList=$(echo $Option | sed "s/:/ /g" | sed "s/#\/\//:\/\//g")
                 for ShortArgument in $ShortArgumentList; do
-                    shortArgument $ShortArgument
+                    shortArgument $ShortArgument::$ShortOption
                 done
             fi
         fi
