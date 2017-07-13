@@ -54,6 +54,23 @@ else
     ArgumentTwo=
 fi
 
+ShortOptionAll=$(echo $OptionList | sed "s/ /\\n/g" | grep "^-" | grep -v "^--" | sed "s/\-//g")
+ShortOptionAll=$(echo $ShortOptionAll | sed "s/[ \t\n]//g")
+ShortOptionAll=$(myletter $ShortOptionAll)
+LongOptionAll=$(echo $OptionList | sed "s/ /\\n/g" | grep "^-" | grep "^--" | awk -F= '{ print $1 }')
+
+ShortOption1=$(echo $ShortOptionAll | wc -w)
+ShortOption2=$(echo $ShortOptionAll | sed "s/ /\\n/g" | sort -u)
+ShortOption2=$(echo $ShortOption2 | wc -w)
+LongOption1=$(echo $LongOptionAll | wc -w)
+LongOption2=$(echo $LongOptionAll | sed "s/ /\\n/g" | sort -u)
+LongOption2=$(echo $LongOption2 | wc -w)
+
+if [[ $ShortOption1 != $ShortOption2 ]] || [[ $LongOption1 != $LongOption2 ]]; then
+    echoError "option repetition"
+    exit 1
+fi
+
 # 获取选项与参数
 for Option in $OptionList; do
     if ( echo $Option | grep "^-" &> /dev/null ); then
