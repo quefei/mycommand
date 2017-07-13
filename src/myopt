@@ -81,6 +81,8 @@ for Option in $OptionList; do
     
     if ( echo $Option | grep "^-" &> /dev/null ); then
         if ( echo $Option | grep "^--" &> /dev/null ); then
+            Tag=0
+            
             if ( echo $Option | grep "=" &> /dev/null ); then
                 # 长选项 7.4
                 LongOption=$(echo $Option | awk -F= '{ print $1 }')
