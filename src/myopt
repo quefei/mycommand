@@ -71,8 +71,12 @@ if [[ $ShortOption1 != $ShortOption2 ]] || [[ $LongOption1 != $LongOption2 ]]; t
     exit 1
 fi
 
+i=0
+
 # 获取选项与参数
 for Option in $OptionList; do
+    (( i++ ))
+    
     if ( echo $Option | grep "^-" &> /dev/null ); then
         if ( echo $Option | grep "^--" &> /dev/null ); then
             if ( echo $Option | grep "=" &> /dev/null ); then
@@ -96,13 +100,13 @@ for Option in $OptionList; do
             shortOption $ShortOption
         fi
     else
-        if [[ $Option == $ArgumentEnd ]]; then
+        if [[ $Option == $ArgumentEnd ]] && (( i == $# )); then
             # 最后一个指令参数 7.6
             ArgumentEndList=$(echo $Option | sed "s/:/ /g" | sed "s/#\/\//:\/\//g")
             for ArgumentEnd in $ArgumentEndList; do
                 argumentEnd $ArgumentEnd
             done
-        elif [[ $Option == $ArgumentTwo ]] && ( echo $ArgumentEnd | grep -v "^-" &> /dev/null ); then
+        elif [[ $Option == $ArgumentTwo ]] && (( i == $#-1 )) && ( echo $ArgumentEnd | grep -v "^-" &> /dev/null ); then
             # 倒数第二个指令参数 7.7
             ArgumentTwoList=$(echo $Option | sed "s/:/ /g" | sed "s/#\/\//:\/\//g")
             for ArgumentTwo in $ArgumentTwoList; do
