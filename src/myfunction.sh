@@ -3,7 +3,7 @@
 # 检测指令是否存在
 checkCommand()
 {
-    CommandList=$1
+    CommandList="$*"
     
     if [[ $CommandList == "" ]]; then
         echoError "checkCommand missing operand"
@@ -25,4 +25,4 @@ checkCommand()
 }
 
 # 运行函数
-checkCommand "quenong-md5 mypath mydir mymake mydown mytime"
+checkCommand quenong-md5 mypath mydir mymake mydown mytime
