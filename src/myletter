@@ -14,13 +14,25 @@ if [ $(id -u) != "0" ]; then
 fi
 
 #
-CommandList="mytest quenong-md5 myfunction.sh mypath mydir mymake mydown mytime myopt myletter"
+String=$1
+Delimiter=$2
 
-echoColor "Remove File:" "32" "40"
+if [[ $String == "" ]]; then
+    echoError "myletter missing operand"
+    exit 1
+fi
 
-for Command in $CommandList; do
-    CommandFile=/usr/local/bin/$Command
-    [ -f $CommandFile ] && rm -rf $CommandFile && echo "    $CommandFile"
+if [[ $Delimiter == "" ]]; then
+    Delimiter=" "
+fi
+
+LetterList="A B C D E F G H I J K L M N O P Q R S T U V W X Y Z \
+            a b c d e f g h i j k l m n o p q r s t u v w x y z \
+            0 1 2 3 4 5 6 7 8 9 \
+            - _"
+
+for Letter in $LetterList; do
+    String=$(echo $String | sed "s/$Letter/$Letter$Delimiter/g")
 done
 
-echo ""
+echo $String
