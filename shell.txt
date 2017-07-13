@@ -1,0 +1,22 @@
+01 指令：小写字母、-
+
+myshell
+my-shell
+
+
+02 函数：小写字母、驼峰式
+
+myshell
+myShell
+
+
+03 文件：小写字母、_
+
+myshell.sh
+my_shell.sh
+
+
+04 变量：大写字母、词首字母大写
+
+MYSHELL
+MyShell
