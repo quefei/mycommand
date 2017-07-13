@@ -14,7 +14,7 @@ if [ $(id -u) != "0" ]; then
 fi
 
 #
-CommandList="mytest quenong-md5 myfunction.sh mypath mydir mymake mydown mytime"
+CommandList="mytest quenong-md5 myfunction.sh mypath mydir mymake mydown mytime myopt"
 
 echoColor "Remove File:" "32" "40"
 

@@ -13,42 +13,20 @@ if [ $(id -u) != "0" ]; then
     echoError "must run with root"; exit 1
 fi
 
-#
-longOption()
-{
-    echoColor "$1" "31" "40"
-}
-
-longArgument()
-{
-    echoColor "$1" "35" "40"
-}
-
-shortOption()
-{
-    echoColor "$1" "32" "40"
-}
-
-shortArgument()
-{
-    echoColor "$1" "33" "40"
-}
-
-argumentEnd()
-{
-    echoColor "$1" "34" "40"
-}
-
-argumentTwo()
-{
-    echoColor "$1" "36" "40"
-}
+if [ -s /usr/local/bin/myfunction.sh ]; then
+    . /usr/local/bin/myfunction.sh
+else
+    echoError "myfunction.sh not found"; exit 1
+fi
 
 # 指令参数的个数：不存在、1个、2个
-ArgumentNumber=2
+ArgumentNumber=
 
 # 默认选项
 DefaultOption=
+
+# 查找 myoption.sh 文件
+myOption
 
 # 处理选项与参数：不可包含 ####号 与 #//号，除URL外不可包含 :号
 OptionList=$(IFS=: && echo "$*")
