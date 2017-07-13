@@ -17,11 +17,6 @@ fi
 String=$1
 Delimiter=$2
 
-if [[ $String == "" ]]; then
-    echoError "myletter missing operand"
-    exit 1
-fi
-
 if [[ $Delimiter == "" ]]; then
     Delimiter=" "
 fi
