@@ -101,24 +101,25 @@ for Option in $OptionList; do
         else
             # 短选项 7.1
             Tag=1
-            ShortOptionList=$Option
-            
-            
-            
-            shortOption $ShortOptionList
+            ShortOptionList=$(echo $Option | sed "s/\-//g")
+            ShortOptionList=$(echo $ShortOptionList | sed "s/[ \t\n]//g")
+            ShortOptionList=$(myletter $ShortOptionList)
+            for ShortOption in $ShortOptionList; do
+                shortOption "-$ShortOption"
+            done
         fi
     else
         if [[ $Option == $ArgumentEnd ]] && (( Value == $# )); then
             # 最后一个指令参数 7.6
             ArgumentEndList=$(echo $Option | sed "s/:/ /g" | sed "s/#\/\//:\/\//g")
             for ArgumentEnd in $ArgumentEndList; do
-                argumentEnd $ArgumentEnd
+                argumentEnd $ArgumentEnd::end
             done
         elif [[ $Option == $ArgumentTwo ]] && (( Value == $#-1 )) && ( echo $ArgumentEnd | grep -v "^-" &> /dev/null ); then
             # 倒数第二个指令参数 7.7
             ArgumentTwoList=$(echo $Option | sed "s/:/ /g" | sed "s/#\/\//:\/\//g")
             for ArgumentTwo in $ArgumentTwoList; do
-                argumentTwo $ArgumentTwo
+                argumentTwo $ArgumentTwo::two
             done
         else
             # 短选项参数 7.2
@@ -126,7 +127,9 @@ for Option in $OptionList; do
                 Tag=0
                 ShortArgumentList=$(echo $Option | sed "s/:/ /g" | sed "s/#\/\//:\/\//g")
                 for ShortArgument in $ShortArgumentList; do
-                    shortArgument $ShortArgument::$ShortOptionList
+                    for ShortOption in $ShortOptionList; do
+                        shortArgument $ShortArgument::"-$ShortOption"
+                    done
                 done
             fi
         fi
