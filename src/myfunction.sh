@@ -43,32 +43,32 @@ myOption()
     else
         longOption()
         {
-            echoColor "Long Option:    $1" "31" "40"
+            echoColor "Long Option::    $1" "31" "40"
         }
 
         longArgument()
         {
-            echoColor "Long Argument:  $1" "35" "40"
+            echoColor "Long Argument::  $1" "35" "40"
         }
 
         shortOption()
         {
-            echoColor "Short Option:   $1" "32" "40"
+            echoColor "Short Option::   $1" "32" "40"
         }
 
         shortArgument()
         {
-            echoColor "Short Argument: $1" "33" "40"
+            echoColor "Short Argument:: $1" "33" "40"
         }
 
         argumentEnd()
         {
-            echoColor "Argument End:   $1" "36" "40"
+            echoColor "Argument End::   $1" "36" "40"
         }
 
         argumentTwo()
         {
-            echoColor "Argument Two:   $1" "34" "40"
+            echoColor "Argument Two::   $1" "34" "40"
         }
     fi
 }
