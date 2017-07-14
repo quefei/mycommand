@@ -25,7 +25,7 @@ checkCommand()
 }
 
 # 运行函数
-checkCommand quenong-md5 mypath mydir mymake mydown mytime myopt myletter
+checkCommand quenong-md5 quenong-opt mypath mydir mymake mydown mytime myopt myletter
 
 # 查找 myoption.sh 文件
 myOption()

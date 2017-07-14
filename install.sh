@@ -14,7 +14,7 @@ if [ $(id -u) != "0" ]; then
 fi
 
 #
-CommandList="mytest quenong-md5 myfunction.sh mypath mydir mymake mydown mytime myopt myletter"
+CommandList="mytest quenong-md5 quenong-opt myfunction.sh mypath mydir mymake mydown mytime myopt myletter"
 
 for Command in $CommandList; do
     CommandFile=/usr/local/bin/$Command

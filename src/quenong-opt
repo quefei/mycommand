@@ -1,0 +1,137 @@
+#!/bin/bash
+export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+echoColor()      { echo -e "\e[1m\e[$3;$2m$1\e[0m"; }
+echoLine()       { echo -n $(echoColor "$1" "$2" "$3" ); }
+echoSuccess()    { echo $(echoLine "Success: " "32" "40")$(echoColor "$1" "37" "40"); }
+echoWarning()    { echo $(echoLine "Warning: " "33" "40")$(echoColor "$1" "37" "40"); }
+echoError()      { echo $(echoLine "Error: " "31" "40")$(echoColor "$1" "37" "40"); }
+displaySuccess() { echo $(echoColor "Success" "32" "40"); }
+displayError()   { echo $(echoColor "Error" "31" "40"); }
+
+if [ $(id -u) != "0" ]; then
+    echoError "must run with root"; exit 1
+fi
+
+if [ -s /usr/local/bin/myfunction.sh ]; then
+    . /usr/local/bin/myfunction.sh
+else
+    echoError "myfunction.sh not found"; exit 1
+fi
+
+# 指令参数的个数：不存在、1个、2个
+ArgumentNumber=
+
+# 默认选项
+DefaultOption=
+
+# 查找 myoption.sh 文件
+myOption
+
+# 标识
+Value=0
+Tag=0
+
+# 处理选项与参数：不可包含 ####号 与 #//号，除URL外不可包含 :号
+OptionList=$(IFS=: && echo "$*")
+
+if [[ $OptionList == "" ]]; then
+    OptionList=$DefaultOption
+fi
+
+OptionList=$(echo $OptionList | sed "s/#\/\///g")
+OptionList=$(echo $OptionList | sed "s/####//g")
+OptionList=$(echo $OptionList | sed "s/:\/\//#\/\//g")
+OptionList=$(echo $OptionList | sed "s/[ \t]/####/g")
+OptionList=$(echo $OptionList | sed "s/:/ /g")
+OptionList=$(echo $OptionList | sed "s/####/:/g")
+
+ArgumentEnd=$(echo $OptionList | awk '{ print $NF }')
+ArgumentTwo=$(echo $OptionList | awk '{ if ( NF > 1 ) { print $(NF-1) } }')
+
+if [[ $ArgumentNumber == "2" ]]; then
+    :
+elif [[ $ArgumentNumber == "1" ]]; then
+    ArgumentTwo=
+else
+    ArgumentEnd=
+    ArgumentTwo=
+fi
+
+ShortOptionAll=$(echo $OptionList | sed "s/ /\\n/g" | grep "^-" | grep -v "^--" | sed "s/\-//g")
+ShortOptionAll=$(echo $ShortOptionAll | sed "s/[ \t\n]//g")
+ShortOptionAll=$(myletter $ShortOptionAll)
+LongOptionAll=$(echo $OptionList | sed "s/ /\\n/g" | grep "^-" | grep "^--" | awk -F= '{ print $1 }')
+
+ShortOption1=$(echo $ShortOptionAll | wc -w)
+ShortOption2=$(echo $ShortOptionAll | sed "s/ /\\n/g" | sort -u)
+ShortOption2=$(echo $ShortOption2 | wc -w)
+LongOption1=$(echo $LongOptionAll | wc -w)
+LongOption2=$(echo $LongOptionAll | sed "s/ /\\n/g" | sort -u)
+LongOption2=$(echo $LongOption2 | wc -w)
+
+if [[ $ShortOption1 != $ShortOption2 ]] || [[ $LongOption1 != $LongOption2 ]]; then
+    echoError "option repetition"
+    exit 1
+fi
+
+# 获取选项与参数
+for Option in $OptionList; do
+    (( Value++ ))
+    
+    if ( echo $Option | grep "^-" &> /dev/null ); then
+        if ( echo $Option | grep "^--" &> /dev/null ); then
+            Tag=0
+            
+            if ( echo $Option | grep "=" &> /dev/null ); then
+                # 长选项 7.4
+                LongOption=$(echo $Option | awk -F= '{ print $1 }')
+                longOption $LongOption
+                # 长选项参数 7.5
+                Option=$(echo $Option | awk -F= '{ print $2 }')
+                LongArgumentList=$(echo $Option | sed "s/:/ /g" | sed "s/#\/\//:\/\//g")
+                for LongArgument in $LongArgumentList; do
+                    longArgument $LongArgument::$LongOption
+                done
+            else
+                # 长选项 7.3
+                LongOption=$Option
+                longOption $LongOption
+            fi
+        else
+            # 短选项 7.1
+            Tag=1
+            ShortOptionList=$(echo $Option | sed "s/\-//g")
+            ShortOptionList=$(echo $ShortOptionList | sed "s/[ \t\n]//g")
+            ShortOptionList=$(myletter $ShortOptionList)
+            for ShortOption in $ShortOptionList; do
+                shortOption "-$ShortOption"
+            done
+        fi
+    else
+        if [[ $Option == $ArgumentEnd ]] && (( Value == $# )); then
+            # 最后一个指令参数 7.6
+            ArgumentEndList=$(echo $Option | sed "s/:/ /g" | sed "s/#\/\//:\/\//g")
+            for ArgumentEnd in $ArgumentEndList; do
+                argumentEnd $ArgumentEnd::end
+            done
+        elif [[ $Option == $ArgumentTwo ]] && (( Value == $#-1 )) && ( echo $ArgumentEnd | grep -v "^-" &> /dev/null ); then
+            # 倒数第二个指令参数 7.7
+            ArgumentTwoList=$(echo $Option | sed "s/:/ /g" | sed "s/#\/\//:\/\//g")
+            for ArgumentTwo in $ArgumentTwoList; do
+                argumentTwo $ArgumentTwo::two
+            done
+        else
+            # 短选项参数 7.2
+            if (( Tag == 1 )); then
+                Tag=0
+                ShortArgumentList=$(echo $Option | sed "s/:/ /g" | sed "s/#\/\//:\/\//g")
+                for ShortArgument in $ShortArgumentList; do
+                    for ShortOption in $ShortOptionList; do
+                        shortArgument $ShortArgument::"-$ShortOption"
+                    done
+                done
+            fi
+        fi
+    fi
+done
