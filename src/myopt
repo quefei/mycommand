@@ -101,8 +101,11 @@ for Option in $OptionList; do
         else
             # 短选项 7.1
             Tag=1
-            ShortOption=$Option
-            shortOption $ShortOption
+            ShortOptionList=$Option
+            
+            
+            
+            shortOption $ShortOptionList
         fi
     else
         if [[ $Option == $ArgumentEnd ]] && (( Value == $# )); then
@@ -123,7 +126,7 @@ for Option in $OptionList; do
                 Tag=0
                 ShortArgumentList=$(echo $Option | sed "s/:/ /g" | sed "s/#\/\//:\/\//g")
                 for ShortArgument in $ShortArgumentList; do
-                    shortArgument $ShortArgument::$ShortOption
+                    shortArgument $ShortArgument::$ShortOptionList
                 done
             fi
         fi
