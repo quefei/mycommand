@@ -30,7 +30,11 @@ checkCommand quenong-md5 mypath mydir mymake mydown mytime myopt myletter
 # 查找 myoption.sh 文件
 myOption()
 {
-    MyOption=$(find ~/.[A-Za-z0-9_]*/ -name "myoption.sh" -type f | sed -n "1p")
+    MyOption=$1
+    
+    if [[ $MyOption == "" ]]; then
+        MyOption=$(find ~/.[A-Za-z0-9_]*/ -name "myoption.sh" -type f | sed -n "1p")
+    fi
     
     if [[ $MyOption != "" ]]; then
         . $MyOption
