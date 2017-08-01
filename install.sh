@@ -18,8 +18,9 @@ for SHELL_SCRIPT in ${SHELL_SCRIPT_LIST}; do
                 if [[ -s "$SHELL_SCRIPT_PATH" ]]; then
                         if ( ! echo "$SHELL_SCRIPT" | grep ".sh$" &> /dev/null ); then
                                 chmod 755 "$SHELL_SCRIPT_PATH"
-                                break 1
                         fi
+                        
+                        break 1
                 else
                         curl -o "$SHELL_SCRIPT_PATH" http://git.oschina.net/quefei/mycommand/raw/master/src/${SHELL_SCRIPT}
                 fi
