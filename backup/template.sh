@@ -8,7 +8,7 @@ fi
 
 SHELL_SCRIPT_LIST="myfunction.sh quenong_function.sh"
 
-for SHELL_SCRIPT in $SHELL_SCRIPT_LIST; do
+for SHELL_SCRIPT in ${SHELL_SCRIPT_LIST}; do
         SHELL_SCRIPT_PATH=/usr/local/bin/${SHELL_SCRIPT}
         
         if [[ -s "$SHELL_SCRIPT_PATH" ]]; then

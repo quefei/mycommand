@@ -526,7 +526,7 @@ last_arguments()
         local ARGUMENT_LIST=$(last_option "$@")
         
         if ( echo "$ARGUMENT_LIST" | grep -v "^-" &> /dev/null ); then
-                for ARGUMENT in $ARGUMENT_LIST; do
+                for ARGUMENT in ${ARGUMENT_LIST}; do
                         echo "${ARGUMENT}::last1"
                 done
         fi
@@ -555,7 +555,7 @@ last_arguments2()
         local ARGUMENT_LIST=$(last_option2 "$@")
         
         if ( echo "$ARGUMENT_LIST" | grep -v "^-" &> /dev/null ) && [[ -n "$(last_argument "$@")" ]]; then
-                for ARGUMENT in $ARGUMENT_LIST; do
+                for ARGUMENT in ${ARGUMENT_LIST}; do
                         echo "${ARGUMENT}::last2"
                 done
         fi
@@ -588,7 +588,7 @@ long_arguments()
                         local ARGUMENT_LIST=$(echo "$OPTION" | awk -F= '{ print $2 }')
                         OPTION=$(echo "$OPTION" | awk -F= '{ print $1 }')
                         
-                        for ARGUMENT in $ARGUMENT_LIST; do
+                        for ARGUMENT in ${ARGUMENT_LIST}; do
                                 echo "${ARGUMENT}::${OPTION}"
                         done
                 fi
@@ -634,8 +634,8 @@ short_arguments()
                 fi
                 
                 if [[ "$NUM" == "$TAG" ]] && ( echo "$OPTION" | grep -v "^-" &> /dev/null ); then
-                        for ARGUMENT in $OPTION; do
-                                for SHORT_OPTION in $SHORT_OPTION_LIST; do
+                        for ARGUMENT in ${OPTION}; do
+                                for SHORT_OPTION in ${SHORT_OPTION_LIST}; do
                                         echo "${ARGUMENT}::${SHORT_OPTION}"
                                 done
                         done
@@ -720,7 +720,7 @@ batch_download()
         DIRECTORY=$(absolute_path "$DIRECTORY")
         
         #下载文件
-        for FILE in $FILE_LIST; do
+        for FILE in ${FILE_LIST}; do
                 local DIR_FILE="${DIRECTORY}/${FILE}"
                 
                 # 默认删除旧文件
