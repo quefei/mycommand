@@ -25,12 +25,14 @@ SHELL_SCRIPT_LIST="backup-centos"
 echo "Remove File:"
 
 for SHELL_SCRIPT in ${SHELL_SCRIPT_LIST}; do
+        
         SHELL_SCRIPT_PATH=/usr/local/bin/${SHELL_SCRIPT}
         
         if [[ -f "$SHELL_SCRIPT_PATH" ]]; then
                 rm -rf "$SHELL_SCRIPT_PATH"
                 echo "    $SHELL_SCRIPT_PATH"
         fi
+        
 done
 
 echo ""
