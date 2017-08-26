@@ -28,6 +28,7 @@ BACKUP_ROOT="/backup"
 BACKUP_DIR="mysql"
 BACKUP_TIME=$(date +"%Y-%m-%d-%H%M%S")
 LOG_DIR="log"
+LOG_FILE="backup-mysql.log"
 
 COMMAND_LIST="mysql mysqld mysqldump mysqlbinlog mysqladmin"
 MYSQL_ROOT="/usr/local/mysql"
@@ -137,6 +138,23 @@ incremental_backup_list()
 ############################################################
 mkdir -p ${BACKUP_ROOT}/{"$BACKUP_DIR","$LOG_DIR"}
 
+# 删除空的完全备份
+cd ${BACKUP_ROOT}/${BACKUP_DIR}
+
+if [[ -n "$(ls | grep "^full[0-9\-]*.sql$" | sort -u | xargs)" ]]; then
+        
+        for FULL_BACKUP in $(ls | grep "^full[0-9\-]*.sql$" | sort -u | xargs); do
+                
+                if ( ! grep "^\-- CHANGE MASTER TO MASTER_LOG_FILE" "$FULL_BACKUP" ); then
+                        rm -rf "$FULL_BACKUP"
+                fi
+                
+        done
+        
+fi
+
+cd - &> /dev/null
+
 case "$ARGUMENT1" in
         
         "full")
@@ -144,7 +162,7 @@ case "$ARGUMENT1" in
                 case "$ARGUMENT2" in
                         
                         "backup")
-                                full_backup
+                                full_backup 2>> ${BACKUP_ROOT}/${LOG_DIR}/${LOG_FILE}
                           ;;
                         
                         "restore")
