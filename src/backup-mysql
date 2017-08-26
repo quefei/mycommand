@@ -39,6 +39,44 @@ LOG_DIR="log"
 #       主要函数
 #
 ############################################################
+default()
+{
+        echo "default"
+}
+
+# 完全备份
+full_backup()
+{
+        echo "full_backup"
+}
+
+# 完全恢复
+full_restore()
+{
+        echo "full_restore"
+}
+
+# 增量备份
+incremental_backup()
+{
+        echo "incremental_backup"
+}
+
+# 增量恢复
+incremental_restore()
+{
+        echo "incremental_restore"
+}
+
+full_backup_list()
+{
+        echo "full_backup_list"
+}
+
+incremental_backup_list()
+{
+        echo "incremental_backup_list"
+}
 
 ############################################################
 #
