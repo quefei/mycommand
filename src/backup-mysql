@@ -33,6 +33,17 @@ LOG_DIR="log"
 #       处理变量
 #
 ############################################################
+if [[ -z "$ARGUMENT1" ]]; then
+        ARGUMENT1="full"
+fi
+
+if [[ -z "$ARGUMENT2" ]]; then
+        ARGUMENT2="backup"
+fi
+
+if [[ -z "$ARGUMENT3" ]]; then
+        ARGUMENT3="list"
+fi
 
 ############################################################
 #
@@ -41,7 +52,7 @@ LOG_DIR="log"
 ############################################################
 default()
 {
-        echo "default"
+        echo "default $1"
 }
 
 # 完全备份
@@ -53,7 +64,7 @@ full_backup()
 # 完全恢复
 full_restore()
 {
-        echo "full_restore"
+        echo "full_restore $1"
 }
 
 # 增量备份
@@ -65,7 +76,7 @@ incremental_backup()
 # 增量恢复
 incremental_restore()
 {
-        echo "incremental_restore"
+        echo "incremental_restore $1"
 }
 
 full_backup_list()
