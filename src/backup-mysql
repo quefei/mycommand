@@ -73,6 +73,12 @@ if [[ ! -s "$MY_CNF" ]]; then
         exit 1
 fi
 
+# 检测密码
+if ( ! grep "^password=.." "$MY_CNF" &> /dev/null ); then
+        echo "Error: Setting the password in ~/.my.cnf"
+        exit 1
+fi
+
 ############################################################
 #
 #       主要函数
