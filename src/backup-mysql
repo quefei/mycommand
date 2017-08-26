@@ -145,7 +145,7 @@ if [[ -n "$(ls | grep "^full[0-9\-]*.sql$" | sort -u | xargs)" ]]; then
         
         for FULL_BACKUP in $(ls | grep "^full[0-9\-]*.sql$" | sort -u | xargs); do
                 
-                if ( ! grep "^\-- CHANGE MASTER TO MASTER_LOG_FILE" "$FULL_BACKUP" ); then
+                if ( ! grep "^\-- CHANGE MASTER TO MASTER_LOG_FILE" "$FULL_BACKUP" &> /dev/null ); then
                         rm -rf "$FULL_BACKUP"
                 fi
                 
