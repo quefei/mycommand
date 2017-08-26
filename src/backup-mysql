@@ -112,7 +112,13 @@ full_restore()
 # 增量备份
 incremental_backup()
 {
-        echo "incremental_backup"
+        cd ${BACKUP_ROOT}/${BACKUP_DIR}
+        
+        if [[ -z "$(ls | grep "^full[0-9\-]*.sql$" | sort -u | xargs)" ]]; then
+                full_backup
+        fi
+        
+        cd - &> /dev/null
 }
 
 # 增量恢复
