@@ -30,6 +30,7 @@ LOG_DIR="log"
 
 COMMAND_LIST="mysql mysqld mysqldump mysqlbinlog mysqladmin"
 MYSQL_ROOT="/usr/local/mysql"
+MY_CNF="/root/.my.cnf"
 
 ############################################################
 #
@@ -61,6 +62,16 @@ for COMMAND in ${COMMAND_LIST}; do
         fi
         
 done
+
+# 设置密码
+if [[ ! -s "$MY_CNF" ]]; then
+        echo "[mysqldump]" >> "$MY_CNF"
+        echo "user=root" >> "$MY_CNF"
+        echo "password=" >> "$MY_CNF"
+        
+        echo "Warning: Setting the password in ~/.my.cnf"
+        exit 1
+fi
 
 ############################################################
 #
