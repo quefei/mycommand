@@ -26,6 +26,7 @@ fi
 ############################################################
 BACKUP_ROOT="/backup"
 BACKUP_DIR="mysql"
+BACKUP_TIME=$(date +"%Y-%m-%d-%H%M%S")
 LOG_DIR="log"
 
 COMMAND_LIST="mysql mysqld mysqldump mysqlbinlog mysqladmin"
@@ -97,7 +98,8 @@ default()
 # 完全备份
 full_backup()
 {
-        echo "full_backup"
+        mysqldump -u root --single-transaction --master-data=2 --routines --flush-logs --all-databases \
+        > ${BACKUP_ROOT}/${BACKUP_DIR}/full-${BACKUP_TIME}.sql
 }
 
 # 完全恢复
