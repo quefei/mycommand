@@ -7,6 +7,9 @@ export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 #       位置参量
 #
 ############################################################
+ARGUMENT1="$1"
+ARGUMENT2="$2"
+ARGUMENT3="$3"
 
 set -eu
 #set -x
