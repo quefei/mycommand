@@ -28,6 +28,9 @@ BACKUP_ROOT="/backup"
 BACKUP_DIR="mysql"
 LOG_DIR="log"
 
+COMMAND_LIST="mysql mysqld mysqldump mysqlbinlog mysqladmin"
+MYSQL_ROOT="/usr/local/mysql"
+
 ############################################################
 #
 #       处理变量
@@ -44,6 +47,20 @@ fi
 if [[ -z "$ARGUMENT3" ]]; then
         ARGUMENT3="list"
 fi
+
+############################################################
+#
+#       MySQL
+#
+############################################################
+# 检测指令
+for COMMAND in ${COMMAND_LIST}; do
+        
+        if ( ! type -p "$COMMAND" &> /dev/null ) && [[ -x "${MYSQL_ROOT}/bin/${COMMAND}" ]]; then
+                ln -s ${MYSQL_ROOT}/bin/${COMMAND} /usr/local/bin/${COMMAND}
+        fi
+        
+done
 
 ############################################################
 #
