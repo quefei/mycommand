@@ -94,7 +94,7 @@ ls_full()
 {
         cd ${BACKUP_ROOT}/${BACKUP_DIR}
         
-        ls | grep "^full[0-9\-]*.sql$" | sort -u
+        ls -F | grep "^full-20[0-9\-]*.sql$" | sort -u
         
         cd - &> /dev/null
 }
