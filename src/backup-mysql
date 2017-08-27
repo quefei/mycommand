@@ -150,6 +150,8 @@ incremental_backup()
         if [[ "$BACKUP_BINLOG" == "$MYSQL_BINLOG" ]]; then
                 mysqlbinlog --start-position=${BACKUP_POSITION} --stop-position=${MYSQL_POSITION} ${MYSQL_ROOT}/var/${BACKUP_BINLOG} \
                 > ${BACKUP_ROOT}/${BACKUP_DIR}/incremental-${BACKUP_TIME}_${FULL_BACKUP}
+        else
+                full_backup
         fi
 }
 
