@@ -32,6 +32,7 @@ LOG_FILE="backup-mysql.log"
 MYSQL_ROOT="/usr/local/mysql"
 COMMAND_LIST="mysql mysqld mysqldump mysqlbinlog mysqladmin"
 MY_CNF="/root/.my.cnf"
+MAX="10"
 
 ############################################################
 #
@@ -160,7 +161,25 @@ incremental_backup()
                 full_backup
         fi
         
+        for (( NUM=0; NUM < MAX; NUM++ )); do
+                
+                incremental_var
+                
+                if [[ "$BACKUP_BINLOG" == "$MYSQL_BINLOG" ]]; then
+                        mysqlbinlog --start-position=${BACKUP_POSITION} --stop-position=${MYSQL_POSITION} \
+                        ${MYSQL_ROOT}/var/${BACKUP_BINLOG} > ${BACKUP_ROOT}/${BACKUP_DIR}/incremental-${BACKUP_TIME}_${FULL_BACKUP}
+                        
+                        break 1
+                else
+                        full_backup
+                fi
+                
+        done
         
+        if [[ "$NUM" == "$MAX" ]]; then
+                echo "Error: incremental backup failed"
+                exit 1
+        fi
 }
 
 # 增量恢复
