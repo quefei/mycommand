@@ -190,9 +190,8 @@ incremental_backup()
 # 增量恢复
 incremental_restore()
 {
-        INCREMENTAL_BACKUP=$(ls_incremental | grep "^incremental-$1")
-        
-        if [[ -n "$INCREMENTAL_BACKUP" ]]; then
+        if ( ls_incremental | grep "^incremental-$1" &> /dev/null ); then
+                INCREMENTAL_BACKUP=$(ls_incremental | grep "^incremental-$1")
                 mysql -u root -p${PASSWORD} < ${BACKUP_ROOT}/${BACKUP_DIR}/${INCREMENTAL_BACKUP}
         else
                 echo "Error: incremental backup does not exist"
