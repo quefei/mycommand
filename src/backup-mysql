@@ -190,12 +190,12 @@ incremental_restore()
 
 full_backup_list()
 {
-        echo "full_backup_list"
+        ls_full | awk -F. '{ print $1 }' | sed "s/^full-//g"
 }
 
 incremental_backup_list()
 {
-        echo "incremental_backup_list"
+        ls_incremental | awk -F_ '{ print $1 }' | sed "s/^incremental-//g"
 }
 
 ############################################################
