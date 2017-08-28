@@ -151,7 +151,12 @@ full_backup()
 # 完全恢复
 full_restore()
 {
-        echo "full_restore $1"
+        if [[ -s "${BACKUP_ROOT}/${BACKUP_DIR}/full-$1.sql" ]]; then
+                mysql -u root -p${PASSWORD} < ${BACKUP_ROOT}/${BACKUP_DIR}/full-$1.sql
+        else
+                echo "Error: full backup does not exist"
+                exit 1
+        fi
 }
 
 # 增量备份
