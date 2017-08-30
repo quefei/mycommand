@@ -72,35 +72,6 @@ for SHELL_SCRIPT in ${SHELL_SCRIPT_LIST}; do
         
         SHELL_SCRIPT_PATH=/usr/local/bin/${SHELL_SCRIPT}
         
-        if [[ -f "$SHELL_SCRIPT_PATH" ]]; then
-                rm -rf "$SHELL_SCRIPT_PATH"
-        fi
-        
-        for (( NUM=0; NUM < 10; NUM++ )); do
-                
-                if [[ -s "$SHELL_SCRIPT_PATH" ]]; then
-                        
-                        if ( ! echo "$SHELL_SCRIPT" | grep ".sh$" &> /dev/null ); then
-                                chmod 755 "$SHELL_SCRIPT_PATH"
-                        fi
-                        
-                        break 1
-                        
-                else
-                        curl -o "$SHELL_SCRIPT_PATH" http://git.oschina.net/quefei/mycommand/raw/master/src/${SHELL_SCRIPT}
-                fi
-                
-        done
-        
-        if [[ "$NUM" == "10" ]]; then
-                echo_error "Error: ${SHELL_SCRIPT} download failed"
-        fi
-        
-        if ( ! sed -n "1p" "$SHELL_SCRIPT_PATH" | grep '^#!/bin/bash$' &> /dev/null ); then
-                rm -rf "$SHELL_SCRIPT_PATH"
-                echo_warning "Warning: ${SHELL_SCRIPT} not found - 404"
-        fi
-        
 done
 
 ############################################################
