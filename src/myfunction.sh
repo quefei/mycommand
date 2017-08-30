@@ -20,3 +20,16 @@ echo_success()
 }
 
 
+############################################################
+#
+#       计时器
+#
+############################################################
+time_used()
+{
+        local END_TIME=$(date "+%s")
+        local MINUTES=$(( (END_TIME - START_TIME) / 60 ))
+        local SECONDS=$(( (END_TIME - START_TIME) % 60 ))
+        
+        echo_color "${MINUTES} minutes ${SECONDS} seconds" "34"
+}
