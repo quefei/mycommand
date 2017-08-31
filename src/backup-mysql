@@ -76,6 +76,61 @@ fi
 #       7.主要操作
 #
 ############################################################
+case "$ARGUMENT1" in
+        "full")
+                case "$ARGUMENT2" in
+                        "backup")
+                        ;;
+                        
+                        "restore")
+                                case "$ARGUMENT3" in
+                                        "list")
+                                        ;;
+                                        
+                                        20[1-3][0-9]-[0-1][0-9]-[0-3][0-9]-[0-9][0-9][0-9][0-9][0-9][0-9])
+                                        ;;
+                                        
+                                        *)
+                                                default "$ARGUMENT3"
+                                        ;;
+                                esac
+                        ;;
+                        
+                        *)
+                                default "$ARGUMENT2"
+                        ;;
+                esac
+        ;;
+        
+        "incr")
+                case "$ARGUMENT2" in
+                        "backup")
+                        ;;
+                        
+                        "restore")
+                                case "$ARGUMENT3" in
+                                        "list")
+                                        ;;
+                                        
+                                        20[1-3][0-9]-[0-1][0-9]-[0-3][0-9]-[0-9][0-9][0-9][0-9][0-9][0-9])
+                                        ;;
+                                        
+                                        *)
+                                                default "$ARGUMENT3"
+                                        ;;
+                                esac
+                        ;;
+                        
+                        *)
+                                default "$ARGUMENT2"
+                        ;;
+                esac
+        ;;
+        
+        *)
+                default "$ARGUMENT1"
+        ;;
+esac
 
 ############################################################
 #
