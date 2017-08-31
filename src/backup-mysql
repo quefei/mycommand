@@ -65,10 +65,18 @@ for COMMAND in ${COMMAND_LIST}; do
 done
 
 if [[ -s "/root/.backup-mysql.conf" ]]; then
-        :
+        . /root/.backup-mysql.conf
 else
         echo "MYSQL_USER=" > /root/.backup-mysql.conf
         echo "MYSQL_PASSWORD=" >> /root/.backup-mysql.conf
+        echo_error "Error: Setting the user and password in /root/.backup-mysql.conf"
+fi
+
+if [[ -z "$MYSQL_USER" ]]; then
+        echo_error "Error: Setting the user and password in /root/.backup-mysql.conf"
+fi
+
+if [[ -z "$MYSQL_PASSWORD" ]]; then
         echo_error "Error: Setting the user and password in /root/.backup-mysql.conf"
 fi
 
