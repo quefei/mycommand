@@ -80,6 +80,8 @@ if [[ -z "$MYSQL_PASSWORD" ]]; then
         echo_error "Error: Setting the user and password in /root/.backup-mysql.conf"
 fi
 
+mysql -u${MYSQL_USER} -p${MYSQL_PASSWORD} -e "show variables like 'log_bin'"
+
 ############################################################
 #
 #       4.次要函数
