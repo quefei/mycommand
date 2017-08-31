@@ -64,6 +64,40 @@ fi
 #       5.主要函数
 #
 ############################################################
+default()
+{
+        echo 0
+}
+
+full_backup()
+{
+        echo 1
+}
+
+full_restore()
+{
+        echo 2
+}
+
+full_restore_list()
+{
+        echo 3
+}
+
+incremental_backup()
+{
+        echo 11
+}
+
+incremental_restore()
+{
+        echo 22
+}
+
+incremental_restore_list()
+{
+        echo 33
+}
 
 ############################################################
 #
