@@ -69,8 +69,7 @@ if [[ -s "/root/.backup-mysql.conf" ]]; then
 else
         echo "MYSQL_USER=" > /root/.backup-mysql.conf
         echo "MYSQL_PASSWORD=" >> /root/.backup-mysql.conf
-        echo_color "Warning: Setting the user and password in /root/.backup-mysql.conf" "33"
-        exit 1
+        echo_error "Error: Setting the user and password in /root/.backup-mysql.conf"
 fi
 
 ############################################################
