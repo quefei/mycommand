@@ -64,6 +64,13 @@ for COMMAND in ${COMMAND_LIST}; do
         fi
 done
 
+if [[ -s "/root/.backup-mysql.conf" ]]; then
+        :
+else
+        echo "MYSQL_USER=" > /root/.backup-mysql.conf
+        echo "MYSQL_PASSWORD=" >> /root/.backup-mysql.conf
+fi
+
 ############################################################
 #
 #       4.次要函数
