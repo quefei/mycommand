@@ -59,11 +59,9 @@ COMMAND_LIST="mysql mysqld mysqldump mysqlbinlog mysqladmin"
 mkdir -p ${BACKUP_ROOT}/{"mysql-full","mysql-incremental","log"}
 
 for COMMAND in ${COMMAND_LIST}; do
-        
         if ( ! type -p "$COMMAND" &> /dev/null ) && [[ -x "${MYSQL_ROOT}/bin/${COMMAND}" ]]; then
                 ln -s ${MYSQL_ROOT}/bin/${COMMAND} /usr/local/bin/${COMMAND}
         fi
-        
 done
 
 ############################################################
