@@ -80,14 +80,17 @@ case "$ARGUMENT1" in
         "full")
                 case "$ARGUMENT2" in
                         "backup")
+                                full_backup
                         ;;
                         
                         "restore")
                                 case "$ARGUMENT3" in
                                         "list")
+                                                full_restore_list
                                         ;;
                                         
                                         20[1-3][0-9]-[0-1][0-9]-[0-3][0-9]-[0-9][0-9][0-9][0-9][0-9][0-9])
+                                                full_restore "$ARGUMENT3"
                                         ;;
                                         
                                         *)
@@ -105,14 +108,17 @@ case "$ARGUMENT1" in
         "incr")
                 case "$ARGUMENT2" in
                         "backup")
+                                incremental_backup
                         ;;
                         
                         "restore")
                                 case "$ARGUMENT3" in
                                         "list")
+                                                incremental_restore_list
                                         ;;
                                         
                                         20[1-3][0-9]-[0-1][0-9]-[0-3][0-9]-[0-9][0-9][0-9][0-9][0-9][0-9])
+                                                incremental_restore "$ARGUMENT3"
                                         ;;
                                         
                                         *)
