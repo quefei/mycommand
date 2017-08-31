@@ -110,6 +110,18 @@ incremental_restore_list()
 #       7.主要操作
 #
 ############################################################
+if [[ -z "$ARGUMENT1" ]]; then
+        ARGUMENT1="full"
+fi
+
+if [[ -z "$ARGUMENT2" ]]; then
+        ARGUMENT2="backup"
+fi
+
+if [[ -z "$ARGUMENT3" ]]; then
+        ARGUMENT3="list"
+fi
+
 case "$ARGUMENT1" in
         "full")
                 case "$ARGUMENT2" in
