@@ -82,8 +82,9 @@ fi
 
 cat > /root/.my.cnf <<-EOF
 [client]
-user="$MYSQL_USER"
-password="$MYSQL_PASSWORD"
+user=${MYSQL_USER}
+password=${MYSQL_PASSWORD}
+
 EOF
 
 mysql -u${MYSQL_USER} -p${MYSQL_PASSWORD} -e "show variables like 'log_bin'"
