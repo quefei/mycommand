@@ -86,7 +86,7 @@ user=${MYSQL_USER}
 password=${MYSQL_PASSWORD}
 EOF
 
-mysql -u${MYSQL_USER} -p${MYSQL_PASSWORD} -e "show variables like 'log_bin'"
+mysql -e "show variables like 'log_bin'"
 
 ############################################################
 #
