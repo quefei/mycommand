@@ -224,4 +224,8 @@ esac
 #       8.结束语
 #
 ############################################################
+if [[ -f "/root/.my.cnf" ]]; then
+        rm -rf /root/.my.cnf
+fi
+
 time_success
