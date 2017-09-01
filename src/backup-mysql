@@ -114,9 +114,21 @@ show_master()
                 local BINLOG_POSITION=$(echo "$CURRENT_BINLOG" | awk '{ print $2 }')
                 
                 local BINLOG_POSTFIX=$(echo "$BINLOG_FILE" | awk -F. '{ print $NF }')
-                local BINLOG_NAME=$(echo "$BINLOG_FILE" | sed "s/${BINLOG_POSTFIX}$//g")
+                local BINLOG_NAME=$(echo "$BINLOG_FILE" | sed "s/\.${BINLOG_POSTFIX}$//g")
         else
                 echo_error "Error: variable is empty"
+        fi
+        
+        if [[ "$1" == "file" ]]; then
+                echo "$BINLOG_FILE"
+        elif [[ "$1" == "position" ]]; then
+                echo "$BINLOG_POSITION"
+        elif [[ "$1" == "name" ]]; then
+                echo "$BINLOG_NAME"
+        elif [[ "$1" == "postfix" ]]; then
+                echo "$BINLOG_POSTFIX"
+        else
+                echo "$CURRENT_BINLOG"
         fi
 }
 
