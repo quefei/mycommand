@@ -113,7 +113,12 @@ fi
 ############################################################
 default()
 {
-        echo 0
+        echo "backup-mysql: unrecognized option '$1'"
+        
+        echo "Usage: backup-mysql <full|incr> <backup|restore> [list|DATE]"
+        echo ""
+        
+        exit 1
 }
 
 # 完全备份
