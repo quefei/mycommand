@@ -179,7 +179,11 @@ full_backup()
 full_restore()
 {
         if [[ -s "${BACKUP_ROOT}/mysql-full/$1.sql" ]]; then
+                mysqladmin flush-logs
+                show_master "postfix" >> ${BACKUP_ROOT}/mysql-binlog/.except.binlog
                 mysql < ${BACKUP_ROOT}/mysql-full/$1.sql
+                mysqladmin flush-logs
+                
                 sleep 1
         else
                 echo_error "Error: full backup does not exist"
