@@ -87,7 +87,10 @@ password=${MYSQL_PASSWORD}
 EOF
 
 BINLOG_STATUS=$(mysql -e "show variables like 'log_bin'")
-echo $BINLOG_STATUS
+
+if ( echo "$BINLOG_STATUS" | grep "log_bin.*OFF" &> /dev/null ); then
+        echo_error "Error: Setting"
+fi
 
 ############################################################
 #
