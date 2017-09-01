@@ -80,18 +80,22 @@ if [[ -z "$MYSQL_USER" ]]; then
         echo_error "Error: Setting the user in /root/.backup-mysql.conf"
 fi
 
+# 检测密码是否为空
 if [[ -z "$MYSQL_PASSWORD" ]]; then
         echo_error "Error: Setting the password in /root/.backup-mysql.conf"
 fi
 
+# 创建文件 .my.cnf
 cat > /root/.my.cnf <<-EOF
 [client]
 user=${MYSQL_USER}
 password=${MYSQL_PASSWORD}
 EOF
 
+# 检测密码是否正确
 BINLOG_STATUS=$(mysql -e "show variables like 'log_bin'")
 
+# 检测二进制日志是否启用
 if ( echo "$BINLOG_STATUS" | grep "log_bin.*OFF" &> /dev/null ); then
         echo_error "Error: The binary log is disabled"
 fi
