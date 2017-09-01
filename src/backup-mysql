@@ -107,7 +107,12 @@ fi
 ############################################################
 show_master()
 {
-        
+        if ( mysql -e "show master status" | grep ".[0-9]\{6\}" &> /dev/null ); then
+                local CURRENT_BINLOG=$(mysql -e "show master status" | grep ".[0-9]\{6\}")
+                
+        else
+                echo_error "Error: variable is empty"
+        fi
 }
 
 ############################################################
