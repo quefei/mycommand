@@ -124,7 +124,8 @@ default()
 # 完全备份
 full_backup()
 {
-        echo 1
+        mysqldump --single-transaction --master-data=2 --routines --flush-logs --all-databases \
+        > ${BACKUP_ROOT}/mysql-full/${BACKUP_TIME}.sql
 }
 
 # 完全恢复
