@@ -169,6 +169,8 @@ full_backup()
         mysqldump --single-transaction --master-data=2 --routines --flush-logs --all-databases \
         > ${BACKUP_ROOT}/mysql-full/${BACKUP_TIME}.sql
         
+        save_binlog
+        
         sleep 1
 }
 
