@@ -46,8 +46,8 @@ fi
 #       2.全局变量
 #
 ############################################################
+BACKUP_TIME="$CURRENT_TIME"
 BACKUP_ROOT="/backup"
-BACKUP_TIME=$(date +"%Y-%m-%d-%H%M%S")
 MYSQL_ROOT="/usr/local/mysql"
 COMMAND_LIST="mysql mysqld mysqldump mysqlbinlog mysqladmin"
 
