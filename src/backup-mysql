@@ -110,6 +110,11 @@ show_master()
         if ( mysql -e "show master status" | grep "\.[0-9]\{6\}" &> /dev/null ); then
                 local CURRENT_BINLOG=$(mysql -e "show master status" | grep "\.[0-9]\{6\}")
                 
+                local BINLOG_FILE=$(echo "$CURRENT_BINLOG" | awk '{ print $1 }')
+                local BINLOG_POSITION=$(echo "$CURRENT_BINLOG" | awk '{ print $2 }')
+                
+                local BINLOG_POSTFIX=$(echo "$BINLOG_FILE" | awk -F. '{ print $NF }')
+                local BINLOG_NAME=$(echo "$BINLOG_FILE" | sed "s/${BINLOG_POSTFIX}$//g")
         else
                 echo_error "Error: variable is empty"
         fi
