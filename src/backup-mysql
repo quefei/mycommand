@@ -86,7 +86,8 @@ user=${MYSQL_USER}
 password=${MYSQL_PASSWORD}
 EOF
 
-mysql -e "show variables like 'log_bin'"
+BINLOG_STATUS=$(mysql -e "show variables like 'log_bin'")
+echo $BINLOG_STATUS
 
 ############################################################
 #
