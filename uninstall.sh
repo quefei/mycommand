@@ -39,6 +39,11 @@ fi
 ############################################################
 SHELL_SCRIPT_LIST="myfunction.sh backup-centos backup-mysql"
 
+CONFIG_FILE_LIST="/root/.backup-mysql.conf \
+                  /root/.my.cnf"
+
+CONFIG_DIR_LIST=
+
 ############################################################
 #
 #       3.初始化
@@ -74,9 +79,16 @@ for SHELL_SCRIPT in ${SHELL_SCRIPT_LIST}; do
         
         if [[ -f "$SHELL_SCRIPT_PATH" ]]; then
                 rm -rf "$SHELL_SCRIPT_PATH"
-                echo "remove file: $SHELL_SCRIPT_PATH"
+                echo "remove file: ${SHELL_SCRIPT_PATH}"
         fi
         
+done
+
+for CONFIG_FILE in ${CONFIG_FILE_LIST}; do
+        if [[ -f "$CONFIG_FILE" ]]; then
+                rm -rf "$CONFIG_FILE"
+                echo "remove file: ${CONFIG_FILE}"
+        fi
 done
 
 ############################################################
