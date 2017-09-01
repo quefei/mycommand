@@ -133,7 +133,12 @@ full_backup()
 # 完全恢复
 full_restore()
 {
-        echo 2
+        if [[ -s "${BACKUP_ROOT}/mysql-full/$1.sql" ]]; then
+                mysql < ${BACKUP_ROOT}/mysql-full/$1.sql
+                sleep 1
+        else
+                echo_error "Error: full backup does not exist"
+        fi
 }
 
 # 完全恢复列表
