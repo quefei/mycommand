@@ -50,7 +50,6 @@ BACKUP_TIME="$CURRENT_TIME"
 BACKUP_ROOT="/backup"
 MYSQL_ROOT="/usr/local/mysql"
 COMMAND_LIST="mysql mysqld mysqldump mysqlbinlog mysqladmin"
-DIR_WARNING="Don't remove the directory"
 
 ############################################################
 #
@@ -59,7 +58,9 @@ DIR_WARNING="Don't remove the directory"
 ############################################################
 # 创建目录
 mkdir -p ${BACKUP_ROOT}/{"mysql-full","mysql-incremental","mysql-binlog","log"}
-echo "$DIR_WARNING" > "${BACKUP_ROOT}/mysql-binlog/${DIR_WARNING}"
+
+# 创建文件 .except.binlog
+touch ${BACKUP_ROOT}/mysql-binlog/{".except.binlog","Don't remove the directory"}
 
 # 检测指令是否存在
 for COMMAND in ${COMMAND_LIST}; do
