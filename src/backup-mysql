@@ -228,6 +228,9 @@ incremental_backup()
         #
         mysqladmin flush-logs
         
+        #
+        CURRENT_BINNUM=$(show_master "num")
+        
         # 获取所有的二进制日志
         EVERY_BINFILE_LIST=$(cat ${MYSQL_ROOT}/${MYSQL_DATA}/${MYSQL_BINNAME}.index | sed "s/^\.\///g" | xargs)
         
