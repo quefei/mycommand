@@ -171,7 +171,6 @@ full_backup()
 {
         mysqldump --single-transaction --master-data=2 --routines --flush-logs --all-databases \
         > ${BACKUP_ROOT}/mysql-full/${BACKUP_TIME}.sql
-        
         save_binlog
         
         sleep 1
@@ -182,7 +181,7 @@ full_restore()
 {
         if [[ -s "${BACKUP_ROOT}/mysql-full/$1.sql" ]]; then
                 mysqladmin flush-logs
-                show_master "postfix" >> ${BACKUP_ROOT}/mysql-binlog/.except.binlog
+                show_master "num" >> ${BACKUP_ROOT}/mysql-binlog/.except.binlog
                 mysql < ${BACKUP_ROOT}/mysql-full/$1.sql
                 mysqladmin flush-logs
                 
