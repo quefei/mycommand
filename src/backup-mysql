@@ -209,7 +209,7 @@ incremental_backup()
                 full_backup
         fi
         
-        LAST_FULL=$(ls_timefile "${BACKUP_ROOT}/mysql-full" "" ".sql" | tail -n 1)
+        FULL_BACKUP=$(ls_timefile "${BACKUP_ROOT}/mysql-full" "" ".sql" | tail -n 1)
         
         # 获取 .mysql.binlog 的变量
         if [[ -s "${BACKUP_ROOT}/mysql-binlog/.mysql.binlog" ]]; then
@@ -229,7 +229,7 @@ incremental_backup()
         mysqladmin flush-logs
         
         # 获取所有的二进制日志编号
-        ALL_BINNUM_LIST=$(cat ${MYSQL_ROOT}/${MYSQL_DATA}/$(show_master "name").index | sed "s/^\.\///g" | xargs)
+        EVERY_BINNUM_LIST=$(cat ${MYSQL_ROOT}/${MYSQL_DATA}/${MYSQL_BINNAME}.index | sed "s/^\.\///g" | xargs)
         
         
 }
