@@ -208,6 +208,14 @@ incremental_backup()
         fi
         
         LAST_FULL=$(ls_timefile "${BACKUP_ROOT}/mysql-full" "" ".sql" | tail -n 1)
+        
+        if [[ -s "${BACKUP_ROOT}/mysql-binlog/.mysql.binlog" ]]; then
+                . ${BACKUP_ROOT}/mysql-binlog/.mysql.binlog
+        else
+                echo_error "Error: .mysql.binlog not found"
+        fi
+        
+        
 }
 
 # 增量恢复
