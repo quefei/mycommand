@@ -108,6 +108,7 @@ fi
 #       4.次要函数
 #
 ############################################################
+# 查看当前的二进制日志
 show_master()
 {
         if ( mysql -e "show master status" | grep "\.[0-9]\{6\}" &> /dev/null ); then
@@ -116,10 +117,10 @@ show_master()
                 local BINLOG_FILE=$(echo "$CURRENT_BINLOG" | awk '{ print $1 }')
                 local BINLOG_POSITION=$(echo "$CURRENT_BINLOG" | awk '{ print $2 }')
                 
-                local BINLOG_POSTFIX=$(echo "$BINLOG_FILE" | awk -F. '{ print $NF }')
-                local BINLOG_NAME=$(echo "$BINLOG_FILE" | sed "s/\.${BINLOG_POSTFIX}$//g")
+                local BINLOG_NUMBER=$(echo "$BINLOG_FILE" | awk -F. '{ print $NF }')
+                local BINLOG_NAME=$(echo "$BINLOG_FILE" | sed "s/\.${BINLOG_NUMBER}$//g")
         else
-                echo_error "Error: variable is empty"
+                echo_error "Error: The binary log is empty"
         fi
         
         if [[ "$1" == "file" ]]; then
@@ -128,8 +129,8 @@ show_master()
                 echo "$BINLOG_POSITION"
         elif [[ "$1" == "name" ]]; then
                 echo "$BINLOG_NAME"
-        elif [[ "$1" == "postfix" ]]; then
-                echo "$BINLOG_POSTFIX"
+        elif [[ "$1" == "number" ]]; then
+                echo "$BINLOG_NUMBER"
         else
                 echo "$CURRENT_BINLOG"
         fi
