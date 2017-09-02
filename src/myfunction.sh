@@ -47,7 +47,7 @@ echo_success()
 display_success()
 {
         echo_line "Success: " "32"
-        echo_color "$1" "34"
+        echo "$1"
 }
 
 
