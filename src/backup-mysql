@@ -228,10 +228,10 @@ incremental_backup()
         #
         mysqladmin flush-logs
         
-        # 获取所有的二进制日志编号
-        EVERY_BINNUM_LIST=$(cat ${MYSQL_ROOT}/${MYSQL_DATA}/${MYSQL_BINNAME}.index | sed "s/^\.\///g" | xargs)
+        # 获取所有的二进制日志
+        EVERY_BINFILE_LIST=$(cat ${MYSQL_ROOT}/${MYSQL_DATA}/${MYSQL_BINNAME}.index | sed "s/^\.\///g" | xargs)
         
-        
+        #
 }
 
 # 增量恢复
