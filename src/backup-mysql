@@ -125,11 +125,11 @@ show_master()
         
         if [[ "$1" == "file" ]]; then
                 echo "$BINLOG_FILE"
-        elif [[ "$1" == "position" ]]; then
+        elif [[ "$1" == "pos" ]]; then
                 echo "$BINLOG_POSITION"
         elif [[ "$1" == "name" ]]; then
                 echo "$BINLOG_NAME"
-        elif [[ "$1" == "number" ]]; then
+        elif [[ "$1" == "num" ]]; then
                 echo "$BINLOG_NUMBER"
         else
                 echo "$CURRENT_BINLOG"
