@@ -212,6 +212,7 @@ incremental_backup()
 incremental_restore()
 {
         echo 22
+        echo "$1"
 }
 
 # 增量恢复列表
