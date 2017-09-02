@@ -184,11 +184,11 @@ full_restore()
                 show_master "num" >> ${BACKUP_ROOT}/mysql-binlog/.except.binlog
                 mysql < ${BACKUP_ROOT}/mysql-full/$1.sql
                 mysqladmin flush-logs
-                
-                sleep 1
         else
                 echo_error "Error: full backup does not exist"
         fi
+        
+        sleep 1
 }
 
 # 完全恢复列表
