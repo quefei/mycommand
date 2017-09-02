@@ -203,7 +203,7 @@ full_restore_list()
 # 增量备份
 incremental_backup()
 {
-        echo 11
+        ls_timefile "${BACKUP_ROOT}/mysql-full" "" ".sql"
 }
 
 # 增量恢复
