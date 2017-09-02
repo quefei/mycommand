@@ -136,17 +136,18 @@ show_master()
         fi
 }
 
+# 创建文件 .mysql.binlog
 save_binlog()
 {
         local BINLOG_NAME=$(show_master "name")
-        local BINLOG_POSTFIX=$(show_master "postfix")
-        local BINLOG_POSITION=$(show_master "position")
+        local BINLOG_NUMBER=$(show_master "num")
+        local BINLOG_POSITION=$(show_master "pos")
         
-# 内容缩进只可以用制表符，不可以用空格
+        # 内容缩进只可以用制表符，不可以用空格
 cat > ${BACKUP_ROOT}/mysql-binlog/.mysql.binlog <<-EOF
-BINLOG_NAME="${BINLOG_NAME}"
-BINLOG_POSTFIX="${BINLOG_POSTFIX}"
-BINLOG_POSITION="${BINLOG_POSITION}"
+MYSQL_BINNAME="${BINLOG_NAME}"
+MYSQL_BINNUM="${BINLOG_NUMBER}"
+MYSQL_BINPOS="${BINLOG_POSITION}"
 EOF
 }
 
