@@ -203,6 +203,10 @@ full_restore_list()
 # 增量备份
 incremental_backup()
 {
+        if [[ -z "$(ls_timefile "${BACKUP_ROOT}/mysql-full" "" ".sql" | tail -n 1)" ]]; then
+                full_backup
+        fi
+        
         LAST_FULL=$(ls_timefile "${BACKUP_ROOT}/mysql-full" "" ".sql" | tail -n 1)
 }
 
