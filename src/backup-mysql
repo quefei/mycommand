@@ -194,11 +194,8 @@ full_restore()
 # 完全恢复列表
 full_restore_list()
 {
-        echo_color "MySQL Full Backup:" "34"
-        echo ""
-        
+        echo_color "=== mysql full ===" "34"
         ls_timefile "${BACKUP_ROOT}/mysql-full" "" ".sql" | awk -F. '{ print $1 }'
-        echo ""
         
         exit 0
 }
