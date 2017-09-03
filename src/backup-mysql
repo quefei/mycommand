@@ -257,7 +257,29 @@ incremental_backup()
         # 获取所有的二进制日志
         EVERY_BINFILE_LIST=$(cat ${MYSQL_ROOT}/${MYSQL_DATA}/${MYSQL_BINNAME}.index | sed "s/^\.\///g" | xargs)
         
-        # 操作过 "reset master"：进行完全备份
+        # 操作过 "reset master"
+        if [[ "$MYSQL_BINNUM" > "$CURRENT_BINNUM" ]]; then
+                full_backup
+                echo_warning "Warning: No incremental backup, but full backup"
+                return 0
+        fi
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         # 未操作 "reset master"：进行增量备份
         if [[ "$MYSQL_BINNUM" > "$CURRENT_BINNUM" ]]; then
                 full_backup
