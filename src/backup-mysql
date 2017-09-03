@@ -270,13 +270,16 @@ incremental_backup()
                 EVERY_BINNUM=$(echo "$EVERY_BINFILE" | awk -F. '{ print $NF }')
                 
                 for EXCEPT_BINNUM in ${EXCEPT_BINNUM_LIST}; do
-                        
-                        if (( "9${MYSQL_BINNUM}" <= "9${EVERY_BINNUM}" )) && [[ "9${EVERY_BINNUM}" < "9${CURRENT_BINNUM}" ]] \
-                        && [[ "9${EVERY_BINNUM}" != "9${EXCEPT_BINNUM}" ]]; then
-                                echo $EVERY_BINFILE
+                        if [[ "9${EVERY_BINNUM}" == "9${EXCEPT_BINNUM}" ]]; then
+                                continue 2
                         fi
-                        
                 done
+                
+                if (( "9${MYSQL_BINNUM}" <= "9${EVERY_BINNUM}" )) && [[ "9${EVERY_BINNUM}" < "9${CURRENT_BINNUM}" ]]; then
+                        echo $EVERY_BINFILE
+                        
+                        
+                fi
                 
         done
 }
