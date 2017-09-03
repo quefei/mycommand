@@ -273,7 +273,11 @@ incremental_backup()
                                 if [[ "$EVERY_BINNUM" != "$EXCEPT_BINNUM" ]] && [[ "$EVERY_BINNUM" < "$CURRENT_BINNUM" ]]; then
                                         
                                         if [[ "$EVERY_BINNUM" == "$MYSQL_BINNUM" ]] || [[ "$EVERY_BINNUM" > "$MYSQL_BINNUM" ]]; then
-                                                echo "$FULL_BACKUP $EVERY_BINFILE"
+                                                
+                                                if [[ -s "${MYSQL_ROOT}/${MYSQL_DATA}/${EVERY_BINFILE}" ]]; then
+                                                        mysqlbinlog ${MYSQL_ROOT}/${MYSQL_DATA}/${EVERY_BINFILE} > ${BACKUP_ROOT}/mysql-incremental/${BACKUP_TIME}_${FULL_BACKUP}
+                                                fi
+                                                
                                         fi
                                         
                                 fi
