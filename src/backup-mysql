@@ -195,7 +195,7 @@ full_backup()
         > ${BACKUP_ROOT}/mysql-full/$(date +"%Y-%m-%d-%H%M%S").sql
         save_binlog
         
-        sleep 1
+        sleep 3
 }
 
 # 完全恢复
