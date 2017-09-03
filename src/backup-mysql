@@ -267,6 +267,8 @@ incremental_backup()
         # 进行增量备份
         for EVERY_BINFILE in ${EVERY_BINFILE_LIST}; do
                 
+                EVERY_BINFILE_PATH=${MYSQL_ROOT}/${MYSQL_DATA}/${EVERY_BINFILE}
+                
                 EVERY_BINNUM=$(echo "$EVERY_BINFILE" | awk -F. '{ print $NF }')
                 
                 for EXCEPT_BINNUM in ${EXCEPT_BINNUM_LIST}; do
@@ -275,9 +277,10 @@ incremental_backup()
                         fi
                 done
                 
-                if (( "9${MYSQL_BINNUM}" <= "9${EVERY_BINNUM}" )) && [[ "9${EVERY_BINNUM}" < "9${CURRENT_BINNUM}" ]]; then
-                        echo $EVERY_BINFILE
+                if (( "9${MYSQL_BINNUM}" <= "9${EVERY_BINNUM}" )) && [[ "9${EVERY_BINNUM}" < "9${CURRENT_BINNUM}" ]] \
+                && [[ -s "$EVERY_BINFILE_PATH" ]]; then
                         
+                        mysqlbinlog "$EVERY_BINFILE_PATH" > ${BACKUP_ROOT}/mysql-incremental/$(date +"%Y-%m-%d-%H%M%S")_${FULL_BACKUP}
                         
                 fi
                 
