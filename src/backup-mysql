@@ -258,7 +258,7 @@ incremental_backup()
         EVERY_BINFILE_LIST=$(cat ${MYSQL_ROOT}/${MYSQL_DATA}/${MYSQL_BINNAME}.index | sed "s/^\.\///g" | xargs)
         
         # 操作过 "reset master"
-        if [[ "$MYSQL_BINNUM" > "$CURRENT_BINNUM" ]]; then
+        if [[ "9${MYSQL_BINNUM}" > "9${CURRENT_BINNUM}" ]]; then
                 full_backup
                 echo_warning "Warning: No incremental backup, but full backup"
                 return 0
@@ -270,6 +270,11 @@ incremental_backup()
                 EVERY_BINNUM=$(echo "$EVERY_BINFILE" | awk -F. '{ print $NF }')
                 
                 for EXCEPT_BINNUM in ${EXCEPT_BINNUM_LIST}; do
+                        
+                        if (( "9${MYSQL_BINNUM}" <= "9${EVERY_BINNUM}" )) && [[ "9${EVERY_BINNUM}" < "9${CURRENT_BINNUM}" ]] \
+                        && [[ "9${EVERY_BINNUM}" != "9${EXCEPT_BINNUM}" ]]; then
+                                echo $EVERY_BINFILE
+                        fi
                         
                 done
                 
