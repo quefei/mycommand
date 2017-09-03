@@ -210,7 +210,7 @@ full_restore()
                 echo_error "Error: full backup does not exist"
         fi
         
-        sleep 3
+        #sleep 3
 }
 
 # 完全恢复列表
