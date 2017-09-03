@@ -137,6 +137,27 @@ show_master()
         fi
 }
 
+# 滚动二进制日志至 000100
+flush_logs()
+{
+        local FLUSH_LOGS=
+        
+        for (( FLUSH_LOGS=0; FLUSH_LOGS < 100; FLUSH_LOGS++ )); do
+                if [[ "$(show_master "num")" < "000100" ]]; then
+                        mysqladmin flush-logs
+                else
+                        break 1
+                fi
+        done
+        
+        local BINLOG_NAME=$(show_master "name")
+        
+        if ( grep "^\.\/${BINLOG_NAME}\.000099$" ${MYSQL_ROOT}/${MYSQL_DATA}/${BINLOG_NAME}.index &> /dev/null ) \
+        && ( grep "^\.\/${BINLOG_NAME}\.000100$" ${MYSQL_ROOT}/${MYSQL_DATA}/${BINLOG_NAME}.index &> /dev/null ); then
+                mysql -e "purge master logs to '${BINLOG_NAME}.000100'"
+        fi
+}
+
 # 创建文件 .mysql.binlog
 save_binlog()
 {
@@ -170,6 +191,7 @@ default()
 # 完全备份
 full_backup()
 {
+        flush_logs
         mysqldump --single-transaction --master-data=2 --routines --flush-logs --all-databases \
         > ${BACKUP_ROOT}/mysql-full/${BACKUP_TIME}.sql
         save_binlog
@@ -202,11 +224,6 @@ full_restore_list()
 }
 
 # 增量备份
-# 注意：
-# 因为增量备份依赖于完全备份，在第一次完全备份之后慎用 "reset master"，
-# 在该次完全备份与下一次完全备份之间只可以使用一次 "reset master"，
-# 否则增量备份将出错，即：漏掉备份某些数据。
-# 切记！
 incremental_backup()
 {
         # 获取最后一个完全备份
