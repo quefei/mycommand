@@ -229,6 +229,8 @@ incremental_backup()
         # 获取最后一个完全备份
         if [[ -z "$(ls_timefile "${BACKUP_ROOT}/mysql-full" "" ".sql" | tail -n 1)" ]]; then
                 full_backup
+                echo_warning "Warning: No incremental backup, but full backup"
+                return 0
         fi
         
         FULL_BACKUP=$(ls_timefile "${BACKUP_ROOT}/mysql-full" "" ".sql" | tail -n 1)
