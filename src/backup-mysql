@@ -264,10 +264,12 @@ incremental_backup()
                 return 0
         fi
         
-        
-        
-        
-        
+        # 进行增量备份
+        for EVERY_BINFILE in ${EVERY_BINFILE_LIST}; do
+                
+                EVERY_BINNUM=$(echo "$EVERY_BINFILE" | awk -F. '{ print $NF }')
+                
+        done
         
         
         
