@@ -46,7 +46,6 @@ fi
 #       2.全局变量
 #
 ############################################################
-BACKUP_TIME=$(date +"%Y-%m-%d-%H%M%S")
 BACKUP_ROOT="/backup"
 MYSQL_ROOT="/usr/local/mysql"
 MYSQL_DATA="var"
@@ -193,7 +192,7 @@ full_backup()
 {
         flush_logs
         mysqldump --single-transaction --master-data=2 --routines --flush-logs --all-databases \
-        > ${BACKUP_ROOT}/mysql-full/${BACKUP_TIME}.sql
+        > ${BACKUP_ROOT}/mysql-full/$(date +"%Y-%m-%d-%H%M%S").sql
         save_binlog
         
         sleep 1
@@ -275,7 +274,7 @@ incremental_backup()
                                         if [[ "$EVERY_BINNUM" == "$MYSQL_BINNUM" ]] || [[ "$EVERY_BINNUM" > "$MYSQL_BINNUM" ]]; then
                                                 
                                                 if [[ -s "${MYSQL_ROOT}/${MYSQL_DATA}/${EVERY_BINFILE}" ]]; then
-                                                        mysqlbinlog ${MYSQL_ROOT}/${MYSQL_DATA}/${EVERY_BINFILE} > ${BACKUP_ROOT}/mysql-incremental/${BACKUP_TIME}_${FULL_BACKUP}
+                                                        mysqlbinlog ${MYSQL_ROOT}/${MYSQL_DATA}/${EVERY_BINFILE} > ${BACKUP_ROOT}/mysql-incremental/$(date +"%Y-%m-%d-%H%M%S")_${FULL_BACKUP}
                                                         sleep 1
                                                 fi
                                                 
