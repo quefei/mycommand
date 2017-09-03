@@ -256,7 +256,23 @@ incremental_backup()
         # 获取所有的二进制日志
         EVERY_BINFILE_LIST=$(cat ${MYSQL_ROOT}/${MYSQL_DATA}/${MYSQL_BINNAME}.index | sed "s/^\.\///g" | xargs)
         
-        #
+        # 操作过 "reset master"：进行完全备份
+        # 未操作 "reset master"：进行增量备份
+        if [[ "$MYSQL_BINNUM" > "$CURRENT_BINNUM" ]]; then
+                full_backup
+        else
+                for EVERY_BINFILE in ${EVERY_BINFILE_LIST}; do
+                        EVERY_BINNUM=$(echo "$EVERY_BINFILE" | awk -F. '{ print $NF }')
+                        
+                        for EXCEPT_BINNUM in ${EXCEPT_BINNUM_LIST}; do
+                                if [[ "$EVERY_BINNUM" != "EXCEPT_BINNUM" ]] && [[ "$EVERY_BINNUM" < "$CURRENT_BINNUM" ]]; then
+                                        if [[ "$EVERY_BINNUM" == "$MYSQL_BINNUM" ]] || [[ "$EVERY_BINNUM" > "$MYSQL_BINNUM" ]]; then
+                                                echo "$FULL_BACKUP $EVERY_BINFILE"
+                                        fi
+                                fi
+                        done
+                done
+        fi
 }
 
 # 增量恢复
