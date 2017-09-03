@@ -269,6 +269,10 @@ incremental_backup()
                 
                 EVERY_BINNUM=$(echo "$EVERY_BINFILE" | awk -F. '{ print $NF }')
                 
+                for EXCEPT_BINNUM in ${EXCEPT_BINNUM_LIST}; do
+                        
+                done
+                
         done
         
         
