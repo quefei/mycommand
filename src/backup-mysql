@@ -270,7 +270,7 @@ incremental_backup()
                         
                         for EXCEPT_BINNUM in ${EXCEPT_BINNUM_LIST}; do
                                 
-                                if [[ "$EVERY_BINNUM" != "EXCEPT_BINNUM" ]] && [[ "$EVERY_BINNUM" < "$CURRENT_BINNUM" ]]; then
+                                if [[ "$EVERY_BINNUM" != "$EXCEPT_BINNUM" ]] && [[ "$EVERY_BINNUM" < "$CURRENT_BINNUM" ]]; then
                                         
                                         if [[ "$EVERY_BINNUM" == "$MYSQL_BINNUM" ]] || [[ "$EVERY_BINNUM" > "$MYSQL_BINNUM" ]]; then
                                                 echo "$FULL_BACKUP $EVERY_BINFILE"
