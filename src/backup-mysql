@@ -276,6 +276,7 @@ incremental_backup()
                                                 
                                                 if [[ -s "${MYSQL_ROOT}/${MYSQL_DATA}/${EVERY_BINFILE}" ]]; then
                                                         mysqlbinlog ${MYSQL_ROOT}/${MYSQL_DATA}/${EVERY_BINFILE} > ${BACKUP_ROOT}/mysql-incremental/${BACKUP_TIME}_${FULL_BACKUP}
+                                                        sleep 1
                                                 fi
                                                 
                                         fi
