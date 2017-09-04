@@ -312,7 +312,9 @@ incremental_backup()
 # 增量恢复
 incremental_restore()
 {
-        ls_timefile "${BACKUP_ROOT}/mysql-incremental" "$1\_" "\.sql"
+        if [[ -z "$(ls_timefile "${BACKUP_ROOT}/mysql-incremental" "$1\_" "\.sql")" ]]; then
+                echo_error "Error: incremental backup does not exist"
+        fi
 }
 
 # 增量恢复列表
