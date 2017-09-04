@@ -312,8 +312,7 @@ incremental_backup()
 # 增量恢复
 incremental_restore()
 {
-        echo 22
-        echo "$1"
+        ls_timefile "${BACKUP_ROOT}/mysql-incremental" "$1\_" "\.sql"
 }
 
 # 增量恢复列表
