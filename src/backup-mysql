@@ -319,7 +319,12 @@ incremental_restore()
         INCREMENTAL_BACKUP=$(ls_timefile "${BACKUP_ROOT}/mysql-incremental" "$1\_" "\.sql")
         INCREMENTAL_BACKUP_PATH="${BACKUP_ROOT}/mysql-incremental/${INCREMENTAL_BACKUP}"
         
+        mysqladmin flush-logs
+        show_master "num" >> ${BACKUP_ROOT}/mysql-binlog/.except.binlog
+        mysql < "$INCREMENTAL_BACKUP_PATH"
+        mysqladmin flush-logs
         
+        sleep 3
 }
 
 # 增量恢复列表
