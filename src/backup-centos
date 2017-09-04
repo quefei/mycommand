@@ -122,7 +122,10 @@ full_restore()
 # 完全恢复列表
 full_restore_list()
 {
-        :
+        echo_color "=== centos full ===" "34"
+        ls_timedir "${BACKUP_ROOT}/centos-full" "" ""
+        
+        exit 0
 }
 
 ############################################################
