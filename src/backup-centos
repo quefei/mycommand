@@ -110,7 +110,7 @@ full_backup()
                 echo_warning "Warning: incremental backup complete"
         fi
         
-        
+        /usr/bin/cp -afvl ${BACKUP_ROOT}/centos-incremental/latest ${BACKUP_ROOT}/centos-full/$(date +"%Y-%m-%d-%H%M%S")
 }
 
 # 完全恢复
