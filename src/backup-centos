@@ -87,14 +87,16 @@ incremental_backup()
         ${SOURCE_DIR} ${BACKUP_ROOT}/centos-incremental/latest
         
         echo "$BACKUP_TIME" > ${BACKUP_ROOT}/centos-incremental/.backup.time
-        
-        sleep 3
 }
 
 # 增量恢复
 incremental_restore()
 {
-        :
+        if [[ -d "${BACKUP_ROOT}/centos-incremental/latest" ]]; then
+                rsync -avhAHXP ${BACKUP_ROOT}/centos-incremental/latest/ ${SOURCE_DIR}
+        else
+                echo_error "Error: incremental backup does not exist"
+        fi
 }
 
 # 完全备份
