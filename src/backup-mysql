@@ -195,6 +195,10 @@ full_backup()
         > ${BACKUP_ROOT}/mysql-full/$(date +"%Y-%m-%d-%H%M%S").sql
         save_binlog
         
+        if [[ -f "${BACKUP_ROOT}/mysql-binlog/.except.binlog" ]]; then
+                rm -rf ${BACKUP_ROOT}/mysql-binlog/.except.binlog
+        fi
+        
         sleep 3
 }
 
@@ -288,6 +292,13 @@ incremental_backup()
         
         #
         save_binlog
+        
+        # 删除文件 .except.binlog
+        if [[ -f "${BACKUP_ROOT}/mysql-binlog/.except.binlog" ]]; then
+                rm -rf ${BACKUP_ROOT}/mysql-binlog/.except.binlog
+        fi
+        
+        #sleep 3
 }
 
 # 增量恢复
