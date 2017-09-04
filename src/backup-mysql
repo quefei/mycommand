@@ -285,7 +285,12 @@ incremental_backup()
                 && [[ -s "$EVERY_BINFILE_PATH" ]]; then
                         INCREMENTAL_BACKUP="$(date +"%Y-%m-%d-%H%M%S")_${FULL_BACKUP}"
                         INCREMENTAL_BACKUP_PATH="${BACKUP_ROOT}/mysql-incremental/${INCREMENTAL_BACKUP}"
+                        
                         mysqlbinlog "$EVERY_BINFILE_PATH" > "$INCREMENTAL_BACKUP_PATH"
+                        
+                        if [[ "$(cat ${INCREMENTAL_BACKUP_PATH} | wc -l)" < "22" ]]; then
+                                mv ${INCREMENTAL_BACKUP_PATH} ${BACKUP_ROOT}/mysql-incremental/nothing_${INCREMENTAL_BACKUP}
+                        fi
                         
                         echo "backup: ${EVERY_BINFILE}"
                         sleep 3
