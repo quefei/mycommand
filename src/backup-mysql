@@ -280,6 +280,7 @@ incremental_backup()
                 if (( "9${MYSQL_BINNUM}" <= "9${EVERY_BINNUM}" )) && [[ "9${EVERY_BINNUM}" < "9${CURRENT_BINNUM}" ]] \
                 && [[ -s "$EVERY_BINFILE_PATH" ]]; then
                         mysqlbinlog "$EVERY_BINFILE_PATH" > ${BACKUP_ROOT}/mysql-incremental/$(date +"%Y-%m-%d-%H%M%S")_${FULL_BACKUP}
+                        echo "backup: ${EVERY_BINFILE}"
                         sleep 3
                 fi
                 
