@@ -69,37 +69,42 @@ mkdir -p ${BACKUP_ROOT}/{"centos-full","centos-incremental","log"}
 ############################################################
 default()
 {
+        echo "backup-centos: unrecognized option '$1'"
         
+        echo "Usage: backup-centos <full|incr> <backup|restore> [list|DATE]"
+        echo ""
+        
+        exit 1
 }
 
 # 增量备份
 incremental_backup()
 {
-        
+        :
 }
 
 # 增量恢复
 incremental_restore()
 {
-        
+        :
 }
 
 # 完全备份
 full_backup()
 {
-        
+        :
 }
 
 # 完全恢复
 full_restore()
 {
-        
+        :
 }
 
 # 完全恢复列表
 full_restore_list()
 {
-        
+        :
 }
 
 ############################################################
