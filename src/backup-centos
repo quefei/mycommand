@@ -80,7 +80,15 @@ default()
 # 增量备份
 incremental_backup()
 {
-        :
+        BACKUP_TIME=$(date +"%Y-%m-%d-%H%M%S")
+        
+        rsync -avhzAHXP --delete -b --backup-dir=${BACKUP_ROOT}/centos-incremental/old-${BACKUP_TIME} \
+        --exclude=${BACKUP_ROOT} --exclude={"/dev","/media","/mnt","/proc","/sys","/tmp"} \
+        ${SOURCE_DIR} ${BACKUP_ROOT}/centos-incremental/latest
+        
+        echo "$BACKUP_TIME" > ${BACKUP_ROOT}/centos-incremental/.backup.time
+        
+        sleep 3
 }
 
 # 增量恢复
