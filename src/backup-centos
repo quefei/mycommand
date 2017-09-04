@@ -124,19 +124,7 @@ case "$ARGUMENT1" in
                         ;;
                         
                         "restore")
-                                case "$ARGUMENT3" in
-                                        "list")
-                                                incremental_restore_list
-                                        ;;
-                                        
-                                        20[1-3][0-9]-[0-1][0-9]-[0-3][0-9]-[0-9][0-9][0-9][0-9][0-9][0-9])
-                                                incremental_restore "$ARGUMENT3"
-                                        ;;
-                                        
-                                        *)
-                                                default "$ARGUMENT3"
-                                        ;;
-                                esac
+                                incremental_restore
                         ;;
                         
                         *)
