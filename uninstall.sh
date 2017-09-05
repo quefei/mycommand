@@ -37,7 +37,7 @@ fi
 #       2.全局变量
 #
 ############################################################
-SHELL_SCRIPT_LIST="myfunction.sh backup-centos backup-mysql"
+SHELL_SCRIPT_LIST="myfunction.sh backup-centos backup-mysql backup-policy"
 
 CONFIG_FILE_LIST="/root/.backup-mysql.conf \
                   /root/.my.cnf"
