@@ -7,6 +7,7 @@
 #
 ############################################################
 START_TIME=$(date "+%s")
+READ_FOR_VAR=
 
 
 ############################################################
@@ -149,26 +150,26 @@ read_color()
 #       read 循环
 #
 ############################################################
+# read_for "输出语句" "默认值" "颜色代码" && echo $READ_FOR_VAR
 read_for()
 {
         local NUM=
-        local ARGUMENT=
+        echo ""
         
         for (( NUM=0; NUM < 10; NUM++ )); do
+                read_color "$1" "READ_FOR_VAR" "$3"
                 echo ""
-                read_color "$1" "ARGUMENT" "$3"
                 
-                if [[ -z "$ARGUMENT" ]]; then
-                        ARGUMENT="$2"
+                if [[ -z "$READ_FOR_VAR" ]]; then
+                        READ_FOR_VAR="$2"
                 fi
                 
-                if [[ -n "$ARGUMENT" ]]; then
-                        echo "$ARGUMENT"
+                if [[ -n "$READ_FOR_VAR" ]]; then
                         break 1
                 fi
         done
         
         if [[ "$NUM" == "10" ]]; then
-                exit 1
+                echo_error "Error: operation failed"
         fi
 }
