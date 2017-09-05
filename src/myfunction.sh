@@ -110,15 +110,16 @@ adjust_time()
 {
         local NUM=
         
-        if ( ! type -p ntpdate &> /dev/null ); then
+        if ( ! type -p ntpdate &> /dev/null ) || ( ! type -p netstat &> /dev/null ); then
                 for (( NUM=0; NUM < 5; NUM++ )); do
-                        yum -y install ntpdate
+                        yum -y install ntpdate net-tools
                 done
-                
-                systemctl disable ntpd
         fi
         
-        systemctl stop ntpd
+        if ( netstat -anutp | grep ntpd &> /dev/null ); then
+                systemctl stop ntpd
+                systemctl disable ntpd
+        fi
         
         for (( NUM=1; NUM < 11; NUM++ )); do
                 echo "adjust system time ${NUM} ..."
