@@ -123,20 +123,24 @@ timer()
         if [[ "$BACKUP_DAY" == "$(date +"%d")" ]]; then
                 create_log "$MYSQL_LOG" "backup-mysql full backup"
                 backup-mysql full backup 2>> "$MYSQL_LOG"
+                sleep 3
         fi
         
         # 增量备份数据库（每天）
         create_log "$MYSQL_LOG" "backup-mysql incr backup"
         backup-mysql incr backup 2>> "$MYSQL_LOG"
+        sleep 3
         
         # 增量备份操作系统（每天）
         create_log "$CENTOS_LOG" "backup-centos incr backup"
         backup-centos incr backup 2>> "$CENTOS_LOG"
+        sleep 3
         
         # 完全备份操作系统（每月几日）
         if [[ "$BACKUP_DAY" == "$(date +"%d")" ]]; then
                 create_log "$CENTOS_LOG" "backup-centos full backup"
                 backup-centos full backup 2>> "$CENTOS_LOG"
+                sleep 3
         fi
         
         # 重启服务器（每周几）
