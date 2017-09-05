@@ -155,6 +155,7 @@ read_for()
         local ARGUMENT=
         
         for (( NUM=0; NUM < 10; NUM++ )); do
+                echo ""
                 read_color "$1" "ARGUMENT" "$3"
                 
                 if [[ -z "$ARGUMENT" ]]; then
