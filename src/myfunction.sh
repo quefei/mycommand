@@ -213,3 +213,20 @@ create_log()
         echo "$2: $(date +"%Y-%m-%d %H:%M:%S")" >> "$1"
         echo "----------------------------------------" >> "$1"
 }
+
+
+############################################################
+#
+#       检测指令是否存在
+#
+############################################################
+check_command()
+{
+        local COMMAND=
+        
+        for COMMAND in "$@"; do
+                if ( ! type -p ${COMMAND} &> /dev/null ) || [[ ! -x "$(type -p ${COMMAND})" ]]; then
+                        echo_error "Error: ${COMMAND} not found"
+                fi
+        done
+}
