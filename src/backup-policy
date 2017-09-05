@@ -58,6 +58,11 @@ mkdir -p ${BACKUP_ROOT}/log
 adjust_time
 hwclock -w
 
+# 检测指令
+if ( ! type -p mysql &> /dev/null ); then
+        echo_error "Error: mysql not found"
+fi
+
 ############################################################
 #
 #       4.次要函数
@@ -81,7 +86,16 @@ default()
 
 init()
 {
-        echo init
+        # 设置 MySQL 的用户与密码
+        read_for "mysql user (default root): " "root" "37"
+        MYSQL_USER="$READ_FOR_VAR"
+        read_for "mysql ${MYSQL_USER} password: " "" "37"
+        MYSQL_PASSWORD="$READ_FOR_VAR"
+        
+        mysql -u${MYSQL_USER} -p${MYSQL_PASSWORD} -e "show master status" > /dev/null
+        
+        echo "MYSQL_USER=${MYSQL_USER}" > /root/.backup-mysql.conf
+        echo "MYSQL_PASSWORD=${MYSQL_PASSWORD}" >> /root/.backup-mysql.conf
 }
 
 timer()
