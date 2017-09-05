@@ -45,6 +45,8 @@ fi
 #
 ############################################################
 BACKUP_ROOT="/backup"
+MYSQL_LOG="${BACKUP_ROOT}/log/backup-mysql.log"
+CENTOS_LOG="${BACKUP_ROOT}/log/backup-centos.log"
 
 ############################################################
 #
