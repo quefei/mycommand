@@ -99,3 +99,47 @@ ls_timedir()
         
         cd - &> /dev/null
 }
+
+############################################################
+#
+#       调整系统时间
+#
+############################################################
+adjust_time()
+{
+        local NUM=
+        
+        if ( ! type -p ntpdate &> /dev/null ); then
+                for (( NUM=0; NUM < 5; NUM++ )); do
+                        yum -y install ntpdate
+                done
+                
+                systemctl disable ntpd
+        fi
+        
+        systemctl stop ntpd
+        
+        for (( NUM=1; NUM < 11; NUM++ )); do
+                echo "adjust system time ${NUM} ..."
+                local SECONDS=$(ntpdate ntp1.aliyun.com | awk '{ print $(NF-1) }')
+                
+                if [[ "0" < "$SECONDS" ]] && [[ "$SECONDS" < "1" ]]; then
+                        break 1
+                fi
+        done
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
