@@ -94,12 +94,9 @@ init()
         echo "MYSQL_USER=${MYSQL_USER}" > /root/.backup-mysql.conf
         echo "MYSQL_PASSWORD=${MYSQL_PASSWORD}" >> /root/.backup-mysql.conf
         
-        # 数据库完全备份
-        echo "$(date +"%Y-%m-%d %H:%M:%S")" >> ${BACKUP_ROOT}/log/backup-mysql.log
-        echo "----------------------------------------" >> ${BACKUP_ROOT}/log/backup-mysql.log
-        backup-mysql full backup 2>> ${BACKUP_ROOT}/log/backup-mysql.log
-        echo "----------------------------------------" >> ${BACKUP_ROOT}/log/backup-mysql.log
-        echo "" >> ${BACKUP_ROOT}/log/backup-mysql.log
+        # 完全备份数据库
+        create_log "$MYSQL_LOG" "backup-mysql full backup"
+        backup-mysql full backup 2>> "$MYSQL_LOG"
 }
 
 timer()
