@@ -49,10 +49,10 @@ MYSQL_LOG="${BACKUP_ROOT}/log/backup-mysql.log"
 CENTOS_LOG="${BACKUP_ROOT}/log/backup-centos.log"
 
 # 每月的第几天 $(date +"%d") 01 - 31
-BACKUP_DAY=""
+BACKUP_DAY="01"
 
 # 每周的星期几 $(date +"%w")  0 - 6
-BACKUP_WEEK=""
+BACKUP_WEEK="1"
 
 ############################################################
 #
@@ -119,7 +119,30 @@ init()
 
 timer()
 {
-        echo timer
+        # 完全备份数据库（每月几日）
+        if [[ "$BACKUP_DAY" == "$(date +"%d")" ]]; then
+                create_log "$MYSQL_LOG" "backup-mysql full backup"
+                backup-mysql full backup 2>> "$MYSQL_LOG"
+        fi
+        
+        # 增量备份数据库（每天）
+        create_log "$MYSQL_LOG" "backup-mysql incr backup"
+        backup-mysql incr backup 2>> "$MYSQL_LOG"
+        
+        # 增量备份操作系统（每天）
+        create_log "$CENTOS_LOG" "backup-centos incr backup"
+        backup-centos incr backup 2>> "$CENTOS_LOG"
+        
+        # 完全备份操作系统（每月几日）
+        if [[ "$BACKUP_DAY" == "$(date +"%d")" ]]; then
+                create_log "$CENTOS_LOG" "backup-centos full backup"
+                backup-centos full backup 2>> "$CENTOS_LOG"
+        fi
+        
+        # 重启服务器（每周几）
+        if [[ "$BACKUP_WEEK" == "$(date +"%w")" ]]; then
+                shutdown -r +3
+        fi
 }
 
 ############################################################
