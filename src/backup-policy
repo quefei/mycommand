@@ -97,6 +97,10 @@ init()
         # 完全备份数据库
         create_log "$MYSQL_LOG" "backup-mysql full backup"
         backup-mysql full backup 2>> "$MYSQL_LOG"
+        
+        # 增量备份数据库
+        create_log "$MYSQL_LOG" "backup-mysql incr backup"
+        backup-mysql incr backup 2>> "$MYSQL_LOG"
 }
 
 timer()
