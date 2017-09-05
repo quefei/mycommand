@@ -144,9 +144,31 @@ read_color()
 }
 
 
-
-
-
+############################################################
+#
+#       read 循环
+#
+############################################################
+read_for()
+{
+        local NUM=
+        local ARGUMENT=
+        
+        for (( NUM=0; NUM < 10; NUM++ )); do
+                read_color "$1" "$2" "$3"
+                
+                if [[ -n "$2" ]]; then
+                        ARGUMENT="$2"
+                else
+                        ARGUMENT="$4"
+                fi
+                
+                if [[ -n "$ARGUMENT" ]]; then
+                        echo "$ARGUMENT"
+                        break 1
+                fi
+        done
+}
 
 
 
