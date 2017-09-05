@@ -51,17 +51,12 @@ BACKUP_ROOT="/backup"
 #       3.初始化
 #
 ############################################################
-# 创建目录
-mkdir -p ${BACKUP_ROOT}/log
+# 检测指令
+check_command "mysql"
 
 # 同步时间
 adjust_time
 hwclock -w
-
-# 检测指令
-if ( ! type -p mysql &> /dev/null ); then
-        echo_error "Error: mysql not found"
-fi
 
 ############################################################
 #
