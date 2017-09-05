@@ -167,10 +167,8 @@ read_for()
                         break 1
                 fi
         done
+        
+        if [[ "$NUM" == "10" ]]; then
+                exit 1
+        fi
 }
-
-
-
-
-
-
