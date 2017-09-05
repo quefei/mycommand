@@ -150,7 +150,7 @@ read_color()
 #       read 循环
 #
 ############################################################
-# read_for "输出语句" "默认值" "颜色代码" && echo $READ_FOR_VAR
+# read_for "" "" "37" && echo $READ_FOR_VAR
 read_for()
 {
         local NUM=
