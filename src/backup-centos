@@ -116,7 +116,11 @@ full_backup()
 # 完全恢复
 full_restore()
 {
-        :
+        if [[ -d "${BACKUP_ROOT}/centos-full/$1" ]]; then
+                rsync -avhAHXP ${BACKUP_ROOT}/centos-full/$1/ ${SOURCE_DIR}
+        else
+                echo_error "Error: full backup does not exist"
+        fi
 }
 
 # 完全恢复列表
