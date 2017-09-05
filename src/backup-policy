@@ -48,6 +48,12 @@ BACKUP_ROOT="/backup"
 MYSQL_LOG="${BACKUP_ROOT}/log/backup-mysql.log"
 CENTOS_LOG="${BACKUP_ROOT}/log/backup-centos.log"
 
+# 每月的第几天 $(date +"%d") 01 - 31
+BACKUP_DAY=""
+
+# 每周的星期几 $(date +"%w")  0 - 6
+BACKUP_WEEK=""
+
 ############################################################
 #
 #       3.初始化
