@@ -37,6 +37,14 @@ fi
 #       2.全局变量
 #
 ############################################################
+FILE_LIST="     myfunction.sh backup-centos backup-mysql backup-policy \
+                test-command \
+                .backup-mysql.conf .my.cnf"
+
+DIR_LIST="      /usr/local/bin /root \
+                /root/bin /root/myfile"
+
+DIR_LIST2="     /root/bin /root/myfile"
 
 ############################################################
 #
@@ -67,6 +75,33 @@ fi
 #       7.主要操作
 #
 ############################################################
+for DIR in ${DIR_LIST}; do
+        for FILE in ${FILE_LIST}; do
+                
+                FILE_PATH="${DIR}/${FILE}"
+                
+                if [[ -f "$FILE_PATH" ]]; then
+                        rm -rf "$FILE_PATH"
+                        echo "remove: ${FILE_PATH}"
+                fi
+                
+        done
+done
+
+for DIR in ${DIR_LIST2}; do
+        
+        if [[ -d "$DIR" ]]; then
+                cd "$DIR"
+        fi
+        
+        if [[ -z "$(ls -A)" ]]; then
+                #cd /root
+                rm -rf "$DIR"
+        else
+                echo_warning "Warning: ${DIR} is not empty"
+        fi
+        
+done
 
 ############################################################
 #
