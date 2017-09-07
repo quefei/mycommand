@@ -73,6 +73,17 @@ fi
 #       7.主要操作
 #
 ############################################################
+if ( dmesg | grep -in eth &> /dev/null ); then
+        echo_error "Error: The network already exists"
+fi
+
+if [[ -n "$(ls kmod-*.rpm)" ]]; then
+        KMOD_RPM=$(ls kmod-*.rpm)
+else
+        echo_error "Error: kmod not found"
+fi
+
+rpm -ivh "$KMOD_RPM"
 
 ############################################################
 #
