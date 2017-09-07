@@ -250,5 +250,5 @@ ip_addr()
                 break 1
         done
         
-        
+        echo $DEVICE
 }
