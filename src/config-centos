@@ -113,7 +113,7 @@ yum clean all && yum makecache
 
 #
 for (( NUM=0; NUM < 5; NUM++ )); do
-        yum -y install ntpdate vim-enhanced screen wget axel nmap net-tools tree git \
+        yum -y install ntpdate vim-enhanced screen wget axel nmap net-tools tree git psmisc \
         gcc gcc-c++ autoconf automake ncurses-devel libtool \
         redis rsync
 done
