@@ -74,6 +74,16 @@ download()
         if [[ -z "$URL2" ]]; then
                 URL2="src"
         fi
+        
+        for FILE in "$@"; do
+                
+                if [[ "$FILE" == "$1" ]] || [[ "$FILE" == "$2" ]] || [[ "$FILE" == "$3" ]]; then
+                        continue 1
+                fi
+                
+                echo $FILE
+                
+        done
 }
 
 ############################################################
