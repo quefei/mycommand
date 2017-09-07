@@ -41,8 +41,8 @@ USR_COMMAND="myfunction.sh backup-centos backup-mysql backup-policy"
 USR_FILE=
 ROOT_COMMAND=
 ROOT_FILE=
-ROOT_COMMAND_DIR="/root/bin"
-RU_FILE_DIR="/root/myfile"
+ROOT_DIR="/root/bin"
+FILE_DIR="/root/myfile"
 
 ############################################################
 #
