@@ -55,6 +55,26 @@ fi
 #       5.主要函数
 #
 ############################################################
+# download DIR URL1 URL2 FILE1 FILE2 FILE3 ...
+download()
+{
+        local DIR="$1"
+        local URL1="$2"
+        local URL2="$3"
+        local FILE=
+        
+        if [[ -z "$DIR" ]]; then
+                DIR="/usr/local/bin"
+        fi
+        
+        if [[ -z "$URL1" ]]; then
+                URL1="http://git.oschina.net/quefei/mycommand/raw/master"
+        fi
+        
+        if [[ -z "$URL2" ]]; then
+                URL2="src"
+        fi
+}
 
 ############################################################
 #
