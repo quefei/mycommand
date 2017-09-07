@@ -43,6 +43,7 @@ ROOT_COMMAND="config-centos"
 ROOT_FILE="epel.repo lnmp1.4.tar.gz"
 ROOT_DIR="/root/bin"
 FILE_DIR="/root/myfile"
+MD5="123"
 
 ############################################################
 #
@@ -139,6 +140,11 @@ download "$ROOT_DIR" "" ""       ${ROOT_COMMAND}
 download "$FILE_DIR" "" "myfile" ${ROOT_FILE}
 
 #download "$FILE_DIR" "" "myfile" ${USR_FILE}
+
+if [[ -s "/root/myfile/lnmp1.4.tar.gz" ]] && [[ "$MD5" != "$(md5sum /root/myfile/lnmp1.4.tar.gz | awk '{ print $1 }')" ]]; then
+        rm -rf /root/myfile/lnmp1.4.tar.gz
+        echo_error "Error: lnmp1.4.tar.gz download failed"
+fi
 
 ############################################################
 #
