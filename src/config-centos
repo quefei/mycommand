@@ -43,6 +43,8 @@ fi
 #       2.全局变量
 #
 ############################################################
+IP_ADDR=$(ip_addr)
+HOST_NAME="laravel"
 
 ############################################################
 #
@@ -73,6 +75,37 @@ fi
 #       7.主要操作
 #
 ############################################################
+cat > /etc/sysconfig/network <<-EOF
+# Created by anaconda
+NETWORKING=yes
+HOSTNAME=${HOST_NAME}
+EOF
+
+if [[ -s "/etc/hosts" ]]; then
+        sed -i "/^10\./d"  /etc/hosts
+        sed -i "/^172\./d" /etc/hosts
+        sed -i "/^192\./d" /etc/hosts
+        
+        echo "$IP_ADDR $HOST_NAME" >> /etc/hosts
+fi
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ############################################################
 #
