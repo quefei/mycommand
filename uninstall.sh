@@ -92,13 +92,12 @@ for DIR in ${DIR_LIST2}; do
         
         if [[ -d "$DIR" ]]; then
                 cd "$DIR"
-        fi
-        
-        if [[ -z "$(ls -A)" ]]; then
-                #cd /root
-                rm -rf "$DIR"
-        else
-                echo_warning "Warning: ${DIR} is not empty"
+                
+                if [[ -z "$(ls -A)" ]]; then
+                        rm -rf "$DIR"
+                else
+                        echo_warning "Warning: ${DIR} is not empty"
+                fi
         fi
         
 done
