@@ -291,3 +291,21 @@ mysql_password()
         echo "MYSQL_USER=${MYSQL_USER}" > "$MYSQL_CONF"
         echo "MYSQL_PASSWORD=${MYSQL_PASSWORD}" >> "$MYSQL_CONF"
 }
+
+
+############################################################
+#
+#       检测 MySQL 用户与密码
+#
+############################################################
+mysql_check()
+{
+        #
+        if [[ -s "$MYSQL_CONF" ]]; then
+                . "$MYSQL_CONF"
+        else
+                echo "MYSQL_USER=root" > "$MYSQL_CONF"
+                echo "MYSQL_PASSWORD=" >> "$MYSQL_CONF"
+                echo_error "Error: Setting the user and password in ${MYSQL_CONF}"
+        fi
+}
