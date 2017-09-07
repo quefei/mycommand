@@ -39,8 +39,8 @@ fi
 ############################################################
 USR_COMMAND="myfunction.sh backup-centos backup-mysql backup-policy"
 USR_FILE=
-ROOT_COMMAND="myfunction.sh backup-centos"
-ROOT_FILE="template.sh"
+ROOT_COMMAND=
+ROOT_FILE=
 ROOT_DIR="/root/bin"
 FILE_DIR="/root/myfile"
 
@@ -134,9 +134,9 @@ download()
 ############################################################
 download ""          "" ""       ${USR_COMMAND}
 
-download "$ROOT_DIR" "" ""       ${ROOT_COMMAND}
+#download "$ROOT_DIR" "" ""       ${ROOT_COMMAND}
 
-download "$FILE_DIR" "" "myfile" ${ROOT_FILE}
+#download "$FILE_DIR" "" "myfile" ${ROOT_FILE}
 
 #download "$FILE_DIR" "" "myfile" ${USR_FILE}
 
