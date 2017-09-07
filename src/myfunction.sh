@@ -274,3 +274,20 @@ mysql_root()
         echo "MYSQL_USER=${MYSQL_USER}" > "$MYSQL_CONF"
         echo "MYSQL_PASSWORD=${MYSQL_PASSWORD}" >> "$MYSQL_CONF"
 }
+
+
+############################################################
+#
+#       设置 MySQL 用户与密码
+#
+############################################################
+mysql_password()
+{
+        read_for "mysql user (default root): " "root" "37"
+        local MYSQL_USER="$READ_FOR_VAR"
+        read_for "mysql ${MYSQL_USER} password: " "" "37"
+        local MYSQL_PASSWORD="$READ_FOR_VAR"
+        
+        echo "MYSQL_USER=${MYSQL_USER}" > "$MYSQL_CONF"
+        echo "MYSQL_PASSWORD=${MYSQL_PASSWORD}" >> "$MYSQL_CONF"
+}
