@@ -109,7 +109,45 @@ fi
 mv /root/myfile/epel.repo /etc/yum.repos.d/epel.repo
 
 #
+yum clean all && yum makecache
 
+#
+for (( NUM=0; NUM < 5; NUM++ )); do
+        yum -y install ntpdate vim-enhanced screen wget axel nmap net-tools tree git \
+        gcc gcc-c++ autoconf automake ncurses-devel libtool \
+        redis rsync
+done
+
+#
+adjust_time
+hwclock -w
+
+#
+yum -y update && yum -y upgrade
+
+#
+for SERVICE in "postfix"; do
+        systemctl stop ${SERVICE}
+        systemctl disable ${SERVICE}
+done
+
+#
+systemctl restart firewalld
+sleep 3
+
+for SERVICE in "redis"; do
+        systemctl start ${SERVICE}
+        systemctl enable ${SERVICE}
+done
+
+if ( ! firewall-cmd --list-port | grep 6379 &> /dev/null ); then
+        firewall-cmd --zone=public --add-port=6379/tcp --permanent
+fi
+
+systemctl restart firewalld
+sleep 3
+
+#
 
 
 
