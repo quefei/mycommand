@@ -230,3 +230,25 @@ check_command()
                 fi
         done
 }
+
+
+############################################################
+#
+#       获取静态 IP
+#
+############################################################
+ip_addr()
+{
+        local DEVICE_LIST=$(find /etc/sysconfig/network-scripts -name "ifcfg-enp*" -type f | xargs)
+        local DEVICE=
+        
+        if [[ -z "$DEVICE_LIST" ]]; then
+                echo_error "Error: ifcfg-enp* not found"
+        fi
+        
+        for DEVICE in ${DEVICE_LIST}; do
+                break 1
+        done
+        
+        
+}
