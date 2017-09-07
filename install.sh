@@ -97,27 +97,20 @@ download()
                 fi
                 
                 for (( NUM=0; NUM < 10; NUM++ )); do
-                
+                        if [[ -s "$FILE_PATH" ]] && ( ! grep "<title>.*404.*</title>" "$FILE_PATH" &> /dev/null ); then
+                                break 1
+                        else
+                                curl -sSo "$FILE_PATH" ${URL1}/${URL2}/${FILE}
+                        fi
                 done
                 
+                if [[ "$NUM" == "10" ]]; then
+                        echo_error "Error: ${FILE} download failed"
+                fi
                 
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
+                if ( ! echo "$FILE" | grep "\." &> /dev/null ); then
+                        chmod 755 "$FILE_PATH"
+                fi
                 
         done
 }
