@@ -7,6 +7,7 @@
 #
 ############################################################
 START_TIME=$(date "+%s")
+MYSQL_CONF="/root/.mysql.conf"
 READ_FOR_VAR=
 
 
@@ -256,4 +257,20 @@ ip_addr()
         
         # 删除 双引号、单引号、空格、制表符
         grep "^IPADDR=" "$DEVICE" | awk -F= '{ print $2 }' | sed "s/[\\\"' \t]//g"
+}
+
+
+############################################################
+#
+#       设置 MySQL root 的密码
+#
+############################################################
+mysql_root()
+{
+        local MYSQL_USER="root"
+        read_for "mysql ${MYSQL_USER} password: " "" "37"
+        local MYSQL_PASSWORD="$READ_FOR_VAR"
+        
+        echo "MYSQL_USER=${MYSQL_USER}" > "$MYSQL_CONF"
+        echo "MYSQL_PASSWORD=${MYSQL_PASSWORD}" >> "$MYSQL_CONF"
 }
