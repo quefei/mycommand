@@ -283,7 +283,7 @@ mysql_root()
 ############################################################
 mysql_password()
 {
-        read_for "mysql user (default root): " "root" "37"
+        read_for "mysql user (default: root): " "root" "37"
         local MYSQL_USER="$READ_FOR_VAR"
         read_for "mysql ${MYSQL_USER} password: " "" "37"
         local MYSQL_PASSWORD="$READ_FOR_VAR"
