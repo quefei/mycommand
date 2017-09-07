@@ -37,6 +37,12 @@ fi
 #       2.全局变量
 #
 ############################################################
+USR_COMMAND=
+USR_FILE=
+ROOT_COMMAND=
+ROOT_FILE=
+ROOT_COMMAND_DIR="/root/bin"
+RU_FILE_DIR="/root/myfile"
 
 ############################################################
 #
