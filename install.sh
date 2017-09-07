@@ -97,6 +97,7 @@ download()
                 fi
                 
                 for (( NUM=0; NUM < 10; NUM++ )); do
+                        
                         if [[ -s "$FILE_PATH" ]] \
                         && (  ! grep "^<title>" "$FILE_PATH" &> /dev/null ) \
                         && (  ! grep "^404" "$FILE_PATH" &> /dev/null ); then
@@ -104,6 +105,7 @@ download()
                         else
                                 curl -sSo "$FILE_PATH" ${URL1}/${URL2}/${FILE}
                         fi
+                        
                 done
                 
                 if [[ "$NUM" == "10" ]]; then
