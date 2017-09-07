@@ -300,7 +300,6 @@ mysql_password()
 ############################################################
 mysql_check()
 {
-        #
         if [[ -s "$MYSQL_CONF" ]]; then
                 . "$MYSQL_CONF"
         else
@@ -316,4 +315,21 @@ mysql_check()
         if [[ -z "$MYSQL_PASSWORD" ]]; then
                 echo_error "Error: Setting the password in ${MYSQL_CONF}"
         fi
+}
+
+
+############################################################
+#
+#       创建 .my.cnf
+#
+############################################################
+mysql_create()
+{
+        mysql_check
+        
+cat > /root/.my.cnf <<-EOF
+[client]
+user=${MYSQL_USER}
+password=${MYSQL_PASSWORD}
+EOF
 }
