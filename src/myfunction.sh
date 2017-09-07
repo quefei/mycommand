@@ -250,5 +250,10 @@ ip_addr()
                 break 1
         done
         
-        echo $DEVICE
+        if ( ! grep "^IPADDR=" "$DEVICE" &> /dev/null ); then
+                echo_error "Error: ipaddr not found"
+        fi
+        
+        # 删除 双引号、单引号、空格、制表符
+        grep "^IPADDR=" "$DEVICE" | awk -F= '{ print $2 }' | sed "s/[\\\"' \t]//g"
 }
