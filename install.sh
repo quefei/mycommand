@@ -40,7 +40,7 @@ fi
 USR_COMMAND="myfunction.sh backup-centos backup-mysql backup-policy"
 USR_FILE=
 ROOT_COMMAND="config-centos"
-ROOT_FILE=
+ROOT_FILE="epel.repo"
 ROOT_DIR="/root/bin"
 FILE_DIR="/root/myfile"
 
@@ -136,7 +136,7 @@ download ""          "" ""       ${USR_COMMAND}
 
 download "$ROOT_DIR" "" ""       ${ROOT_COMMAND}
 
-#download "$FILE_DIR" "" "myfile" ${ROOT_FILE}
+download "$FILE_DIR" "" "myfile" ${ROOT_FILE}
 
 #download "$FILE_DIR" "" "myfile" ${USR_FILE}
 

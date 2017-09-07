@@ -39,6 +39,7 @@ fi
 ############################################################
 FILE_LIST="     myfunction.sh backup-centos backup-mysql backup-policy \
                 test-command config-centos \
+                epel.repo \
                 .backup-mysql.conf .my.cnf"
 
 DIR_LIST="      /usr/local/bin /root \
