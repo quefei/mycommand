@@ -79,6 +79,23 @@ fi
 
 rpm -ivh "$KMOD_RPM"
 
+cat > /etc/sysconfig/network-scripts/ifcfg-enp0s7 <<-"EOF"
+NM_CONTROLLED=no
+DEVICE=enp0s7
+BOOTPROTO=static
+ONBOOT=yes
+IPADDR=192.168.1.8
+PREFIX=24
+GATEWAY=192.168.1.1
+DNS1=202.103.225.68
+DNS2=202.103.224.68
+EOF
+
+systemctl stop NetworkManager
+systemctl disable NetworkManager
+
+shutdown -r +1
+
 ############################################################
 #
 #       8.结束语
