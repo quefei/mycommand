@@ -43,7 +43,7 @@ ROOT_COMMAND="config-centos"
 ROOT_FILE="epel.repo lnmp1.4.tar.gz"
 ROOT_DIR="/root/bin"
 FILE_DIR="/root/myfile"
-MD5="123"
+MD5="1d0e91c5c6b54a7ee57ddedbcf04ef2c"
 
 ############################################################
 #
