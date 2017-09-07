@@ -84,7 +84,42 @@ download()
         
         mkdir -p ${DIR}
         
-        
+        for FILE in "$@"; do
+                
+                if [[ "$FILE" == "$1" ]] || [[ "$FILE" == "$2" ]] || [[ "$FILE" == "$3" ]]; then
+                        continue 1
+                fi
+                
+                local FILE_PATH="${DIR}/${FILE}"
+                
+                if [[ -f "$FILE_PATH" ]]; then
+                        rm -rf "$FILE_PATH"
+                fi
+                
+                for (( NUM=0; NUM < 10; NUM++ )); do
+                
+                done
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+        done
 }
 
 ############################################################
