@@ -40,7 +40,7 @@ fi
 USR_COMMAND="myfunction.sh backup-centos backup-mysql backup-policy"
 USR_FILE=
 ROOT_COMMAND="config-centos"
-ROOT_FILE="epel.repo"
+ROOT_FILE="epel.repo lnmp1.4.tar.gz"
 ROOT_DIR="/root/bin"
 FILE_DIR="/root/myfile"
 
