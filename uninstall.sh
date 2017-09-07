@@ -38,7 +38,7 @@ fi
 #
 ############################################################
 FILE_LIST="     myfunction.sh backup-centos backup-mysql backup-policy \
-                test-command \
+                test-command config-centos \
                 .backup-mysql.conf .my.cnf"
 
 DIR_LIST="      /usr/local/bin /root \
