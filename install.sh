@@ -75,6 +75,8 @@ download()
                 URL2="src"
         fi
         
+        mkdir -p ${DIR}
+        
         for FILE in "$@"; do
                 
                 if [[ "$FILE" == "$1" ]] || [[ "$FILE" == "$2" ]] || [[ "$FILE" == "$3" ]]; then
