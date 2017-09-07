@@ -37,7 +37,7 @@ fi
 #       2.全局变量
 #
 ############################################################
-USR_COMMAND=
+USR_COMMAND="myfunction.sh backup-centos backup-mysql backup-policy"
 USR_FILE=
 ROOT_COMMAND=
 ROOT_FILE=
@@ -68,6 +68,7 @@ download()
         local URL1="$2"
         local URL2="$3"
         local FILE=
+        local NUM=
         
         if [[ -z "$DIR" ]]; then
                 DIR="/usr/local/bin"
@@ -89,7 +90,23 @@ download()
                         continue 1
                 fi
                 
-                echo $FILE
+                local FILE_PATH="${DIR}/${FILE}"
+                
+                if [[ -f "$FILE_PATH" ]]; then
+                        rm -rf "$FILE_PATH"
+                fi
+                
+                for (( NUM=0; NUM < 10; NUM++ )); do
+                        if [[ -s "$FILE_PATH" ]]; then
+                                break 1
+                        else
+                                curl -sSo "$FILE_PATH" ${URL1}/${URL2}/${FILE}
+                        fi
+                done
+                
+                if ( ! echo "$FILE" | grep "\." &> /dev/null ); then
+                        chmod 755 "$FILE_PATH"
+                fi
                 
         done
 }
