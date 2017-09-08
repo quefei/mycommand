@@ -333,3 +333,16 @@ user=${MYSQL_USER}
 password=${MYSQL_PASSWORD}
 EOF
 }
+
+
+############################################################
+#
+#       删除 .my.cnf
+#
+############################################################
+mysql_remove()
+{
+        if [[ -f "/root/.my.cnf" ]]; then
+                rm -rf /root/.my.cnf
+        fi
+}
