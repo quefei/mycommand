@@ -126,7 +126,7 @@ yum -y update && yum -y upgrade
 
 #
 for SERVICE in "postfix"; do
-        systemctl stop ${SERVICE}
+        systemctl stop    ${SERVICE}
         systemctl disable ${SERVICE}
 done
 
@@ -136,7 +136,7 @@ sleep 3
 
 for SERVICE in "redis" "crond"; do
         systemctl restart ${SERVICE}
-        systemctl enable ${SERVICE}
+        systemctl enable  ${SERVICE}
 done
 
 if ( ! firewall-cmd --list-port | grep 6379 &> /dev/null ); then
