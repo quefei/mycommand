@@ -46,6 +46,11 @@ fi
 LNMP_ORG="lnmp1.4.tar.gz"
 LNMP_DIR="/usr/local/src/lnmp1.4"
 
+MYSQL_VERSION="4"
+MYSQL_INNODB="Y"
+PHP_VERSION="7"
+MEMORY_ALLOCATOR="1"
+
 ############################################################
 #
 #       3.初始化
@@ -96,7 +101,7 @@ fi
 
 tar -xzvf /usr/local/src/${LNMP_ORG} -C /usr/local/src
 
-cd ${LNMP_DIR}
+#cd ${LNMP_DIR}
 
 # 实现 LNMP 自动退出
 sed -i "/Install lnmp.*completed.*enjoy it/a\    ###################################" ${LNMP_DIR}/include/end.sh
@@ -105,6 +110,20 @@ sed -i "/Install lnmp.*completed.*enjoy it/a\        sleep 60; killall tee; exit
 
 sed -i "/Install lnmp.*completed.*enjoy it/a\    ###################################" ${LNMP_DIR}/include/end.sh
 
+#
+VAR1="$MYSQL_VERSION"
+VAR2="$MYSQL_PASSWORD"
+VAR3="$MYSQL_INNODB"
+VAR4="$PHP_VERSION"
+VAR5="$MEMORY_ALLOCATOR"
+
+bash ${LNMP_DIR}/install.sh lnmp <<-EOF
+${VAR1}
+${VAR2}
+${VAR3}
+${VAR4}
+${VAR5}
+EOF
 
 
 
@@ -131,19 +150,7 @@ sed -i "/Install lnmp.*completed.*enjoy it/a\    ###############################
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-cd - &> /dev/null
+#cd - &> /dev/null
 
 ############################################################
 #
