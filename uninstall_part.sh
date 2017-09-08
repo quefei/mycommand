@@ -39,7 +39,7 @@ fi
 ############################################################
 FILE_LIST="test-command config-centos install-lnmp \
            epel.repo lnmp1.4.tar.gz \
-           .my.cnf \
+           .my.cnf .lnmp.status \
           "
 
 DIR_LIST=" /root /root/bin /root/myfile"
