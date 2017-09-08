@@ -39,7 +39,7 @@ fi
 ############################################################
 USR_COMMAND="myfunction.sh"
 USR_FILE=
-ROOT_COMMAND="config-centos"
+ROOT_COMMAND="config-centos install-lnmp"
 ROOT_FILE="epel.repo lnmp1.4.tar.gz"
 ROOT_DIR="/root/bin"
 FILE_DIR="/root/myfile"

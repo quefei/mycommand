@@ -32,19 +32,24 @@ if [[ "$(id -u)" != "0" ]]; then
         echo_error "Error: must run with root"
 fi
 
+if [[ -s "/usr/local/bin/myfunction.sh" ]]; then
+        . /usr/local/bin/myfunction.sh
+else
+        echo_error "Error: myfunction.sh not found"
+fi
+
 ############################################################
 #
 #       2.全局变量
 #
 ############################################################
-FILE_LIST="test-command config-centos install-lnmp \
-           epel.repo lnmp1.4.tar.gz \
-           .my.cnf \
-          "
+LNMP_ORG="lnmp1.4.tar.gz"
+LNMP_DIR="/usr/local/src/lnmp1.4"
 
-DIR_LIST=" /root /root/bin /root/myfile"
-
-DIR_LIST2="/root/bin /root/myfile"
+MYSQL_VERSION="4"
+MYSQL_INNODB="Y"
+PHP_VERSION="7"
+MEMORY_ALLOCATOR="1"
 
 ############################################################
 #
@@ -75,35 +80,81 @@ DIR_LIST2="/root/bin /root/myfile"
 #       7.主要操作
 #
 ############################################################
-for DIR in ${DIR_LIST}; do
-        for FILE in ${FILE_LIST}; do
-                
-                FILE_PATH="${DIR}/${FILE}"
-                
-                if [[ -f "$FILE_PATH" ]]; then
-                        rm -rf "$FILE_PATH"
-                        echo "remove: ${FILE_PATH}"
-                fi
-                
-        done
-done
+#
+mysql_create
 
-for DIR in ${DIR_LIST2}; do
-        
-        if [[ -d "$DIR" ]]; then
-                cd "$DIR"
-                
-                if [[ -z "$(ls -A)" ]]; then
-                        rm -rf "$DIR"
-                else
-                        echo_warning "Warning: ${DIR} is not empty"
-                fi
-        fi
-        
-done
+#
+if [[ -f "/usr/local/src/${LNMP_ORG}" ]]; then
+        rm -rf /usr/local/src/${LNMP_ORG}
+fi
+
+if [[ -s "/root/myfile/${LNMP_ORG}" ]]; then
+        mv /root/myfile/${LNMP_ORG} /usr/local/src/${LNMP_ORG}
+else
+        echo_error "Error: ${LNMP_ORG} not found"
+fi
+
+#
+if [[ -d "$LNMP_DIR" ]]; then
+        mv ${LNMP_DIR} ${LNMP_DIR}.bak.$(date +"%Y%m%d%H%M%S")
+fi
+
+tar -xzvf /usr/local/src/${LNMP_ORG} -C /usr/local/src
+
+cd ${LNMP_DIR}
+
+# 实现 LNMP 自动退出
+sed -i "/Install lnmp.*completed.*enjoy it/a\    ###################################" ${LNMP_DIR}/include/end.sh
+
+sed -i "/Install lnmp.*completed.*enjoy it/a\        sleep 60; killall tee; exit" ${LNMP_DIR}/include/end.sh
+
+sed -i "/Install lnmp.*completed.*enjoy it/a\    ###################################" ${LNMP_DIR}/include/end.sh
+
+#
+VAR1="$MYSQL_VERSION"
+VAR2="$MYSQL_PASSWORD"
+VAR3="$MYSQL_INNODB"
+VAR4="$PHP_VERSION"
+VAR5="$MEMORY_ALLOCATOR"
+
+bash install.sh lnmp <<-EOF
+${VAR1}
+${VAR2}
+${VAR3}
+${VAR4}
+${VAR5}
+EOF
+
+#
+touch /usr/local/nginx/logs/access.log
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+cd - &> /dev/null
 
 ############################################################
 #
 #       8.结束语
 #
 ############################################################
+mysql_remove
