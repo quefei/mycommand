@@ -132,32 +132,14 @@ if ( grep "failed" /root/.lnmp.status &> /dev/null ); then
         echo_error "Error: install lnmp failed"
 fi
 
+rm -rf /root/.lnmp.status
+
 #
 touch /usr/local/nginx/logs/access.log
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 cd - &> /dev/null
+
+#
 
 ############################################################
 #
