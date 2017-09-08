@@ -43,6 +43,8 @@ fi
 #       2.全局变量
 #
 ############################################################
+LNMP_ORG="lnmp1.4.tar.gz"
+LNMP_DIR="/usr/local/src/lnmp1.4"
 
 ############################################################
 #
@@ -75,6 +77,21 @@ fi
 ############################################################
 #
 mysql_create
+
+#
+if [[ ! -s "/usr/local/src/${LNMP_ORG}" ]]; then
+        mv /root/myfile/${LNMP_ORG} /usr/local/src/${LNMP_ORG}
+fi
+
+if [[ -d "$LNMP_DIR" ]]; then
+        mv ${LNMP_DIR} ${LNMP_DIR}.bak.$(date +"%Y%m%d%H%M%S")
+fi
+
+tar -xzvf /usr/local/src/${LNMP_ORG} -C /usr/local/src
+
+cd ${LNMP_DIR}
+
+pwd
 
 ############################################################
 #
