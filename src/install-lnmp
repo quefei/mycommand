@@ -125,8 +125,8 @@ ${VAR4}
 ${VAR5}
 EOF
 
-
-
+#
+touch /usr/local/nginx/logs/access.log
 
 
 
