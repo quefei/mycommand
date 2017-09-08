@@ -129,7 +129,7 @@ EOF
 
 #
 if ( grep "failed" /root/.lnmp.status &> /dev/null ); then
-        echo_error "Error: install failed"
+        echo_error "Error: install lnmp failed"
 fi
 
 #
