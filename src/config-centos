@@ -101,7 +101,11 @@ if [[ -f "/etc/yum.repos.d/epel.repo" ]]; then
         rm -rf /etc/yum.repos.d/epel.repo
 fi
 
-mv /root/myfile/epel.repo /etc/yum.repos.d/epel.repo
+if [[ -s "/root/myfile/epel.repo" ]]; then
+        mv /root/myfile/epel.repo /etc/yum.repos.d/epel.repo
+else
+        echo_error "Error: epel.repo not found"
+fi
 
 #
 yum clean all && yum makecache
