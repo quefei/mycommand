@@ -37,11 +37,11 @@ fi
 #       2.全局变量
 #
 ############################################################
-FILE_LIST="     "
+FILE_LIST=
 
-DIR_LIST="      "
+DIR_LIST=" /usr/local/bin /root /root/bin /root/myfile"
 
-DIR_LIST2="     "
+DIR_LIST2="/root/bin /root/myfile"
 
 ############################################################
 #
