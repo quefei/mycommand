@@ -98,12 +98,12 @@ tar -xzvf /usr/local/src/${LNMP_ORG} -C /usr/local/src
 
 cd ${LNMP_DIR}
 
+# 实现 LNMP 自动退出
+sed -i "/Install lnmp.*completed.*enjoy it/a\    ###################################" ${LNMP_DIR}/include/end.sh
 
+sed -i "/Install lnmp.*completed.*enjoy it/a\        sleep 60; killall tee; exit" ${LNMP_DIR}/include/end.sh
 
-
-
-
-
+sed -i "/Install lnmp.*completed.*enjoy it/a\    ###################################" ${LNMP_DIR}/include/end.sh
 
 
 
