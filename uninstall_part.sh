@@ -37,7 +37,10 @@ fi
 #       2.全局变量
 #
 ############################################################
-FILE_LIST=
+FILE_LIST="test-command config-centos \
+           epel.repo lnmp1.4.tar.gz \
+            \
+          "
 
 DIR_LIST=" /root /root/bin /root/myfile"
 
@@ -91,8 +94,9 @@ for DIR in ${DIR_LIST2}; do
                 cd "$DIR"
                 
                 if [[ -z "$(ls -A)" ]]; then
-                        cd /root
                         rm -rf "$DIR"
+                else
+                        echo_warning "Warning: ${DIR} is not empty"
                 fi
         fi
         

@@ -37,11 +37,11 @@ fi
 #       2.全局变量
 #
 ############################################################
-FILE_LIST=
+FILE_LIST="myfunction.sh"
 
-DIR_LIST=" /usr/local/bin /root /root/bin /root/myfile"
+DIR_LIST=" /usr/local/bin /root"
 
-DIR_LIST2="/root/bin /root/myfile"
+DIR_LIST2=
 
 ############################################################
 #
@@ -93,8 +93,9 @@ for DIR in ${DIR_LIST2}; do
                 cd "$DIR"
                 
                 if [[ -z "$(ls -A)" ]]; then
-                        cd /root
                         rm -rf "$DIR"
+                else
+                        echo_warning "Warning: ${DIR} is not empty"
                 fi
         fi
         
