@@ -101,7 +101,7 @@ fi
 
 tar -xzvf /usr/local/src/${LNMP_ORG} -C /usr/local/src
 
-#cd ${LNMP_DIR}
+cd ${LNMP_DIR}
 
 # 实现 LNMP 自动退出
 sed -i "/Install lnmp.*completed.*enjoy it/a\    ###################################" ${LNMP_DIR}/include/end.sh
@@ -117,7 +117,7 @@ VAR3="$MYSQL_INNODB"
 VAR4="$PHP_VERSION"
 VAR5="$MEMORY_ALLOCATOR"
 
-bash ${LNMP_DIR}/install.sh lnmp <<-EOF
+bash install.sh lnmp <<-EOF
 ${VAR1}
 ${VAR2}
 ${VAR3}
@@ -150,7 +150,7 @@ touch /usr/local/nginx/logs/access.log
 
 
 
-#cd - &> /dev/null
+cd - &> /dev/null
 
 ############################################################
 #
