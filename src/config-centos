@@ -147,10 +147,8 @@ systemctl restart firewalld
 sleep 3
 
 #
-if [[ -s "/etc/crontab" ]]; then
-        sed -i "/^[0-9]/d" /etc/crontab
-        echo "0 5 * * * root /usr/local/bin/backup-policy &> /dev/null" >> /etc/crontab
-fi
+sed -i "/^[0-9]/d" /etc/crontab
+echo "0 5 * * * root /usr/local/bin/backup-policy &> /dev/null" >> /etc/crontab
 
 ############################################################
 #
