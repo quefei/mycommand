@@ -72,6 +72,8 @@ DIR_LIST2="/root/bin /root/myfile"
 #       7.主要操作
 #
 ############################################################
+curl -sS http://git.oschina.net/quefei/mycommand/raw/master/uninstall_part.sh | bash
+
 for DIR in ${DIR_LIST}; do
         for FILE in ${FILE_LIST}; do
                 
