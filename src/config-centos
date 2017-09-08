@@ -82,13 +82,11 @@ HOSTNAME=${HOST_NAME}
 EOF
 
 #
-if [[ -s "/etc/hosts" ]]; then
-        sed -i "/^10\./d"  /etc/hosts
-        sed -i "/^172\./d" /etc/hosts
-        sed -i "/^192\./d" /etc/hosts
-        
-        echo "${IP_ADDR} ${HOST_NAME}" >> /etc/hosts
-fi
+sed -i "/^10\./d"  /etc/hosts
+sed -i "/^172\./d" /etc/hosts
+sed -i "/^192\./d" /etc/hosts
+
+echo "${IP_ADDR} ${HOST_NAME}" >> /etc/hosts
 
 #
 if ( sestatus -v | grep "SELinux status: *enabled" &> /dev/null ); then
