@@ -98,7 +98,50 @@ tar -xzvf /usr/local/src/${LNMP_ORG} -C /usr/local/src
 
 cd ${LNMP_DIR}
 
-pwd
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 cd - &> /dev/null
 
