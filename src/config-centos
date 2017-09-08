@@ -77,7 +77,6 @@ HOST_NAME="laravel"
 ############################################################
 #
 cat > /etc/sysconfig/network <<-EOF
-# Created by anaconda
 NETWORKING=yes
 HOSTNAME=${HOST_NAME}
 EOF
