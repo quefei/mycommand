@@ -37,7 +37,7 @@ fi
 #       2.全局变量
 #
 ############################################################
-FILE_LIST="test-command config-centos \
+FILE_LIST="test-command config-centos install-lnmp \
            epel.repo lnmp1.4.tar.gz \
             \
           "
