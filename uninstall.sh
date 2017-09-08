@@ -40,7 +40,7 @@ fi
 FILE_LIST="     myfunction.sh backup-centos backup-mysql backup-policy \
                 test-command config-centos install-lnmp read-lnmp \
                 epel.repo lnmp1.4.tar.gz \
-                .mysql.conf .backup-mysql.conf .my.cnf"
+                .mysql.conf .backup-mysql.conf .my.cnf .lnmp.status"
 
 DIR_LIST="      /usr/local/bin /root \
                 /root/bin /root/myfile"
