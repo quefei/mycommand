@@ -51,8 +51,21 @@ HOST_NAME="laravel"
 #       3.初始化
 #
 ############################################################
-mysql_root
-clear
+if [[ ! -s "$MYSQL_CONF" ]]; then
+        yum -y install screen
+        clear
+        
+        mysql_root
+        clear
+        
+        echo_line "run command: " "35"
+        echo_color "(1)  screen -S laravel" "35"
+        echo_color "             (2)  config-centos" "35"
+        echo_color "             (3)  install-lnmp" "35"
+        
+        echo ""
+        exit 0
+fi
 
 ############################################################
 #
