@@ -92,7 +92,7 @@ echo "${IP_ADDR} ${HOST_NAME}" >> /etc/hosts
 if ( sestatus -v | grep "SELinux status: *enabled" &> /dev/null ); then
         setenforce 0
         
-        sed -i "s/^SELINUX=enforcing/SELINUX=disabled/g" /etc/selinux/config
+        sed -i "s/^SELINUX=enforcing/SELINUX=disabled/g"  /etc/selinux/config
         sed -i "s/^SELINUX=permissive/SELINUX=disabled/g" /etc/selinux/config
 fi
 
