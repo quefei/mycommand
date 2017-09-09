@@ -346,3 +346,18 @@ mysql_remove()
                 rm -rf /root/.my.cnf
         fi
 }
+
+
+############################################################
+#
+#       创建 screen 并发送指令
+#
+############################################################
+# screen_command "NAME" "COMMAND"
+screen_command()
+{
+        screen -dmS "$1"
+        screen -x -S "$1" -p 0 -X stuff "$2"
+        screen -x -S "$1" -p 0 -X stuff $'\n'
+        screen -r "$1"
+}
