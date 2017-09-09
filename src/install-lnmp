@@ -139,13 +139,26 @@ rm -rf /root/.lnmp.status
 #
 touch /usr/local/nginx/logs/access.log
 
-if [[ ! -s "/usr/local/src/${PHP_TGZ}" ]]; then
+if [[ ! -f "/usr/local/src/${PHP_TGZ}" ]]; then
         cp ${LNMP_DIR}/src/${PHP_TGZ} /usr/local/src/${PHP_TGZ}
 fi
 
 cd - &> /dev/null
 
 #
+for CONFIG_FILE in "nginx.conf" "fastcgi.conf"; do
+        
+        if [[ ! -f "/usr/local/nginx/conf/${CONFIG_FILE}.bak" ]]; then
+                mv /usr/local/nginx/conf/${CONFIG_FILE} /usr/local/nginx/conf/${CONFIG_FILE}.bak
+        fi
+        
+        if [[ -s "/root/myfile/${CONFIG_FILE}" ]]; then
+                mv /root/myfile/${CONFIG_FILE} /usr/local/nginx/conf/${CONFIG_FILE}
+        else
+                echo_error "Error: ${CONFIG_FILE} not found"
+        fi
+        
+done
 
 ############################################################
 #
