@@ -73,7 +73,9 @@ done
 mysql_create
 
 # 检测密码是否正确
+echo "mysql password error ..."
 BINLOG_STATUS=$(mysql -e "show variables like 'log_bin'")
+echo "mysql password correct ..."
 
 # 检测二进制日志是否启用
 if ( echo "$BINLOG_STATUS" | grep "log_bin.*OFF" &> /dev/null ); then
