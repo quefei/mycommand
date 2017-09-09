@@ -37,7 +37,7 @@ fi
 #       2.全局变量
 #
 ############################################################
-USR_COMMAND="myfunction.sh"
+USR_COMMAND="myfunction.sh backup-centos"
 USR_FILE=
 ROOT_COMMAND="config-centos install-lnmp"
 ROOT_FILE="epel.repo lnmp1.4.tar.gz"
