@@ -43,6 +43,7 @@ fi
 #       2.全局变量
 #
 ############################################################
+ONEKEY_LOG="/root/one-key.log"
 
 ############################################################
 #
@@ -77,8 +78,23 @@ fi
 clear
 countdown "13" " "
 
+#
+create_log "$ONEKEY_LOG" "config-centos"
+config-centos 2>> "$ONEKEY_LOG"
+
+#
+create_log "$ONEKEY_LOG" "install-lnmp"
+install-lnmp 2>> "$ONEKEY_LOG"
+
+#
+create_log "$ONEKEY_LOG" "backup-policy init"
+backup-policy init 2>> "$ONEKEY_LOG"
+
 ############################################################
 #
 #       8.结束语
 #
 ############################################################
+time_success
+
+curl -sS http://git.oschina.net/quefei/mycommand/raw/master/uninstall_part.sh | bash
