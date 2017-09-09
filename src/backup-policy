@@ -89,17 +89,6 @@ default()
 
 init()
 {
-        # 设置 MySQL 的用户与密码
-        read_for "mysql user (default root): " "root" "37"
-        MYSQL_USER="$READ_FOR_VAR"
-        read_for "mysql ${MYSQL_USER} password: " "" "37"
-        MYSQL_PASSWORD="$READ_FOR_VAR"
-        
-        mysql -u${MYSQL_USER} -p${MYSQL_PASSWORD} -e "show master status" > /dev/null
-        
-        echo "MYSQL_USER=${MYSQL_USER}" > /root/.backup-mysql.conf
-        echo "MYSQL_PASSWORD=${MYSQL_PASSWORD}" >> /root/.backup-mysql.conf
-        
         # 完全备份数据库
         create_log "$MYSQL_LOG" "backup-mysql full backup"
         backup-mysql full backup 2>> "$MYSQL_LOG"
