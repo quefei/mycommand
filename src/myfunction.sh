@@ -375,9 +375,9 @@ countdown()
         
         for (( NUM="$1"; NUM >= 0; NUM-- )); do
                 if [[ "$NUM" > "0" ]]; then
-                        echo_line " ${2}${NUM} seconds                     \r" "35"
+                        echo_line " ${2}${NUM} seconds                     \r" "34"
                 else
-                        echo_line "                                        \r" "35"
+                        echo_line "                                        \r" "34"
                 fi
                 
                 sleep 1
