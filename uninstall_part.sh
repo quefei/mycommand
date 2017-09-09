@@ -38,7 +38,7 @@ fi
 #
 ############################################################
 FILE_LIST="test-command one-key config-install config-centos install-lnmp \
-           epel.repo lnmp1.4.tar.gz \
+           epel.repo lnmp1.4.tar.gz nginx.conf fastcgi.conf composer \
            .my.cnf .lnmp.status \
           "
 
