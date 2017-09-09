@@ -126,8 +126,8 @@ yum -y update && yum -y upgrade
 
 #
 for SERVICE in "postfix"; do
-        systemctl stop    ${SERVICE}
-        systemctl disable ${SERVICE}
+        systemctl stop    ${SERVICE} || true
+        systemctl disable ${SERVICE} || true
 done
 
 #
