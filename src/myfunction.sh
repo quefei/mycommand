@@ -359,5 +359,6 @@ screen_command()
         screen -dmS "$1"
         screen -x -S "$1" -p 0 -X stuff "$2"
         screen -x -S "$1" -p 0 -X stuff $'\n'
+        sleep 3
         screen -r "$1"
 }
