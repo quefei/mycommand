@@ -119,7 +119,7 @@ VAR3="$MYSQL_INNODB"
 VAR4="$PHP_VERSION"
 VAR5="$MEMORY_ALLOCATOR"
 
-bash install.sh lnmp || true <<-EOF
+bash install.sh lnmp <<-EOF || true
 ${VAR1}
 ${VAR2}
 ${VAR3}
