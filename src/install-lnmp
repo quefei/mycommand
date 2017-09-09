@@ -45,6 +45,8 @@ fi
 ############################################################
 LNMP_ORG="lnmp1.4.tar.gz"
 LNMP_DIR="/usr/local/src/lnmp1.4"
+PHP_TGZ="php-7.1.7.tar.bz2"
+PHP_DIR="/usr/local/src/php-7.1.7"
 
 MYSQL_VERSION="4"
 MYSQL_INNODB="Y"
@@ -136,6 +138,10 @@ rm -rf /root/.lnmp.status
 
 #
 touch /usr/local/nginx/logs/access.log
+
+if [[ ! -s "/usr/local/src/${PHP_TGZ}" ]]; then
+        cp ${LNMP_DIR}/src/${PHP_TGZ} /usr/local/src/${PHP_TGZ}
+fi
 
 cd - &> /dev/null
 
