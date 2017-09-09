@@ -167,6 +167,22 @@ exit
 EOF
 
 #
+if [[ -d "$PHP_DIR" ]]; then
+        mv ${PHP_DIR} ${PHP_DIR}.bak.$(date +"%Y%m%d%H%M%S")
+fi
+
+tar -xjvf /usr/local/src/${PHP_TGZ} -C /usr/local/src
+
+cd ${PHP_DIR}/ext/fileinfo
+
+/usr/local/php/bin/phpize
+./configure --with-php-config=/usr/local/php/bin/php-config
+make
+make install
+
+cd - &> /dev/null
+
+#
 
 ############################################################
 #
