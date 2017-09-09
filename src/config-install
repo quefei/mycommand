@@ -78,11 +78,10 @@ clear
 echo_line "run command: " "35"
 echo_color "(1)  config-centos" "35"
 echo_color "             (2)  install-lnmp" "35"
-
 echo ""
 
 #
-countdown "100" ""
+countdown "10" " "
 
 ############################################################
 #
