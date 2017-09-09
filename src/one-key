@@ -43,6 +43,7 @@ fi
 #       2.全局变量
 #
 ############################################################
+SCREEN_NAME="onekey"
 
 ############################################################
 #
@@ -76,6 +77,21 @@ fi
 #
 mysql_root
 clear
+
+#
+for (( NUM=0; NUM < 5; NUM++ )); do
+        yum -y install screen
+done
+
+#
+check_command "screen"
+
+#
+if ( screen -list | grep "$SCREEN_NAME" &> /dev/null ); then
+        echo_error "Error: screen name already exists"
+else
+        screen_command "$SCREEN_NAME" "config-install"
+fi
 
 ############################################################
 #
