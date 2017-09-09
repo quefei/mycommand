@@ -183,6 +183,14 @@ make install
 cd - &> /dev/null
 
 #
+if [[ -s "/root/myfile/php.ini" ]]; then
+        mv /usr/local/php/etc/php.ini /usr/local/php/etc/php.ini.bak.$(date +"%Y%m%d%H%M%S")
+        mv /root/myfile/php.ini /usr/local/php/etc/php.ini
+else
+        echo_error "Error: php.ini not found"
+fi
+
+#
 
 ############################################################
 #
