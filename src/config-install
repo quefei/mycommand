@@ -83,8 +83,6 @@ config-centos
 
 install-lnmp
 
-backup-policy init
-
 ############################################################
 #
 #       8.结束语
