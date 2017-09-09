@@ -191,6 +191,28 @@ else
 fi
 
 #
+systemctl restart firewalld
+sleep 3
+
+for SERVICE in "nginx" "mysql" "php-fpm"; do
+        
+        /etc/init.d/${SERVICE} restart
+        sleep 3
+        
+done
+
+for SERVICE in "http" "https" "mysql"; do
+        
+        if ( ! firewall-cmd --list-services | grep "$SERVICE" &> /dev/null ); then
+                firewall-cmd --add-service=${SERVICE} --permanent
+        fi
+        
+done
+
+systemctl restart firewalld
+sleep 3
+
+systemctl enable firewalld
 
 ############################################################
 #
