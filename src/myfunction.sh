@@ -362,3 +362,24 @@ screen_command()
         sleep 3
         screen -r "$1"
 }
+
+
+############################################################
+#
+#       倒计时
+#
+############################################################
+countdown()
+{
+        local NUM=
+        
+        for (( NUM="$1"; NUM >= 0; NUM-- )); do
+                if [[ "$NUM" > "0" ]]; then
+                        echo_line "${NUM} seconds\r" "35"
+                else
+                        echo_line "\r" "35"
+                fi
+                
+                sleep 1
+        done
+}
