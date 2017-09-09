@@ -157,6 +157,17 @@ for CONFIG_FILE in "nginx.conf" "fastcgi.conf"; do
         
 done
 
+#
+mysql <<-EOF
+use mysql;
+select User, Host from user;
+update user set Host='%' where User='root';
+flush privileges;
+exit
+EOF
+
+#
+
 ############################################################
 #
 #       8.结束语
