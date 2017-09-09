@@ -43,7 +43,6 @@ fi
 #       2.全局变量
 #
 ############################################################
-ONEKEY_LOG="/root/one-key.log"
 
 ############################################################
 #
@@ -80,16 +79,11 @@ clear
 countdown "13" " "
 
 #
-create_log "$ONEKEY_LOG" "config-centos"
-config-centos 2>> "$ONEKEY_LOG"
+config-centos
 
-#
-create_log "$ONEKEY_LOG" "install-lnmp"
-install-lnmp 2>> "$ONEKEY_LOG"
+install-lnmp
 
-#
-create_log "$ONEKEY_LOG" "backup-policy init"
-backup-policy init 2>> "$ONEKEY_LOG"
+backup-policy init
 
 ############################################################
 #
