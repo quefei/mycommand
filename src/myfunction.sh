@@ -357,6 +357,8 @@ mysql_remove()
 screen_command()
 {
         screen -dmS "$1"
+        screen -x -S "$1" -p 0 -X stuff "export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/root/bin"
+        screen -x -S "$1" -p 0 -X stuff $'\n'
         screen -x -S "$1" -p 0 -X stuff "$2"
         screen -x -S "$1" -p 0 -X stuff $'\n'
         sleep 3

@@ -90,7 +90,7 @@ check_command "screen"
 if ( screen -list | grep "$SCREEN_NAME" &> /dev/null ); then
         echo_error "Error: screen name already exists"
 else
-        screen_command "$SCREEN_NAME" "/root/bin/config-install"
+        screen_command "$SCREEN_NAME" "config-install"
 fi
 
 ############################################################
