@@ -148,11 +148,8 @@ cd - &> /dev/null
 #
 for CONFIG_FILE in "nginx.conf" "fastcgi.conf"; do
         
-        if [[ ! -f "/usr/local/nginx/conf/${CONFIG_FILE}.bak" ]]; then
-                mv /usr/local/nginx/conf/${CONFIG_FILE} /usr/local/nginx/conf/${CONFIG_FILE}.bak
-        fi
-        
         if [[ -s "/root/myfile/${CONFIG_FILE}" ]]; then
+                mv /usr/local/nginx/conf/${CONFIG_FILE} /usr/local/nginx/conf/${CONFIG_FILE}.bak.$(date +"%Y%m%d%H%M%S")
                 mv /root/myfile/${CONFIG_FILE} /usr/local/nginx/conf/${CONFIG_FILE}
         else
                 echo_error "Error: ${CONFIG_FILE} not found"
