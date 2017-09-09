@@ -84,25 +84,6 @@ default()
         exit 1
 }
 
-init()
-{
-        # 完全备份数据库
-        create_log "$MYSQL_LOG" "backup-mysql full backup"
-        backup-mysql full backup 2>> "$MYSQL_LOG"
-        
-        # 增量备份数据库
-        create_log "$MYSQL_LOG" "backup-mysql incr backup"
-        backup-mysql incr backup 2>> "$MYSQL_LOG"
-        
-        # 增量备份操作系统
-        create_log "$CENTOS_LOG" "backup-centos incr backup"
-        backup-centos incr backup 2>> "$CENTOS_LOG"
-        
-        # 完全备份操作系统
-        create_log "$CENTOS_LOG" "backup-centos full backup"
-        backup-centos full backup 2>> "$CENTOS_LOG"
-}
-
 timer()
 {
         # 完全备份数据库（每月几日）
@@ -133,6 +114,15 @@ timer()
         if [[ "$BACKUP_WEEK" == "$(date +"%w")" ]]; then
                 shutdown -r +3
         fi
+}
+
+init()
+{
+        BACKUP_DAY=$(date +"%d")
+        BACKUP_WEEK="9"
+        
+        # 完全备份数据库 => 增量备份数据库 => 增量备份操作系统 => 完全备份操作系统
+        timer
 }
 
 ############################################################
