@@ -43,6 +43,7 @@ fi
 #       2.全局变量
 #
 ############################################################
+LARAVEL_ROOT="/usr/local/nginx/html/laravel"
 
 ############################################################
 #
@@ -87,6 +88,23 @@ fi
 composer config -g repo.packagist composer https://packagist.phpcomposer.com
 
 composer self-update
+
+#
+cd /usr/local/nginx/html
+
+if [[ -d "$LARAVEL_ROOT" ]]; then
+        mv ${LARAVEL_ROOT} ${LARAVEL_ROOT}.bak.$(date +"%Y%m%d%H%M%S")
+fi
+
+composer create-project --prefer-dist laravel/laravel
+
+chown -R www:www ${LARAVEL_ROOT}
+
+if [[ -f "/laravel" ]]; then
+        rm -rf /laravel
+fi
+
+ln -s ${LARAVEL_ROOT} /laravel
 
 #
 
