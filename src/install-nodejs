@@ -73,6 +73,10 @@ fi
 #       7.主要操作
 #
 ############################################################
+#
+wget -O- https://raw.githubusercontent.com/aliyun-node/tnvm/master/install.sh | bash
+
+tnvm help
 
 ############################################################
 #
