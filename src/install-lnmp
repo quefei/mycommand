@@ -87,7 +87,7 @@ for (( NUM=0; NUM < 10; NUM++ )); do
         if [[ -s "/root/.my.cnf" ]]; then
                 break 1
         else
-                mysql_check
+                mysql_create
                 sleep 3
         fi
 done
