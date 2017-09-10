@@ -75,13 +75,17 @@ SERVICE_LIST="cobblerd rsyncd httpd xinetd tftp"
 #
 ############################################################
 #
+if [[ -x "/etc/init.d/nginx" ]]; then
+        /etc/init.d/nginx stop || true
+        chmod 644 /etc/init.d/nginx
+        echo_warning "Warning: /etc/init.d/nginx is disabled"
+fi
+
+#
 for (( NUM=0; NUM < 5; NUM++ )); do
         yum -y install dhcp tftp-server syslinux httpd xinetd cobbler pykickstart cobbler-web fence-agents \
         rsync wget axel
 done
-
-#
-sed -i "s/^Listen *80$/Listen 8080/g" /etc/httpd/conf/httpd.conf
 
 #
 for SERVICE in ${SERVICE_LIST}; do
