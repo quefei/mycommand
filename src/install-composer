@@ -88,6 +88,13 @@ composer config -g repo.packagist composer https://packagist.phpcomposer.com
 composer self-update
 
 #
+wget -O- https://raw.githubusercontent.com/aliyun-node/tnvm/master/install.sh | bash
+
+if [[ -s "/root/.tnvm/tnvm.sh" ]]; then
+        . /root/.tnvm/tnvm.sh
+fi
+
+tnvm help > /dev/null
 
 ############################################################
 #
