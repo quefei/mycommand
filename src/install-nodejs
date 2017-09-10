@@ -76,6 +76,13 @@ fi
 #
 wget -O- https://raw.githubusercontent.com/aliyun-node/tnvm/master/install.sh | bash
 
+export TNVM_DIR="/root/.tnvm"
+
+# This loads nvm
+if [[ -s "${TNVM_DIR}/tnvm.sh" ]]; then
+        . ${TNVM_DIR}/tnvm.sh
+fi
+
 tnvm help
 
 ############################################################
