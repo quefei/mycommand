@@ -39,7 +39,7 @@ fi
 ############################################################
 USR_COMMAND="myfunction.sh backup-centos backup-mysql backup-policy"
 USR_FILE=
-ROOT_COMMAND="one-key config-install config-centos install-lnmp install-composer"
+ROOT_COMMAND="one-key config-install config-centos install-lnmp install-nodejs"
 ROOT_FILE="epel.repo lnmp1.4.tar.gz nginx.conf fastcgi.conf php.ini composer"
 ROOT_DIR="/root/bin"
 FILE_DIR="/root/myfile"
