@@ -83,7 +83,14 @@ MEMORY_ALLOCATOR="1"
 #
 ############################################################
 #
-mysql_create
+for (( NUM=0; NUM < 10; NUM++ )); do
+        if [[ -s "/root/.my.cnf" ]]; then
+                break 1
+        else
+                mysql_check
+                sleep 3
+        fi
+done
 
 #
 if [[ -f "/usr/local/src/${LNMP_ORG}" ]]; then
