@@ -49,7 +49,6 @@ fi
 #       3.初始化
 #
 ############################################################
-export PATH=$PATH:/root/bin
 
 ############################################################
 #
@@ -74,24 +73,9 @@ export PATH=$PATH:/root/bin
 #       7.主要操作
 #
 ############################################################
-#
-clear
-countdown "13" " "
-
-#
-config-centos
-
-install-lnmp
-
-install-nodejs
-
-install-laravel
 
 ############################################################
 #
 #       8.结束语
 #
 ############################################################
-time_success
-
-curl -sS http://git.oschina.net/quefei/mycommand/raw/master/uninstall_part.sh | bash

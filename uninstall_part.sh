@@ -37,7 +37,7 @@ fi
 #       2.全局变量
 #
 ############################################################
-FILE_LIST="test-command one-key config-install config-centos install-lnmp install-nodejs \
+FILE_LIST="test-command one-key config-install config-centos install-lnmp install-nodejs install-laravel \
            epel.repo lnmp1.4.tar.gz nginx.conf fastcgi.conf php.ini composer \
            .my.cnf .lnmp.status \
           "
