@@ -90,6 +90,11 @@ for SERVICE in ${SERVICE_LIST}; do
         sleep 3
 done
 
+#
+for (( NUM=0; NUM < 5; NUM++ )); do
+        cobbler get-loaders || true
+done
+
 ############################################################
 #
 #       8.结束语
