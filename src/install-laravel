@@ -107,9 +107,22 @@ fi
 ln -s ${LARAVEL_ROOT} /laravel
 
 #
+cd ${LARAVEL_ROOT}
+composer require caouecs/laravel-lang:~3.0
+
+if [[ -d "${LARAVEL_ROOT}/vendor/caouecs/laravel-lang/src/zh-CN" ]] \
+&& [[ ! -d "${LARAVEL_ROOT}/resources/lang/zh-CN" ]]; then
+        cp -r ${LARAVEL_ROOT}/vendor/caouecs/laravel-lang/src/zh-CN ${LARAVEL_ROOT}/resources/lang
+fi
+
+#
+sed -i "s/'timezone' *=> *'UTC',/'timezone' => 'Asia\/Shanghai',/g" ${LARAVEL_ROOT}/config/app.php
+sed -i "s/'locale' *=> *'en',/'locale' => 'zh-CN',/g"               ${LARAVEL_ROOT}/config/app.php
+sed -i "s/'lifetime' *=> *120,/'lifetime' => 30,/g"                 ${LARAVEL_ROOT}/config/session.php
 
 ############################################################
 #
 #       8.结束语
 #
 ############################################################
+time_success
