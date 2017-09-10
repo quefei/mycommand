@@ -73,6 +73,11 @@ fi
 #       7.主要操作
 #
 ############################################################
+#
+for (( NUM=0; NUM < 5; NUM++ )); do
+        yum -y install dhcp tftp-server syslinux httpd xinetd cobbler pykickstart cobbler-web fence-agents \
+        rsync wget axel
+done
 
 ############################################################
 #
