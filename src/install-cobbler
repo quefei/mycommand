@@ -124,8 +124,30 @@ for CONFIG_FILE_PATH in ${CONFIG_FILE_LIST}; do
         
 done
 
+#
+for (( NUM=0; NUM < 5; NUM++ )); do
+        cobbler sync || true
+done
+
+systemctl restart cobblerd
+sleep 3
+
+#
+systemctl restart dhcpd
+systemctl enable  dhcpd
+sleep 3
+
+#
+for (( NUM=0; NUM < 5; NUM++ )); do
+        cobbler sync || true
+done
+
+systemctl restart cobblerd
+sleep 3
+
 ############################################################
 #
 #       8.结束语
 #
 ############################################################
+time_success
