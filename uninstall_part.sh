@@ -39,7 +39,7 @@ fi
 ############################################################
 FILE_LIST="test-command one-key config-install config-centos install-lnmp install-nodejs install-laravel install-cobbler \
            epel.repo lnmp1.4.tar.gz nginx.conf fastcgi.conf php.ini composer \
-           tftp settings dhcp.template pxedefault.template pxeprofile.template dhcpd.conf \
+           tftp settings dhcp.template pxedefault.template pxeprofile.template dhcpd.conf sample_end.ks \
            .my.cnf .lnmp.status \
           "
 

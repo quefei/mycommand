@@ -41,7 +41,7 @@ USR_COMMAND="myfunction.sh backup-centos backup-mysql backup-policy config-netwo
 USR_FILE=
 ROOT_COMMAND="one-key config-install config-centos install-lnmp install-nodejs install-laravel install-cobbler"
 ROOT_FILE="epel.repo lnmp1.4.tar.gz nginx.conf fastcgi.conf php.ini composer \
-           tftp settings dhcp.template pxedefault.template pxeprofile.template dhcpd.conf"
+           tftp settings dhcp.template pxedefault.template pxeprofile.template dhcpd.conf sample_end.ks"
 ROOT_DIR="/root/bin"
 FILE_DIR="/root/myfile"
 EXCEPT_FILE_LIST="tftp settings"
