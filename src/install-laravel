@@ -73,6 +73,22 @@ fi
 #       7.主要操作
 #
 ############################################################
+#
+if [[ -f "/usr/local/bin/composer" ]]; then
+        rm -rf /usr/local/bin/composer
+fi
+
+if [[ -x "/root/myfile/composer" ]]; then
+        mv /root/myfile/composer /usr/local/bin/composer
+else
+        echo_error "Error: composer not found"
+fi
+
+composer config -g repo.packagist composer https://packagist.phpcomposer.com
+
+composer self-update
+
+#
 
 ############################################################
 #
