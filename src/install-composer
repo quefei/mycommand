@@ -49,6 +49,7 @@ fi
 #       3.初始化
 #
 ############################################################
+export TNVM_DIR="/root/.tnvm"
 
 ############################################################
 #
@@ -90,8 +91,8 @@ composer self-update
 #
 wget -O- https://raw.githubusercontent.com/aliyun-node/tnvm/master/install.sh | bash
 
-if [[ -s "/root/.tnvm/tnvm.sh" ]]; then
-        . /root/.tnvm/tnvm.sh
+if [[ -s "${TNVM_DIR}/tnvm.sh" ]]; then
+        . ${TNVM_DIR}/tnvm.sh
 fi
 
 tnvm help > /dev/null
