@@ -43,6 +43,7 @@ fi
 #       2.全局变量
 #
 ############################################################
+CENTOS_ISO="CentOS-7-x86_64-Minimal-1611.iso"
 SERVICE_LIST="cobblerd rsyncd httpd xinetd tftp"
 
 CONFIG_FILE_LIST="/etc/xinetd.d/tftp
@@ -144,6 +145,11 @@ done
 
 systemctl restart cobblerd
 sleep 3
+
+#
+if [[ ! -f "/var/www/html/${CENTOS_ISO}" ]]; then
+        axel -n 10 -o /var/www/html http://mirrors.aliyun.com/centos/7/isos/x86_64/${CENTOS_ISO}
+fi
 
 ############################################################
 #
