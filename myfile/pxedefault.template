@@ -1,0 +1,16 @@
+DEFAULT menu
+PROMPT 0
+MENU TITLE Quenong Server
+MENU MASTER PASSWD $1$5692b1ce$/sW8ZT2JHPQvS8RWFxqUQ.
+TIMEOUT 200
+TOTALTIMEOUT 6000
+ONTIMEOUT $pxe_timeout_profile
+
+LABEL local
+        MENU LABEL (local)
+        MENU DEFAULT
+        LOCALBOOT -1
+
+$pxe_menu_items
+
+MENU end
