@@ -84,6 +84,9 @@ else
         echo_error "Error: composer not found"
 fi
 
+composer config -g repo.packagist composer https://packagist.phpcomposer.com
+composer self-update
+
 #
 
 ############################################################
