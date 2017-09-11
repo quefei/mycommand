@@ -76,7 +76,7 @@ front_option_number()
                 fi
                 
                 if [[ "$NUMBER" == "$1" ]]; then
-                        echo "$OPTION"
+                        echo "${OPTION}::${NUMBER}"
                         break 1
                 fi
                 
