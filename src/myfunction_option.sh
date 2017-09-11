@@ -64,7 +64,7 @@ back_option_number()
 ############################################################
 back_option()
 {
-        back_option_number "$1" "$@" | awk -F:: '{ print $1 }'
+        back_option_number "$@" | awk -F:: '{ print $1 }'
 }
 
 
@@ -75,7 +75,7 @@ back_option()
 ############################################################
 back_frontnum()
 {
-        back_option_number "$1" "$@" | awk -F:: '{ print $2 }'
+        back_option_number "$@" | awk -F:: '{ print $2 }'
 }
 
 
@@ -86,7 +86,7 @@ back_frontnum()
 ############################################################
 back_backnum()
 {
-        back_option_number "$1" "$@" | awk -F:: '{ print $3 }'
+        back_option_number "$@" | awk -F:: '{ print $3 }'
 }
 
 
