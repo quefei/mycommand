@@ -101,7 +101,7 @@ short_option()
         
         STRING=$(letter_prefix_postfix "-" "$STRING" "\n")
         
-        echo "$STRING" | sort -u | xargs
+        echo "$STRING" | sort -u
 }
 
 
