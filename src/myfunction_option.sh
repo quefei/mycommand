@@ -81,9 +81,26 @@ letter_prefix_postfix()
 }
 
 
-
-
-
+############################################################
+#
+#       
+#
+############################################################
+short_option()
+{
+        local OPTION=
+        local LETTER=
+        local STRING=
+        
+        for OPTION in "$@"; do
+                if ( echo "$OPTION" | grep "^-[A-Za-z0-9]" &> /dev/null ); then
+                        LETTER=$(echo "$OPTION" | sed "s/^-//g")
+                        STRING="${STRING}${LETTER}"
+                fi
+        done
+        
+        echo "$STRING"
+}
 
 
 
