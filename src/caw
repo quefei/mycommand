@@ -64,19 +64,19 @@ fi
 front_option_number()
 {
         local OPTION=
-        local NUMBER=
+        local FRONT_NUMBER=
         local NUM="0"
         
         for OPTION in "$@"; do
                 
-                NUMBER=$(( NUM++ ))
+                FRONT_NUMBER=$(( NUM++ ))
                 
                 if [[ "$OPTION" == "$1" ]]; then
                         continue 1
                 fi
                 
-                if [[ "$NUMBER" == "$1" ]]; then
-                        echo "${OPTION}::${NUMBER}"
+                if [[ "$FRONT_NUMBER" == "$1" ]]; then
+                        echo "${OPTION}::${FRONT_NUMBER}"
                         break 1
                 fi
                 
