@@ -38,6 +38,7 @@ fi
 #
 ############################################################
 FILE_LIST="myfunction.sh backup-centos backup-mysql backup-policy config-network \
+           caw \
            .mysql.conf \
           "
 

@@ -37,7 +37,8 @@ fi
 #       2.全局变量
 #
 ############################################################
-USR_COMMAND="myfunction.sh backup-centos backup-mysql backup-policy config-network"
+USR_COMMAND="myfunction.sh backup-centos backup-mysql backup-policy config-network \
+             caw"
 USR_FILE=
 ROOT_COMMAND="one-key config-install config-centos install-lnmp install-nodejs install-laravel install-cobbler"
 ROOT_FILE="epel.repo lnmp1.4.tar.gz nginx.conf fastcgi.conf php.ini composer \
