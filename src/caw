@@ -61,12 +61,17 @@ fi
 #       5.主要函数
 #
 ############################################################
+# 获取倒数第几个选项
 last_option()
 {
         local OPTION=
         local NUM="0"
         
         for OPTION in "$@"; do
+                if [[ "$OPTION" == "$1" ]]; then
+                        continue 1
+                fi
+                
                 if [[ "$(( NUM++ ))" == "$(( $#-$1 ))" ]]; then
                         echo "$OPTION"
                         break 1
@@ -132,6 +137,17 @@ last_option9()
 last_option10()
 {
         last_option "10" "$@"
+}
+
+#
+caw()
+{
+        local URL=
+        local MD5=
+        local DIR=
+        local FILE=
+        local HOLD_REMOVE=
+        local TOOLS=
 }
 
 ############################################################
