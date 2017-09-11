@@ -87,7 +87,7 @@ back_option_number()
 {
         local OPTION=
         local FRONT_NUMBER=
-        local BACK_NUMBER=$(( $#-$1 ))
+        local BACK_NUMBER="$1"
         local NUM="0"
         
         for OPTION in "$@"; do
@@ -98,7 +98,7 @@ back_option_number()
                         continue 1
                 fi
                 
-                if [[ "$FRONT_NUMBER" == "$BACK_NUMBER" ]]; then
+                if [[ "$FRONT_NUMBER" == "$(( $#-$1 ))" ]]; then
                         echo "${OPTION}::${FRONT_NUMBER}::${BACK_NUMBER}"
                         break 1
                 fi
