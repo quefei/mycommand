@@ -53,6 +53,9 @@ DIR=$(pwd)
 HOLD_REMOVE="remove"
 TOOLS="curl"
 
+ALL_LONG_OPTION=$(long_option "$@")
+ALL_SHORT_OPTION=$(short_option "$@")
+
 ############################################################
 #
 #       3.初始化
