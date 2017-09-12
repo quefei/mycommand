@@ -65,6 +65,10 @@ else
         echo_error "Error: caw missing url"
 fi
 
+if [[ -z "$FILE" ]]; then
+        echo_error "Error: caw url error"
+fi
+
 ############################################################
 #
 #       4.次要函数
