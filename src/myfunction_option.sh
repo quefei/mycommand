@@ -252,3 +252,20 @@ long_option()
         
         echo -e "$LONG_OPTION_ALL" | sed "/^$/d" | sort -u
 }
+
+
+############################################################
+#
+#       获取某个长选项的参数
+#
+############################################################
+long_argument()
+{
+        local OPTION=
+        
+        for OPTION in "$@"; do
+                if ( echo "$OPTION" | grep "^${1}=." &> /dev/null ); then
+                        echo "$OPTION" | awk -F= '{ print $2 }'
+                fi
+        done
+}
