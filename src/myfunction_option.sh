@@ -231,7 +231,7 @@ short_option()
         
         STRING=$(letter_prefix_postfix "-" "$STRING" "\n")
         
-        echo "$STRING" | sort -u
+        echo "$STRING" | sed "/^$/d" | sort -u
 }
 
 
