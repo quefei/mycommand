@@ -230,3 +230,25 @@ short_argument()
                 fi
         done
 }
+
+
+############################################################
+#
+#       获取所有的长选项
+#
+############################################################
+long_option()
+{
+        local OPTION=
+        local LONG_OPTION=
+        local LONG_OPTION_ALL=
+        
+        for OPTION in "$@"; do
+                if ( echo "$OPTION" | grep "^--[A-Za-z0-9]" &> /dev/null ); then
+                        LONG_OPTION=$(echo "$OPTION" | awk -F= '{ print $1 }')
+                        LONG_OPTION_ALL="${LONG_OPTION_ALL}${LONG_OPTION}\n"
+                fi
+        done
+        
+        echo -e "$LONG_OPTION_ALL" | sed "/^$/d" | sort -u
+}
