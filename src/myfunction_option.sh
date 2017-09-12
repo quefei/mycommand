@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# command [ -abc | -a -b -c | --file --dir | -f a.txt -d /root | --file=a.txt --dir=/root ] [ URL1 URL2 ... ]
+
 ############################################################
 #
 #       获取顺数第几个选项、编号
