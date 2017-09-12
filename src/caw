@@ -77,16 +77,10 @@ if [[ -z "$FILE" ]]; then
 fi
 
 # 获取 MD5
-  if ( echo "$ALL_LONG_OPTION" | grep "^--md5$" &> /dev/null ) \
-  && [[ -n "$(long_argument "--md5" "$@")" ]]; then
-        
+  if [[ -n "$(long_argument "--md5" "$@")" ]]; then
         MD5=$(long_argument "--md5" "$@")
-        
-elif ( echo "$ALL_SHORT_OPTION" | grep "^-m$" &> /dev/null ) \
-  && [[ -n "$(short_argument "-m" "$@")" ]]; then
-        
+elif [[ -n "$(short_argument "-m" "$@")" ]]; then
         MD5=$(short_argument "-m" "$@")
-        
 else
         :
 fi
