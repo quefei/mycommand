@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# caw [ --curl|--axel|--wget --remove|--hold --dir=DIR --md5=MD5 ] URL
+# caw [ -c|-a|-w -r|-h -d DIR -m MD5 ] URL
+
 export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 ############################################################
