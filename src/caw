@@ -46,6 +46,8 @@ fi
 #       2.全局变量
 #
 ############################################################
+COMMAND_ARGUMENT_NUMBER="1"
+
 URL=$(command_argument1 "$@")
 FILE=
 MD5=
