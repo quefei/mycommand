@@ -60,7 +60,7 @@ TOOLS="curl"
 ############################################################
 # 检测 URL
 if [[ -n "$URL" ]] && ( echo "$URL" | grep "^http[s]*://." &> /dev/null ); then
-        :
+        FILE=$( echo "$URL" | awk -F/ '{ if (NF>3) { print $NF } }' )
 else
         echo_error "Error: caw missing url"
 fi
