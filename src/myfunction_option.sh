@@ -1,6 +1,13 @@
 #!/bin/bash
 
 # command [ -abc | -a -b -c | --file --dir | -f a.txt -d /root | --file=a.txt --dir=/root ] [ URL1 URL2 ... ]
+############################################################
+#
+#       全局变量
+#
+############################################################
+COMMAND_ARGUMENT_NUMBER="0"
+
 
 ############################################################
 #
@@ -191,6 +198,19 @@ letter_prefix_postfix()
 
 ############################################################
 #
+#       
+#
+############################################################
+command_argument_number()
+{
+        if [[ "$COMMAND_ARGUMENT_NUMBER" < "$1" ]]; then
+                COMMAND_ARGUMENT_NUMBER="$1"
+        fi
+}
+
+
+############################################################
+#
 #       获取所有的短选项
 #
 ############################################################
@@ -226,7 +246,8 @@ short_argument()
         for (( NUM=1; NUM < $#; NUM++ )); do
                 OPTION=$(back_option "$NUM" "$@")
                 
-                if [[ "$OPTION" == "$1" ]]; then
+                if [[ "$OPTION" == "$1" ]] \
+                && [[ "$(( NUM-1 ))" > "$COMMAND_ARGUMENT_NUMBER" ]]; then
                         back_option "$(( NUM-1 ))" "$@"
                         break 1
                 fi
@@ -291,6 +312,7 @@ command_argument()
                 fi
                 
                 if [[ "$NUM" == "$1" ]]; then
+                        command_argument_number "$1"
                         echo "$OPTION"
                         break 1
                 fi
