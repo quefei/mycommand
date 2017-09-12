@@ -32,10 +32,10 @@ if [[ "$(id -u)" != "0" ]]; then
         echo_error "Error: must run with root"
 fi
 
-if [[ -s "/usr/local/bin/myfunction.sh" ]]; then
-        . /usr/local/bin/myfunction.sh
+if [[ -s "/usr/local/bin/option.sh" ]]; then
+        . /usr/local/bin/option.sh
 else
-        echo_error "Error: myfunction.sh not found"
+        echo_error "Error: option.sh not found"
 fi
 
 ############################################################
