@@ -65,6 +65,7 @@ else
         echo_error "Error: caw missing url"
 fi
 
+# 检测 FILE
 if [[ -z "$FILE" ]]; then
         echo_error "Error: caw url error"
 fi
