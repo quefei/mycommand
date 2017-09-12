@@ -148,7 +148,7 @@ short_argument()
         local NUM=
         local OPTION=
         
-        for (( NUM=1; NUM < 100; NUM++ )); do
+        for (( NUM=1; NUM < $#; NUM++ )); do
                 OPTION=$(back_option "$NUM" "$@")
                 
                 if [[ "$OPTION" == "$1" ]]; then
