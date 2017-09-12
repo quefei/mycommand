@@ -296,17 +296,52 @@ command_argument()
 }
 
 
+############################################################
+#
+#       获取倒数第 1 ~ 9 个指令参数
+#
+############################################################
+command_argument1()
+{
+        command_argument "1" "$@"
+}
 
+command_argument2()
+{
+        command_argument "2" "$@"
+}
 
+command_argument3()
+{
+        command_argument "3" "$@"
+}
 
+command_argument4()
+{
+        command_argument "4" "$@"
+}
 
+command_argument5()
+{
+        command_argument "5" "$@"
+}
 
+command_argument6()
+{
+        command_argument "6" "$@"
+}
 
+command_argument7()
+{
+        command_argument "7" "$@"
+}
 
+command_argument8()
+{
+        command_argument "8" "$@"
+}
 
-
-
-
-
-
-
+command_argument9()
+{
+        command_argument "9" "$@"
+}
