@@ -139,12 +139,58 @@ fi
 #       7.主要操作
 #
 ############################################################
-echo "$URL"
-echo "$FILE"
-echo "$MD5"
-echo "$DIR"
-echo "$HOLD_REMOVE"
-echo "$TOOLS"
+mkdir -p ${DIR}
+
+for COMMAND in "axel" "wget" "curl"; do
+        
+        if ( ! type -p ${COMMAND} &> /dev/null ); then
+                
+                for (( NUM=0; NUM < 5; NUM++ )); do
+                        yum -y install curl wget axel
+                done
+                
+                break 1
+                
+        fi
+        
+done
+
+FILE_PATH="${DIR}/${FILE}"
+
+if [[ -f "$FILE_PATH" ]] && [[ "$HOLD_REMOVE" == "remove" ]]; then
+        rm -rf "$FILE_PATH"
+fi
+
+for (( NUM=0; NUM < 10; NUM++ )); do
+        if [[ -s "$FILE_PATH" ]]; then
+                
+                if [[ -n "$MD5" ]] && [[ "$MD5" != "$(md5sum "$FILE_PATH" | awk '{ print $1 }')" ]]; then
+                        rm -rf "$FILE_PATH"
+                else
+                        break 1
+                fi
+                
+        else
+        
+        [[ "$TOOLS" == "curl" ]] && curl -o "$FILE_PATH" "$URL"
+        
+        [[ "$TOOLS" == "axel" ]] && axel -n 10 -o "$DIR" "$URL"
+        
+        [[ "$TOOLS" == "wget" ]] && wget -c -P "$DIR" "$URL"
+        
+        fi
+done
+
+if [[ "$NUM" == "10" ]]; then
+        echo_error "Error: ${FILE} download failed"
+fi
+
+if ( echo "$FILE" | grep "\.iso$" &> /dev/null ); then
+        mkdir -p ${DIR}/ISO
+        umount ${DIR}/ISO &> /dev/null || true
+        mount -o loop "$FILE_PATH" ${DIR}/ISO
+        sleep 3
+fi
 ############################################################
 #
 #       8.结束语
