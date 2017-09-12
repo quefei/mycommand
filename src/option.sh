@@ -230,16 +230,21 @@ short_argument()
 {
         local NUM=
         local OPTION=
+        local SHORT_ARGUMENT=
         
         for (( NUM=1; NUM < $#; NUM++ )); do
                 OPTION=$(back_option "$NUM" "$@")
                 
                 if [[ "$OPTION" == "$1" ]] \
                 && [[ "$(( NUM-1 ))" > "$COMMAND_ARGUMENT_NUMBER" ]]; then
-                        back_option "$(( NUM-1 ))" "$@"
+                        SHORT_ARGUMENT=$(back_option "$(( NUM-1 ))" "$@")
                         break 1
                 fi
         done
+        
+        if ( ! echo "$SHORT_ARGUMENT" | grep "^-" &> /dev/null ); then
+                echo "$SHORT_ARGUMENT"
+        fi
 }
 
 
