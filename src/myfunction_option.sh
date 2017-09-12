@@ -269,3 +269,44 @@ long_argument()
                 fi
         done
 }
+
+
+############################################################
+#
+#       获取倒数第几个指令参数
+#
+############################################################
+command_argument()
+{
+        local NUM=
+        local OPTION=
+        
+        for (( NUM=1; NUM < $#; NUM++ )); do
+                OPTION=$(back_option "$NUM" "$@")
+                
+                if ( echo "$OPTION" | grep "^-" &> /dev/null ); then
+                        break 1
+                fi
+                
+                if [[ "$NUM" == "$1" ]]; then
+                        echo "$OPTION"
+                        break 1
+                fi
+        done
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
