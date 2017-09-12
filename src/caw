@@ -94,6 +94,28 @@ else
         :
 fi
 
+# 获取 HOLD_REMOVE
+  if ( echo "$ALL_LONG_OPTION" | grep "^--hold$" &> /dev/null ); then
+        HOLD_REMOVE="hold"
+elif ( echo "$ALL_SHORT_OPTION" | grep "^-h$" &> /dev/null ); then
+        HOLD_REMOVE="hold"
+else
+        :
+fi
+
+# 获取 TOOLS
+  if ( echo "$ALL_LONG_OPTION" | grep "^--axel$" &> /dev/null ); then
+        TOOLS="axel"
+elif ( echo "$ALL_SHORT_OPTION" | grep "^-a$" &> /dev/null ); then
+        TOOLS="axel"
+elif ( echo "$ALL_LONG_OPTION" | grep "^--wget$" &> /dev/null ); then
+        TOOLS="wget"
+elif ( echo "$ALL_SHORT_OPTION" | grep "^-w$" &> /dev/null ); then
+        TOOLS="wget"
+else
+        :
+fi
+
 ############################################################
 #
 #       4.次要函数
@@ -117,7 +139,12 @@ fi
 #       7.主要操作
 #
 ############################################################
-
+echo "$URL"
+echo "$FILE"
+echo "$MD5"
+echo "$DIR"
+echo "$HOLD_REMOVE"
+echo "$TOOLS"
 ############################################################
 #
 #       8.结束语
