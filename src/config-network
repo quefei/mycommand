@@ -132,6 +132,10 @@ for CONFIG_FILE in ${CONFIG_FILE_LIST}; do
         
 done
 
+#
+echo "ip addr: ${OLD_IPADDR} => ${NEW_IPADDR}"
+echo "gateway: ${OLD_GATEWAY} => ${NEW_GATEWAY}"
+
 ############################################################
 #
 #       8.结束语
