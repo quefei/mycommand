@@ -87,6 +87,20 @@ CONFIG_FILE_LIST="${LOCK}
 #       7.主要操作
 #
 ############################################################
+#
+if [[ ! -s "$LOCK" ]]; then
+        echo "OLD_IPADDR=192.168.1.5" > "$LOCK"
+        echo "OLD_GATEWAY=192.168.1.1" >> "$LOCK"
+        echo "OLD_LAN=192.168.1" >> "$LOCK"
+fi
+
+#
+. "$LOCK"
+
+#
+echo "$OLD_IPADDR"
+echo "$OLD_GATEWAY"
+echo "$OLD_LAN"
 
 ############################################################
 #
