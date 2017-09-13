@@ -59,6 +59,34 @@ MD5="1d0e91c5c6b54a7ee57ddedbcf04ef2c"
 #       4.次要函数
 #
 ############################################################
+change_ip()
+{
+        # 网关          ###111.111.111.111###
+        local GATEWAY=$(ip -o route | grep "^default" | awk '{ print $3 }')
+        local GATEWAY_TAIL=$(echo "$GATEWAY" | awk -F. '{ print $4 }')
+        
+        # 网段          ###000.000.000###
+        local LAN=$(echo "$GATEWAY" | sed "s/\.${GATEWAY_TAIL}$//g")
+        
+        # IP            ###555.555.555.555###
+        local IPADDR=$(ip -o addr | grep "inet ${LAN}\.[0-9]" | awk '{ print $4 }' | awk -F/ '{ print $1 }')
+        local IPADDR_TAIL=$(echo "$IPADDR" | awk -F. '{ print $4 }')
+        
+        # IP +1         ###666.666.666.666###
+        local IPADDR1="${LAN}.$((IPADDR_TAIL+1))"
+        
+        local CONFIG_FILE=
+        local CONFIG_FILE_PATH=
+        
+        for CONFIG_FILE in "settings" "dhcp.template" "dhcpd.conf" "sample_end.ks"; do
+                CONFIG_FILE_PATH=/root/myfile/${CONFIG_FILE}
+                
+                sed -i "s/###111\.111\.111\.111###/${GATEWAY}/g" ${CONFIG_FILE_PATH}
+                sed -i "s/###000\.000\.000###/${LAN}/g"          ${CONFIG_FILE_PATH}
+                sed -i "s/###555\.555\.555\.555###/${IPADDR}/g"  ${CONFIG_FILE_PATH}
+                sed -i "s/###666\.666\.666\.666###/${IPADDR1}/g" ${CONFIG_FILE_PATH}
+        done
+}
 
 ############################################################
 #
@@ -144,6 +172,9 @@ download "$ROOT_DIR" "" ""       ${ROOT_COMMAND}
 download "$FILE_DIR" "" "myfile" ${ROOT_FILE}
 
 #download "$FILE_DIR" "" "myfile" ${USR_FILE}
+
+#
+change_ip
 
 #
 for EXCEPT_FILE in ${EXCEPT_FILE_LIST}; do
