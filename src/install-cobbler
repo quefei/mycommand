@@ -57,6 +57,7 @@ CONFIG_FILE_LIST="/etc/xinetd.d/tftp
                   /etc/cobbler/pxe/pxedefault.template
                   /etc/cobbler/pxe/pxeprofile.template
                   /etc/dhcp/dhcpd.conf
+                  /var/lib/cobbler/kickstarts/sample_end.ks
                  "
 
 ############################################################
@@ -166,6 +167,9 @@ done
 
 systemctl restart cobblerd
 sleep 3
+
+#
+umount ${CENTOS_DIR}/ISO &> /dev/null || true
 
 #
 
