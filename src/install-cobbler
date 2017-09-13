@@ -112,7 +112,7 @@ fi
 #
 for (( NUM=0; NUM < 5; NUM++ )); do
         yum -y install dhcp tftp-server syslinux httpd xinetd cobbler pykickstart cobbler-web fence-agents \
-        rsync wget axel ntpdate vim-enhanced
+        rsync wget axel ntpdate vim-enhanced net-tools
 done
 
 #
