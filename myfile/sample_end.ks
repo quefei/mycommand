@@ -9,7 +9,7 @@ network --bootproto=static --onboot=on --ip=192.168.1.6 --netmask=255.255.255.0 
 #network --hostname=localhost.localdomain
 network --hostname=laravel
 services --disabled="chronyd"
-timezone Asia/Shanghai --isUtc --nontp
+timezone Asia/Shanghai --nontp
 rootpw --iscrypted $6$xAOdDuvJJSLtMxiC$ycQ/Kur8atuCcq3TDMJUs2I/MFHItv0iVTmx8Di.jHsUc3yIaXbeSOh0QjR1On77Uq8V5qSC6x2md59TbFZ0d1
 user --groups=wheel --name=quenong --password=$6$Qki9FK8NxZPriJpc$w6Pm3IzXfSvFVctkDKauiCvMV1U3eMtgKe8H3kmbMNqy5S1NH43YZ7fnEfDTc3BxpI/SnF7locLxcebjQiYnl1 --iscrypted --gecos="quenong"
 bootloader --append=" crashkernel=auto" --location=mbr
