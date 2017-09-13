@@ -240,23 +240,36 @@ check_command()
 ############################################################
 ip_addr()
 {
-        local DEVICE_LIST=$(find /etc/sysconfig/network-scripts -name "ifcfg-enp*" -type f | xargs)
-        local DEVICE=
+        # 网关
+        local GATEWAY=$(ip -o route | grep "^default" | awk '{ print $3 }')
+        local GATEWAY_TAIL=$(echo "$GATEWAY" | awk -F. '{ print $4 }')
         
-        if [[ -z "$DEVICE_LIST" ]]; then
-                echo_error "Error: ifcfg-enp* not found"
+        # 网段
+        local LAN=$(echo "$GATEWAY" | sed "s/\.${GATEWAY_TAIL}$//g")
+        
+        # IP
+        local IPADDR=$(ip -o addr | grep "inet ${LAN}\.[0-9]" | awk '{ print $4 }' | awk -F/ '{ print $1 }')
+        local IPADDR_TAIL=$(echo "$IPADDR" | awk -F. '{ print $4 }')
+        
+        # IP +1
+        local IPADDR1="${LAN}.$((IPADDR_TAIL+1))"
+        
+        # IP -1
+        local IPADDR_1="${LAN}.$((IPADDR_TAIL-1))"
+        
+          if [[ "$1" == "gw" ]]; then
+                echo "$GATEWAY"
+        elif [[ "$1" == "lan" ]]; then
+                echo "$LAN"
+        elif [[ "$1" == "ip" ]]; then
+                echo "$IPADDR"
+        elif [[ "$1" == "ip1" ]]; then
+                echo "$IPADDR1"
+        elif [[ "$1" == "ip_1" ]]; then
+                echo "$IPADDR_1"
+        else
+                echo "$IPADDR"
         fi
-        
-        for DEVICE in ${DEVICE_LIST}; do
-                break 1
-        done
-        
-        if ( ! grep "^IPADDR=" "$DEVICE" &> /dev/null ); then
-                echo_error "Error: ipaddr not found"
-        fi
-        
-        # 删除 双引号、单引号、空格、制表符
-        grep "^IPADDR=" "$DEVICE" | awk -F= '{ print $2 }' | sed "s/[\\\"' \t]//g"
 }
 
 
