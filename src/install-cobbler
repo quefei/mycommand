@@ -44,6 +44,9 @@ fi
 #
 ############################################################
 CENTOS_ISO="CentOS-7-x86_64-Minimal-1611.iso"
+CENTOS_URL="http://mirrors.aliyun.com/centos/7/isos/x86_64/${CENTOS_ISO}"
+CENTOS_MD5="d2ec6cfa7cf6d89e484aa2d9f830517c"
+CENTOS_DIR="/var/www/html"
 SERVICE_LIST="cobblerd rsyncd httpd xinetd tftp"
 
 CONFIG_FILE_LIST="/etc/xinetd.d/tftp
@@ -147,9 +150,9 @@ systemctl restart cobblerd
 sleep 3
 
 #
-if [[ ! -f "/var/www/html/${CENTOS_ISO}" ]]; then
-        axel -n 10 -o /var/www/html http://mirrors.aliyun.com/centos/7/isos/x86_64/${CENTOS_ISO}
-fi
+caw -ah -d ${CENTOS_DIR} -m ${CENTOS_MD5} ${CENTOS_URL}
+
+#
 
 ############################################################
 #
