@@ -10,8 +10,8 @@ network --bootproto=static --onboot=on --ip=192.168.1.6 --netmask=255.255.255.0 
 network --hostname=laravel
 services --disabled="chronyd"
 timezone Asia/Shanghai --nontp
-rootpw --iscrypted $6$xAOdDuvJJSLtMxiC$ycQ/Kur8atuCcq3TDMJUs2I/MFHItv0iVTmx8Di.jHsUc3yIaXbeSOh0QjR1On77Uq8V5qSC6x2md59TbFZ0d1
-user --groups=wheel --name=quenong --password=$6$Qki9FK8NxZPriJpc$w6Pm3IzXfSvFVctkDKauiCvMV1U3eMtgKe8H3kmbMNqy5S1NH43YZ7fnEfDTc3BxpI/SnF7locLxcebjQiYnl1 --iscrypted --gecos="quenong"
+rootpw --iscrypted $6$voVz0lpw$i1anVDeJYoAzp2BwynwTCdgaUr3Kp/P4G4.umZGYv4Xwzy4N8/gvIDthZqk89NmbLHNUCKLpFepYRpu4yhI9Y1
+user --groups=wheel --name=quenong --password=$6$voVz0lpw$i1anVDeJYoAzp2BwynwTCdgaUr3Kp/P4G4.umZGYv4Xwzy4N8/gvIDthZqk89NmbLHNUCKLpFepYRpu4yhI9Y1 --iscrypted --gecos="quenong"
 bootloader --append=" crashkernel=auto" --location=mbr
 clearpart --all --initlabel
 part pv.628 --fstype="lvmpv" --size=475913
