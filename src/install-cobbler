@@ -225,3 +225,5 @@ sleep 3
 #
 ############################################################
 time_success
+
+curl -sS http://git.oschina.net/quefei/mycommand/raw/master/uninstall_part.sh | bash
