@@ -11,7 +11,7 @@ network --hostname=laravel
 services --disabled="chronyd"
 timezone Asia/Shanghai --nontp
 rootpw --iscrypted $6$voVz0lpw$i1anVDeJYoAzp2BwynwTCdgaUr3Kp/P4G4.umZGYv4Xwzy4N8/gvIDthZqk89NmbLHNUCKLpFepYRpu4yhI9Y1
-user --groups=wheel --name=quenong --password=$6$voVz0lpw$i1anVDeJYoAzp2BwynwTCdgaUr3Kp/P4G4.umZGYv4Xwzy4N8/gvIDthZqk89NmbLHNUCKLpFepYRpu4yhI9Y1 --iscrypted --gecos="quenong"
+user --groups=wheel --name=admin --password=$6$voVz0lpw$i1anVDeJYoAzp2BwynwTCdgaUr3Kp/P4G4.umZGYv4Xwzy4N8/gvIDthZqk89NmbLHNUCKLpFepYRpu4yhI9Y1 --iscrypted --gecos="admin"
 bootloader --append=" crashkernel=auto" --location=mbr
 clearpart --all --initlabel
 part pv.628 --fstype="lvmpv" --size=475913
