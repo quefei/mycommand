@@ -159,6 +159,16 @@ if [[ ! -d "/var/www/cobbler/ks_mirror/${CENTOS_NAME}-${CENTOS_ARCH}" ]]; then
         cobbler import --path=${CENTOS_DIR}/ISO --name=${CENTOS_NAME} --arch=${CENTOS_ARCH}
 fi
 
+#
+for (( NUM=0; NUM < 5; NUM++ )); do
+        cobbler sync || true
+done
+
+systemctl restart cobblerd
+sleep 3
+
+#
+
 ############################################################
 #
 #       8.结束语
