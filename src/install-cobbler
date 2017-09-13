@@ -97,6 +97,11 @@ if [[ -x "/etc/init.d/nginx" ]]; then
 fi
 
 #
+if [[ ! -f "/etc/yum.repos.d/epel.repo" ]] && [[ -s "/root/myfile/epel.repo" ]]; then
+        mv /root/myfile/epel.repo /etc/yum.repos.d/epel.repo
+fi
+
+#
 for (( NUM=0; NUM < 5; NUM++ )); do
         yum -y install dhcp tftp-server syslinux httpd xinetd cobbler pykickstart cobbler-web fence-agents \
         rsync wget axel
