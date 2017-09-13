@@ -44,6 +44,7 @@ fi
 #
 ############################################################
 LOCK="/root/.network.lock"
+CONF="/root/network.conf"
 DEVICE_LIST=$(find /etc/sysconfig/network-scripts -name "ifcfg-enp*" -type f | xargs)
 CONFIG_FILE_LIST="${LOCK}
                   ${DEVICE_LIST}
@@ -94,13 +95,42 @@ if [[ ! -s "$LOCK" ]]; then
         echo "OLD_LAN=192.168.1" >> "$LOCK"
 fi
 
-#
 . "$LOCK"
 
 #
-echo "$OLD_IPADDR"
-echo "$OLD_GATEWAY"
-echo "$OLD_LAN"
+if [[ ! -s "$CONF" ]]; then
+        echo "NEW_IPADDR=" > "$CONF"
+        echo "NEW_GATEWAY=" >> "$CONF"
+        echo_error "Error: Setting the ip and gateway in ${CONF}"
+fi
+
+while read LINE; do
+        
+        if ( ! echo "$LINE" | grep "=10\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*$" &> /dev/null ) \
+        && ( ! echo "$LINE" | grep "=172\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*$" &> /dev/null ) \
+        && ( ! echo "$LINE" | grep "=192\.[0-9][0-9]*\.[0-9][0-9]*\.[0-9][0-9]*$" &> /dev/null ) \
+        && [[ -n "$LINE" ]]; then
+                
+                echo_error "Error: Setting the ip and gateway in ${CONF}"
+        fi
+        
+done < ${CONF}
+
+. ${CONF}
+
+#
+NEW_LAN=$(echo "$NEW_GATEWAY" | sed "s/\.[0-9][0-9]*$//g")
+
+#
+for CONFIG_FILE in ${CONFIG_FILE_LIST}; do
+        
+        if [[ -s "$CONFIG_FILE" ]]; then
+                sed -i "s/${OLD_IPADDR}/${NEW_IPADDR}/g" ${CONFIG_FILE}
+                sed -i "s/${OLD_GATEWAY}/${NEW_GATEWAY}/g" ${CONFIG_FILE}
+                sed -i "s/${OLD_LAN}/${NEW_LAN}/g" ${CONFIG_FILE}
+        fi
+        
+done
 
 ############################################################
 #
