@@ -43,8 +43,10 @@ fi
 #       2.全局变量
 #
 ############################################################
+LOCK="/root/.network.lock"
 DEVICE_LIST=$(find /etc/sysconfig/network-scripts -name "ifcfg-enp*" -type f | xargs)
-CONFIG_FILE_LIST="${DEVICE_LIST}
+CONFIG_FILE_LIST="${LOCK}
+                  ${DEVICE_LIST}
                   /etc/hosts
                   /root/myfile/settings
                   /root/myfile/dhcp.template
