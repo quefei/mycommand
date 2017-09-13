@@ -47,6 +47,8 @@ CENTOS_ISO="CentOS-7-x86_64-Minimal-1611.iso"
 CENTOS_URL="http://mirrors.aliyun.com/centos/7/isos/x86_64/${CENTOS_ISO}"
 CENTOS_MD5="d2ec6cfa7cf6d89e484aa2d9f830517c"
 CENTOS_DIR="/var/www/html"
+CENTOS_NAME=""
+CENTOS_ARCH="x86_64"
 SERVICE_LIST="cobblerd rsyncd httpd xinetd tftp"
 
 CONFIG_FILE_LIST="/etc/xinetd.d/tftp
@@ -153,6 +155,9 @@ sleep 3
 caw -ah -d ${CENTOS_DIR} -m ${CENTOS_MD5} ${CENTOS_URL}
 
 #
+if [[ ! -d "/var/www/cobbler/ks_mirror/${CENTOS_NAME}-${CENTOS_ARCH}" ]]; then
+        cobbler import --path=${CENTOS_DIR}/ISO --name=${CENTOS_NAME} --arch=${CENTOS_ARCH}
+fi
 
 ############################################################
 #
