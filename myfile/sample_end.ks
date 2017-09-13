@@ -6,7 +6,8 @@ keyboard --vckeymap=us --xlayouts='us' --switch='grp:ctrl_shift_toggle'
 lang en_US.UTF-8 --addsupport=zh_CN.UTF-8
 #network --bootproto=dhcp --onboot=on
 network --bootproto=static --onboot=on --ip=192.168.1.6 --netmask=255.255.255.0 --gateway=192.168.1.1 --nameserver=202.103.225.68
-network --hostname=zhongzi
+#network --hostname=localhost.localdomain
+network --hostname=laravel
 services --disabled="chronyd"
 timezone Asia/Shanghai --isUtc --nontp
 rootpw --iscrypted $6$xAOdDuvJJSLtMxiC$ycQ/Kur8atuCcq3TDMJUs2I/MFHItv0iVTmx8Di.jHsUc3yIaXbeSOh0QjR1On77Uq8V5qSC6x2md59TbFZ0d1
