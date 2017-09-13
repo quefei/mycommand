@@ -37,9 +37,9 @@ fi
 #       2.全局变量
 #
 ############################################################
-FILE_LIST="myfunction.sh option.sh backup-centos backup-mysql backup-policy config-network \
-           caw \
-           .mysql.conf \
+FILE_LIST="myfunction.sh option.sh backup-centos backup-mysql backup-policy
+           caw
+           .mysql.conf
           "
 
 DIR_LIST=" /usr/local/bin /root"
