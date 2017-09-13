@@ -4,7 +4,8 @@ url --url="http://192.168.1.5/cobbler/ks_mirror/CentOS-7.3-x86_64/"
 text
 keyboard --vckeymap=us --xlayouts='us' --switch='grp:ctrl_shift_toggle'
 lang en_US.UTF-8 --addsupport=zh_CN.UTF-8
-network --bootproto=dhcp --onboot=on
+#network --bootproto=dhcp --onboot=on
+network --bootproto=static --onboot=on --ip=192.168.1.6 --netmask=255.255.255.0 --gateway=192.168.1.1 --nameserver=202.103.225.68
 network --hostname=zhongzi
 services --disabled="chronyd"
 timezone Asia/Shanghai --isUtc --nontp
