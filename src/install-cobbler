@@ -90,6 +90,14 @@ CONFIG_FILE_LIST="/etc/xinetd.d/tftp
 #
 ############################################################
 #
+if ( sestatus -v | grep "SELinux status: *enabled" &> /dev/null ); then
+        setenforce 0
+        
+        sed -i "s/^SELINUX=enforcing/SELINUX=disabled/g"  /etc/selinux/config
+        sed -i "s/^SELINUX=permissive/SELINUX=disabled/g" /etc/selinux/config
+fi
+
+#
 if [[ -x "/etc/init.d/nginx" ]]; then
         /etc/init.d/nginx stop || true
         chmod 644 /etc/init.d/nginx
@@ -104,7 +112,17 @@ fi
 #
 for (( NUM=0; NUM < 5; NUM++ )); do
         yum -y install dhcp tftp-server syslinux httpd xinetd cobbler pykickstart cobbler-web fence-agents \
-        rsync wget axel
+        rsync wget axel ntpdate vim-enhanced
+done
+
+#
+adjust_time
+hwclock -w
+
+#
+for SERVICE in "postfix"; do
+        systemctl stop    ${SERVICE} || true
+        systemctl disable ${SERVICE} || true
 done
 
 #
