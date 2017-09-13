@@ -84,7 +84,7 @@ NM_CONTROLLED=no
 DEVICE=enp0s7
 BOOTPROTO=static
 ONBOOT=yes
-IPADDR=192.168.1.8
+IPADDR=192.168.1.2
 PREFIX=24
 GATEWAY=192.168.1.1
 DNS1=202.103.225.68
@@ -94,7 +94,8 @@ EOF
 systemctl stop NetworkManager
 systemctl disable NetworkManager
 
-shutdown -r +1
+#shutdown -r +1
+shutdown -r now
 
 ############################################################
 #
