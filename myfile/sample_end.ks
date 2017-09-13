@@ -1,6 +1,5 @@
 auth --enableshadow --passalgo=sha512
-#url --url=$tree
-url --url="http://192.168.1.5/cobbler/ks_mirror/Zhongzi-x86_64/"
+url --url="http://192.168.1.5/cobbler/ks_mirror/CentOS-7.3-x86_64/"
 #graphical
 text
 keyboard --vckeymap=us --xlayouts='us' --switch='grp:ctrl_shift_toggle'
