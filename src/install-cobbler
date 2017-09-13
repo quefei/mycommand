@@ -172,7 +172,23 @@ sleep 3
 umount ${CENTOS_DIR}/ISO &> /dev/null || true
 
 #
+systemctl restart firewalld
+sleep 3
 
+for SERVICE in "http" "https" "dhcp" "tftp"; do
+        
+        if ( ! firewall-cmd --list-services | grep "$SERVICE" &> /dev/null ); then
+                firewall-cmd --add-service=${SERVICE} --permanent
+        fi
+        
+done
+
+if ( ! firewall-cmd --list-port | grep 25151 &> /dev/null ); then
+        firewall-cmd --zone=public --add-port=25151/tcp --permanent
+fi
+
+systemctl restart firewalld
+sleep 3
 
 ############################################################
 #
