@@ -47,7 +47,7 @@ CENTOS_ISO="CentOS-7-x86_64-Minimal-1611.iso"
 CENTOS_URL="http://mirrors.aliyun.com/centos/7/isos/x86_64/${CENTOS_ISO}"
 CENTOS_MD5="d2ec6cfa7cf6d89e484aa2d9f830517c"
 CENTOS_DIR="/var/www/html"
-CENTOS_NAME=""
+CENTOS_NAME="CentOS-7.3"
 CENTOS_ARCH="x86_64"
 SERVICE_LIST="cobblerd rsyncd httpd xinetd tftp"
 
@@ -113,6 +113,12 @@ for SERVICE in ${SERVICE_LIST}; do
         systemctl enable  ${SERVICE}
         sleep 3
 done
+
+if ( ! grep "systemctl restart tftp" /etc/rc.d/rc.local &> /dev/null ); then
+        echo "systemctl restart tftp" >> /etc/rc.d/rc.local
+fi
+
+chmod 755 /etc/rc.d/rc.local
 
 #
 for (( NUM=0; NUM < 5; NUM++ )); do
