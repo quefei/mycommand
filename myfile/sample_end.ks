@@ -38,6 +38,14 @@ kexec-tools
 %end
 
 %post
+cat > /usr/local/bin/GitHub.com <<-"EOF"
+#!/bin/bash
+
+curl -sS http://git.oschina.net/quefei/mycommand/raw/master/install.sh | bash
+
+EOF
+
+chmod 755 /usr/local/bin/GitHub.com
 %end
 
 %addon com_redhat_kdump --enable --reserve-mb='auto'
