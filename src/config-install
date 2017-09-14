@@ -91,6 +91,8 @@ install-nodejs
 
 install-laravel
 
+config-laravel
+
 if [[ ! -s "/root/.selinux.status" ]] || ( ! grep "enabled" /root/.selinux.status &> /dev/null ); then
         backup-policy init
 else
