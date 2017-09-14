@@ -38,7 +38,7 @@ fi
 #
 ############################################################
 FILE_LIST="myfunction.sh option.sh backup-centos backup-mysql backup-policy
-           caw
+           GitHub.com caw
            .mysql.conf
           "
 
