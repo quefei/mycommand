@@ -91,6 +91,17 @@ install-nodejs
 
 install-laravel
 
+if [[ ! -s "/root/.selinux.status" ]] || ( ! grep "enabled" /root/.selinux.status &> /dev/null ); then
+        backup-policy init
+else
+        echo ""
+        echo_color "run command:  (1) reboot" "35"
+        echo_color "              (2) backup-policy init" "35"
+        echo ""
+        
+        rm -rf /root/.selinux.status
+fi
+
 ############################################################
 #
 #       8.结束语
