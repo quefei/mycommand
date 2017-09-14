@@ -83,6 +83,10 @@ config-centos
 
 install-lnmp
 
+if [[ ! -s "/root/.selinux.status" ]] || ( ! grep "enabled" /root/.selinux.status &> /dev/null ); then
+        backup-policy init
+fi
+
 install-nodejs
 
 install-laravel
