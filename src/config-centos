@@ -94,6 +94,8 @@ if ( sestatus -v | grep "SELinux status: *enabled" &> /dev/null ); then
         
         sed -i "s/^SELINUX=enforcing/SELINUX=disabled/g"  /etc/selinux/config
         sed -i "s/^SELINUX=permissive/SELINUX=disabled/g" /etc/selinux/config
+        
+        echo "enabled" > /root/.selinux.status
 fi
 
 #
