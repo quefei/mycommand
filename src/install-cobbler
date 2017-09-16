@@ -43,13 +43,13 @@ fi
 #       2.全局变量
 #
 ############################################################
-CENTOS_ISO="CentOS-7-x86_64-Minimal-1611.iso"
+CENTOS_ISO="CentOS-7-x86_64-Minimal-1708.iso"
 CENTOS_URL="http://mirrors.aliyun.com/centos/7/isos/x86_64/${CENTOS_ISO}"
 IPADDR_1=$(ip_addr "ip_1")
 CENTOS_URL_LOCAL="http://${IPADDR_1}/${CENTOS_ISO}"
-CENTOS_MD5="d2ec6cfa7cf6d89e484aa2d9f830517c"
+CENTOS_MD5="5848f2fd31c7acf3811ad88eaca6f4aa"
 CENTOS_DIR="/var/www/html"
-CENTOS_NAME="CentOS-7.3"
+CENTOS_NAME="CentOS-7.4"
 CENTOS_ARCH="x86_64"
 SERVICE_LIST="cobblerd rsyncd httpd xinetd tftp"
 
