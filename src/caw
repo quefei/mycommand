@@ -38,6 +38,7 @@ fi
 # 定义指令参数的个数
 COMMAND_ARGUMENT_NUMBER="1"
 
+# 全局变量
 URL=$(command_argument1 "$@")
 FILE=
 MD5=
