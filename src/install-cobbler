@@ -67,28 +67,28 @@ if [[ -x "/etc/init.d/nginx" ]]; then
         echo_warning "Warning: /etc/init.d/nginx is disabled"
 fi
 
-#
+# EPEL 源
 if [[ ! -f "/etc/yum.repos.d/epel.repo" ]] && [[ -s "/root/myfile/epel.repo" ]]; then
         mv /root/myfile/epel.repo /etc/yum.repos.d/epel.repo
 fi
 
-#
+# 安装软件
 for (( NUM=0; NUM < 5; NUM++ )); do
         yum -y install dhcp tftp-server syslinux httpd xinetd cobbler pykickstart cobbler-web fence-agents \
         rsync wget axel ntpdate vim-enhanced net-tools
 done
 
-#
+# 同步时间并写入 BIOS
 adjust_time
 hwclock -w
 
-#
+# 禁用服务
 for SERVICE in "postfix"; do
         systemctl stop    ${SERVICE} || true
         systemctl disable ${SERVICE} || true
 done
 
-#
+# 启动服务
 for SERVICE in ${SERVICE_LIST}; do
         systemctl restart ${SERVICE}
         systemctl enable  ${SERVICE}
