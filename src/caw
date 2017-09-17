@@ -119,12 +119,15 @@ for COMMAND in "axel" "wget" "curl"; do
         
 done
 
+# 文件路径
 FILE_PATH="${DIR}/${FILE}"
 
+# 删除文件
 if [[ -f "$FILE_PATH" ]] && [[ "$HOLD_REMOVE" == "remove" ]]; then
         rm -rf "$FILE_PATH"
 fi
 
+# 下载文件并检测 MD5
 for (( NUM=0; NUM < 10; NUM++ )); do
         if [[ -s "$FILE_PATH" ]]; then
                 
@@ -145,10 +148,12 @@ for (( NUM=0; NUM < 10; NUM++ )); do
         fi
 done
 
+# 下载失败
 if [[ "$NUM" == "10" ]]; then
         echo_error "Error: ${FILE} download failed"
 fi
 
+# 挂载 ISO
 if ( echo "$FILE" | grep "\.iso$" &> /dev/null ); then
         mkdir -p ${DIR}/ISO
         umount ${DIR}/ISO &> /dev/null || true
