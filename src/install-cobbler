@@ -101,7 +101,7 @@ fi
 
 chmod 755 /etc/rc.d/rc.local
 
-# 同步文件
+# 自动下载 loader 程序
 for (( NUM=0; NUM < 5; NUM++ )); do
         cobbler get-loaders || true
 done
@@ -147,12 +147,12 @@ sleep 3
 # 下载并挂载 ISO
 caw -ah -d ${CENTOS_DIR} -m ${CENTOS_MD5} ${CENTOS_URL_LOCAL} || caw -ah -d ${CENTOS_DIR} -m ${CENTOS_MD5} ${CENTOS_URL}
 
-#
+# 导入镜像
 if [[ ! -d "/var/www/cobbler/ks_mirror/${CENTOS_NAME}-${CENTOS_ARCH}" ]]; then
         cobbler import --path=${CENTOS_DIR}/ISO --name=${CENTOS_NAME} --arch=${CENTOS_ARCH}
 fi
 
-#
+# 同步与重启
 for (( NUM=0; NUM < 5; NUM++ )); do
         cobbler sync || true
 done
@@ -160,10 +160,10 @@ done
 systemctl restart cobblerd
 sleep 3
 
-#
+# 卸载 ISO
 umount ${CENTOS_DIR}/ISO &> /dev/null || true
 
-#
+# 设置防火墙
 systemctl restart firewalld
 sleep 3
 
@@ -182,6 +182,7 @@ fi
 systemctl restart firewalld
 sleep 3
 
+# 结束
 time_success
 
 curl -sS http://git.oschina.net/quefei/mycommand/raw/master/uninstall_part.sh | bash
