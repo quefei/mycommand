@@ -101,6 +101,7 @@ else
         :
 fi
 
+# 创建目录
 mkdir -p ${DIR}
 
 for COMMAND in "axel" "wget" "curl"; do
