@@ -52,7 +52,7 @@ CONFIG_FILE_LIST="/etc/xinetd.d/tftp
                   /var/lib/cobbler/kickstarts/sample_end.ks
                  "
 
-#
+# 禁用 SELinux
 if ( sestatus -v | grep "SELinux status: *enabled" &> /dev/null ); then
         setenforce 0
         
