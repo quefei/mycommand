@@ -104,6 +104,7 @@ fi
 # 创建目录
 mkdir -p ${DIR}
 
+# 安装工具
 for COMMAND in "axel" "wget" "curl"; do
         
         if ( ! type -p ${COMMAND} &> /dev/null ); then
