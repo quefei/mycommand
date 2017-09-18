@@ -27,7 +27,7 @@ if [[ "$(id -u)" != "0" ]]; then
 fi
 
 # 全局变量
-FILE_LIST="install-cobbler
+FILE_LIST="install-cobbler test-command
            epel.repo
            tftp settings dhcp.template pxedefault.template pxeprofile.template dhcpd.conf sample_end.ks
            
