@@ -86,11 +86,15 @@ hwclock -w
 #
 yum -y update && yum -y upgrade
 
-# 禁用 Apache，80 端口冲突
-for SERVICE in "postfix" "httpd"; do
+# 禁用服务
+for SERVICE in "postfix"; do
         systemctl stop    ${SERVICE} || true
         systemctl disable ${SERVICE} || true
 done
+
+# 禁用 Apache，80 端口冲突
+systemctl stop httpd || true
+systemctl disable httpd &> /dev/null && echo_warning "Warning: httpd is disabled" || true
 
 # 设置防火墙
 systemctl restart firewalld
