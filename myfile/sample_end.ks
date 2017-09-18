@@ -66,9 +66,7 @@ kexec-tools
 %post
 systemctl disable postfix.service
 
-
-curl -sSo /usr/local/bin/quenong https://raw.githubusercontent.com/quefei/quenong/master/src/quenong
-chmod 755 /usr/local/bin/quenong
+curl -sS https://raw.githubusercontent.com/quefei/quenong/master/install.sh | bash
 %end
 
 
