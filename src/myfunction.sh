@@ -275,22 +275,6 @@ ip_addr()
 
 ############################################################
 #
-#       设置 MySQL root 的密码
-#
-############################################################
-mysql_root()
-{
-        local MYSQL_USER="root"
-        read_for "mysql ${MYSQL_USER} password: " "" "37"
-        local MYSQL_PASSWORD="$READ_FOR_VAR"
-        
-        echo "MYSQL_USER=${MYSQL_USER}" > "$MYSQL_CONF"
-        echo "MYSQL_PASSWORD=${MYSQL_PASSWORD}" >> "$MYSQL_CONF"
-}
-
-
-############################################################
-#
 #       设置 MySQL 用户与密码
 #
 ############################################################
@@ -316,9 +300,10 @@ mysql_check()
         if [[ -s "$MYSQL_CONF" ]]; then
                 . "$MYSQL_CONF"
         else
-                echo "MYSQL_USER=root" > "$MYSQL_CONF"
+                echo "MYSQL_USER=" > "$MYSQL_CONF"
                 echo "MYSQL_PASSWORD=" >> "$MYSQL_CONF"
-                echo_error "Error: Setting the user and password in ${MYSQL_CONF}"
+                echo "MYSQL_DATABASE=" >> "$MYSQL_CONF"
+                echo_error "Error: Setting the user, password, database in ${MYSQL_CONF}"
         fi
         
         if [[ -z "$MYSQL_USER" ]]; then
@@ -327,6 +312,10 @@ mysql_check()
         
         if [[ -z "$MYSQL_PASSWORD" ]]; then
                 echo_error "Error: Setting the password in ${MYSQL_CONF}"
+        fi
+        
+        if [[ -z "$MYSQL_DATABASE" ]]; then
+                echo_error "Error: Setting the database in ${MYSQL_CONF}"
         fi
 }
 
