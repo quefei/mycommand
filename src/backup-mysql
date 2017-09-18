@@ -1,0 +1,409 @@
+#!/bin/bash
+
+export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+############################################################
+#
+#       1.位置参量
+#
+############################################################
+ARGUMENT1="$1"
+ARGUMENT2="$2"
+ARGUMENT3="$3"
+
+set -eu
+#set -x
+
+echo_color()
+{
+        echo -e "\e[1m\e[40;$2m$1\e[0m"
+}
+
+echo_error()
+{
+        echo_color "$1" "31"
+        exit 1
+}
+
+echo_warning()
+{
+        echo_color "$1" "33"
+        sleep 5
+}
+
+if [[ "$(id -u)" != "0" ]]; then
+        echo_error "Error: must run with root"
+fi
+
+if [[ -s "/usr/local/bin/myfunction.sh" ]]; then
+        . /usr/local/bin/myfunction.sh
+else
+        echo_error "Error: myfunction.sh not found"
+fi
+
+############################################################
+#
+#       2.全局变量
+#
+############################################################
+BACKUP_ROOT="/backup"
+MYSQL_ROOT="/usr/local/mysql"
+MYSQL_DATA="var"
+COMMAND_LIST="mysql mysqld mysqldump mysqlbinlog mysqladmin"
+
+############################################################
+#
+#       3.初始化
+#
+############################################################
+# 创建目录
+mkdir -p ${BACKUP_ROOT}/{"mysql-full","mysql-incremental","mysql-binlog","log"}
+
+# 创建文件 .except.binlog
+touch ${BACKUP_ROOT}/mysql-binlog/{".except.binlog","Don't remove the directory"}
+
+# 检测指令是否存在
+for COMMAND in ${COMMAND_LIST}; do
+        if ( ! type -p "$COMMAND" &> /dev/null ) && [[ -x "${MYSQL_ROOT}/bin/${COMMAND}" ]]; then
+                ln -s ${MYSQL_ROOT}/bin/${COMMAND} /usr/local/bin/${COMMAND}
+        fi
+done
+
+# 创建文件 .my.cnf
+mysql_create
+
+# 检测密码是否正确
+echo "mysql password error ..."
+BINLOG_STATUS=$(mysql -e "show variables like 'log_bin'")
+echo "mysql password correct ..."
+
+# 检测二进制日志是否启用
+if ( echo "$BINLOG_STATUS" | grep "log_bin.*OFF" &> /dev/null ); then
+        echo_error "Error: The binary log is disabled"
+fi
+
+############################################################
+#
+#       4.次要函数
+#
+############################################################
+# 查看当前的二进制日志
+show_master()
+{
+        if ( mysql -e "show master status" | grep "\.[0-9]\{6\}" &> /dev/null ); then
+                local CURRENT_BINLOG=$(mysql -e "show master status" | grep "\.[0-9]\{6\}")
+                
+                local BINLOG_FILE=$(echo "$CURRENT_BINLOG" | awk '{ print $1 }')
+                local BINLOG_POSITION=$(echo "$CURRENT_BINLOG" | awk '{ print $2 }')
+                
+                local BINLOG_NUMBER=$(echo "$BINLOG_FILE" | awk -F. '{ print $NF }')
+                local BINLOG_NAME=$(echo "$BINLOG_FILE" | sed "s/\.${BINLOG_NUMBER}$//g")
+        else
+                echo_error "Error: The binary log is empty"
+        fi
+        
+        if [[ "$1" == "file" ]]; then
+                echo "$BINLOG_FILE"
+        elif [[ "$1" == "pos" ]]; then
+                echo "$BINLOG_POSITION"
+        elif [[ "$1" == "name" ]]; then
+                echo "$BINLOG_NAME"
+        elif [[ "$1" == "num" ]]; then
+                echo "$BINLOG_NUMBER"
+        else
+                echo "$CURRENT_BINLOG"
+        fi
+}
+
+# 滚动二进制日志至 000100
+flush_logs()
+{
+        local FLUSH_LOGS=
+        
+        for (( FLUSH_LOGS=0; FLUSH_LOGS < 100; FLUSH_LOGS++ )); do
+                if [[ "$(show_master "num")" < "000100" ]]; then
+                        mysqladmin flush-logs
+                else
+                        break 1
+                fi
+        done
+        
+        local BINLOG_NAME=$(show_master "name")
+        
+        if ( grep "^\.\/${BINLOG_NAME}\.000099$" ${MYSQL_ROOT}/${MYSQL_DATA}/${BINLOG_NAME}.index &> /dev/null ) \
+        && ( grep "^\.\/${BINLOG_NAME}\.000100$" ${MYSQL_ROOT}/${MYSQL_DATA}/${BINLOG_NAME}.index &> /dev/null ); then
+                mysql -e "purge master logs to '${BINLOG_NAME}.000100'"
+        fi
+}
+
+# 创建文件 .mysql.binlog
+save_binlog()
+{
+        local BINLOG_NAME=$(show_master "name")
+        local BINLOG_NUMBER=$(show_master "num")
+        local BINLOG_POSITION=$(show_master "pos")
+        
+        # 内容缩进只可以用制表符，不可以用空格
+cat > ${BACKUP_ROOT}/mysql-binlog/.mysql.binlog <<-EOF
+MYSQL_BINNAME="${BINLOG_NAME}"
+MYSQL_BINNUM="${BINLOG_NUMBER}"
+MYSQL_BINPOS="${BINLOG_POSITION}"
+EOF
+}
+
+############################################################
+#
+#       5.主要函数
+#
+############################################################
+default()
+{
+        echo "backup-mysql: unrecognized option '$1'"
+        
+        echo "Usage: backup-mysql <full|incr> <backup|restore> [list|DATE]"
+        echo ""
+        
+        exit 1
+}
+
+# 完全备份
+full_backup()
+{
+        flush_logs
+        mysqldump --single-transaction --master-data=2 --routines --flush-logs --all-databases \
+        > ${BACKUP_ROOT}/mysql-full/$(date +"%Y-%m-%d-%H%M%S").sql
+        save_binlog
+        
+        if [[ -f "${BACKUP_ROOT}/mysql-binlog/.except.binlog" ]]; then
+                rm -rf ${BACKUP_ROOT}/mysql-binlog/.except.binlog
+        fi
+        
+        sleep 3
+}
+
+# 完全恢复
+full_restore()
+{
+        if [[ -s "${BACKUP_ROOT}/mysql-full/$1.sql" ]]; then
+                mysqladmin flush-logs
+                show_master "num" >> ${BACKUP_ROOT}/mysql-binlog/.except.binlog
+                mysql < ${BACKUP_ROOT}/mysql-full/$1.sql
+                mysqladmin flush-logs
+        else
+                echo_error "Error: full backup does not exist"
+        fi
+        
+        #sleep 3
+}
+
+# 完全恢复列表
+full_restore_list()
+{
+        echo_color "=== mysql full ===" "34"
+        ls_timefile "${BACKUP_ROOT}/mysql-full" "" "\.sql" | awk -F. '{ print $1 }'
+        
+        exit 0
+}
+
+# 增量备份
+incremental_backup()
+{
+        # 获取最后一个完全备份
+        if [[ -z "$(ls_timefile "${BACKUP_ROOT}/mysql-full" "" "\.sql" | tail -n 1)" ]]; then
+                full_backup
+                echo_warning "Warning: No incremental backup, but full backup"
+                return 0
+        fi
+        
+        FULL_BACKUP=$(ls_timefile "${BACKUP_ROOT}/mysql-full" "" "\.sql" | tail -n 1)
+        
+        # 获取 .mysql.binlog 的变量
+        if [[ -s "${BACKUP_ROOT}/mysql-binlog/.mysql.binlog" ]]; then
+                . ${BACKUP_ROOT}/mysql-binlog/.mysql.binlog
+        else
+                echo_error "Error: .mysql.binlog not found"
+        fi
+        
+        # 获取 .except.binlog 的内容
+        if [[ -n "$(cat ${BACKUP_ROOT}/mysql-binlog/.except.binlog | xargs)" ]]; then
+                EXCEPT_BINNUM_LIST=$(cat ${BACKUP_ROOT}/mysql-binlog/.except.binlog | xargs)
+        else
+                EXCEPT_BINNUM_LIST="999999"
+        fi
+        
+        #
+        mysqladmin flush-logs
+        
+        #
+        CURRENT_BINNUM=$(show_master "num")
+        
+        # 获取所有的二进制日志
+        EVERY_BINFILE_LIST=$(cat ${MYSQL_ROOT}/${MYSQL_DATA}/${MYSQL_BINNAME}.index | sed "s/^\.\///g" | xargs)
+        
+        # 操作过 "reset master"
+        if [[ "9${MYSQL_BINNUM}" > "9${CURRENT_BINNUM}" ]]; then
+                full_backup
+                echo_warning "Warning: No incremental backup, but full backup"
+                return 0
+        fi
+        
+        # 进行增量备份
+        for EVERY_BINFILE in ${EVERY_BINFILE_LIST}; do
+                
+                EVERY_BINFILE_PATH=${MYSQL_ROOT}/${MYSQL_DATA}/${EVERY_BINFILE}
+                
+                EVERY_BINNUM=$(echo "$EVERY_BINFILE" | awk -F. '{ print $NF }')
+                
+                for EXCEPT_BINNUM in ${EXCEPT_BINNUM_LIST}; do
+                        if [[ "9${EVERY_BINNUM}" == "9${EXCEPT_BINNUM}" ]]; then
+                                continue 2
+                        fi
+                done
+                
+                if (( "9${MYSQL_BINNUM}" <= "9${EVERY_BINNUM}" )) && [[ "9${EVERY_BINNUM}" < "9${CURRENT_BINNUM}" ]] \
+                && [[ -s "$EVERY_BINFILE_PATH" ]]; then
+                        INCREMENTAL_BACKUP="$(date +"%Y-%m-%d-%H%M%S")_${FULL_BACKUP}"
+                        INCREMENTAL_BACKUP_PATH="${BACKUP_ROOT}/mysql-incremental/${INCREMENTAL_BACKUP}"
+                        
+                        mysqlbinlog "$EVERY_BINFILE_PATH" > "$INCREMENTAL_BACKUP_PATH"
+                        
+                        if [[ "$(cat ${INCREMENTAL_BACKUP_PATH} | wc -l)" < "22" ]]; then
+                                mv ${INCREMENTAL_BACKUP_PATH} ${BACKUP_ROOT}/mysql-incremental/nothing_${INCREMENTAL_BACKUP}
+                        fi
+                        
+                        echo "backup: ${EVERY_BINFILE}"
+                        sleep 3
+                fi
+                
+        done
+        
+        #
+        save_binlog
+        
+        # 删除文件 .except.binlog
+        if [[ -f "${BACKUP_ROOT}/mysql-binlog/.except.binlog" ]]; then
+                rm -rf ${BACKUP_ROOT}/mysql-binlog/.except.binlog
+        fi
+        
+        #sleep 3
+}
+
+# 增量恢复
+incremental_restore()
+{
+        if [[ -z "$(ls_timefile "${BACKUP_ROOT}/mysql-incremental" "$1\_" "\.sql")" ]]; then
+                echo_error "Error: incremental backup does not exist"
+        fi
+        
+        INCREMENTAL_BACKUP=$(ls_timefile "${BACKUP_ROOT}/mysql-incremental" "$1\_" "\.sql")
+        INCREMENTAL_BACKUP_PATH="${BACKUP_ROOT}/mysql-incremental/${INCREMENTAL_BACKUP}"
+        
+        mysqladmin flush-logs
+        show_master "num" >> ${BACKUP_ROOT}/mysql-binlog/.except.binlog
+        mysql < "$INCREMENTAL_BACKUP_PATH"
+        mysqladmin flush-logs
+        
+        sleep 3
+}
+
+# 增量恢复列表
+incremental_restore_list()
+{
+        echo_color "=== mysql incr ===" "34"
+        ls_timefile "${BACKUP_ROOT}/mysql-incremental" "" "\_20[1-3][0-9]-[0-1][0-9]-[0-3][0-9]-[0-9]\{6\}\.sql" | awk -F_ '{ print $1 }'
+        
+        exit 0
+}
+
+############################################################
+#
+#       6.次要操作
+#
+############################################################
+
+############################################################
+#
+#       7.主要操作
+#
+############################################################
+if [[ -z "$ARGUMENT1" ]]; then
+        ARGUMENT1="full"
+fi
+
+if [[ -z "$ARGUMENT2" ]]; then
+        ARGUMENT2="backup"
+fi
+
+if [[ -z "$ARGUMENT3" ]]; then
+        ARGUMENT3="list"
+fi
+
+case "$ARGUMENT1" in
+        "full")
+                case "$ARGUMENT2" in
+                        "backup")
+                                full_backup
+                        ;;
+                        
+                        "restore")
+                                case "$ARGUMENT3" in
+                                        "list")
+                                                full_restore_list
+                                        ;;
+                                        
+                                        20[1-3][0-9]-[0-1][0-9]-[0-3][0-9]-[0-9][0-9][0-9][0-9][0-9][0-9])
+                                                full_restore "$ARGUMENT3"
+                                        ;;
+                                        
+                                        *)
+                                                default "$ARGUMENT3"
+                                        ;;
+                                esac
+                        ;;
+                        
+                        *)
+                                default "$ARGUMENT2"
+                        ;;
+                esac
+        ;;
+        
+        "incr")
+                case "$ARGUMENT2" in
+                        "backup")
+                                incremental_backup
+                        ;;
+                        
+                        "restore")
+                                case "$ARGUMENT3" in
+                                        "list")
+                                                incremental_restore_list
+                                        ;;
+                                        
+                                        20[1-3][0-9]-[0-1][0-9]-[0-3][0-9]-[0-9][0-9][0-9][0-9][0-9][0-9])
+                                                incremental_restore "$ARGUMENT3"
+                                        ;;
+                                        
+                                        *)
+                                                default "$ARGUMENT3"
+                                        ;;
+                                esac
+                        ;;
+                        
+                        *)
+                                default "$ARGUMENT2"
+                        ;;
+                esac
+        ;;
+        
+        *)
+                default "$ARGUMENT1"
+        ;;
+esac
+
+############################################################
+#
+#       8.结束语
+#
+############################################################
+mysql_remove
+time_success
