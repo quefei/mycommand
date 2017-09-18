@@ -27,7 +27,7 @@ if [[ "$(id -u)" != "0" ]]; then
 fi
 
 # 全局变量
-USR_COMMAND=
+USR_COMMAND="myfunction.sh"
 USR_FILE=
 ROOT_COMMAND="test-command"
 ROOT_FILE=
@@ -96,7 +96,7 @@ download()
 }
 
 # 操作
-#download ""          "" ""       ${USR_COMMAND}
+download ""          "" ""       ${USR_COMMAND}
 
 download "$ROOT_DIR" "" ""       ${ROOT_COMMAND}
 
