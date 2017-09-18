@@ -28,6 +28,7 @@ fi
 
 # 全局变量
 FILE_LIST="myfunction.sh option.sh
+           backup-policy backup-centos backup-mysql
            caw
            quenong
           "
