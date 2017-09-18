@@ -303,7 +303,6 @@ mysql_check()
                 echo "MYSQL_USER=" > "$MYSQL_CONF"
                 echo "MYSQL_PASSWORD=" >> "$MYSQL_CONF"
                 echo "MYSQL_DATABASE=" >> "$MYSQL_CONF"
-                echo_error "Error: Setting the user, password, database in ${MYSQL_CONF}"
         fi
         
         if [[ -z "$MYSQL_USER" ]]; then
