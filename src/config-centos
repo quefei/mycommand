@@ -2,12 +2,6 @@
 
 export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
-############################################################
-#
-#       1.位置参量
-#
-############################################################
-
 set -eu
 #set -x
 
@@ -38,57 +32,23 @@ else
         echo_error "Error: myfunction.sh not found"
 fi
 
-############################################################
-#
-#       2.全局变量
-#
-############################################################
+# 全局变量
 IP_ADDR=$(ip_addr "ip")
-HOST_NAME="laravel"
+HOST_NAME="quenong"
 
-############################################################
-#
-#       3.初始化
-#
-############################################################
-
-############################################################
-#
-#       4.次要函数
-#
-############################################################
-
-############################################################
-#
-#       5.主要函数
-#
-############################################################
-
-############################################################
-#
-#       6.次要操作
-#
-############################################################
-
-############################################################
-#
-#       7.主要操作
-#
-############################################################
-#
+# 设置主机名
 cat > /etc/sysconfig/network <<-EOF
 NETWORKING=yes
 HOSTNAME=${HOST_NAME}
 EOF
 
-#
 sed -i "/^10\./d"  /etc/hosts
 sed -i "/^172\./d" /etc/hosts
 sed -i "/^192\./d" /etc/hosts
 
 echo "${IP_ADDR} ${HOST_NAME}" >> /etc/hosts
 
-#
+# 禁用 SELinux
 if ( sestatus -v | grep "SELinux status: *enabled" &> /dev/null ); then
         setenforce 0
         
@@ -98,7 +58,7 @@ if ( sestatus -v | grep "SELinux status: *enabled" &> /dev/null ); then
         echo "enabled" > /root/.selinux.status
 fi
 
-#
+# EPEL 源
 if [[ -f "/etc/yum.repos.d/epel.repo" ]]; then
         rm -rf /etc/yum.repos.d/epel.repo
 fi
@@ -112,27 +72,27 @@ fi
 #
 yum clean all && yum makecache
 
-#
+# 安装软件
 for (( NUM=0; NUM < 5; NUM++ )); do
         yum -y install ntpdate vim-enhanced screen wget axel nmap net-tools tree git psmisc \
         gcc gcc-c++ autoconf automake ncurses-devel libtool \
         redis rsync
 done
 
-#
+# 同步时间并写入 BIOS
 adjust_time
 hwclock -w
 
 #
 yum -y update && yum -y upgrade
 
-#
+# 禁用服务
 for SERVICE in "postfix"; do
         systemctl stop    ${SERVICE} || true
         systemctl disable ${SERVICE} || true
 done
 
-#
+# 设置防火墙
 systemctl restart firewalld
 sleep 3
 
