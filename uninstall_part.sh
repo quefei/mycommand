@@ -33,7 +33,7 @@ FILE_LIST="install-cobbler
            
           "
 
-DIR_LIST=" /root /root/bin /root/myfile"
+DIR_LIST="/root /root/bin /root/myfile"
 
 DIR_LIST2="/root/bin /root/myfile"
 
