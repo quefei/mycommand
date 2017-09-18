@@ -3,11 +3,11 @@ auth --enableshadow --passalgo=sha512
 
 
 ####
-url --url="http://###555.555.555.555###/cobbler/ks_mirror/CentOS-7.4-x86_64/"
+harddrive --partition=sdb1 --dir=/
 text
 
-network --bootproto=static --onboot=on --ip=###666.666.666.666### --netmask=255.255.255.0 --gateway=###111.111.111.111### --nameserver=114.114.114.114
-network --hostname=laravel
+network --bootproto=static --onboot=on --ip=192.168.8.5 --netmask=255.255.255.0 --gateway=192.168.8.2 --nameserver=114.114.114.114
+network --hostname=quenong
 
 
 ####
@@ -64,14 +64,11 @@ kexec-tools
 %end
 
 %post
-cat > /usr/local/bin/quenong-download <<-"EOF"
-#!/bin/bash
+systemctl disable postfix.service
 
-curl -sS http://git.oschina.net/quefei/mycommand/raw/master/install.sh | bash
 
-EOF
-
-chmod 755 /usr/local/bin/quenong-download
+curl -sSo /usr/local/bin/quenong https://raw.githubusercontent.com/quefei/quenong/master/src/quenong
+chmod 755 /usr/local/bin/quenong
 %end
 
 
