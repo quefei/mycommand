@@ -32,6 +32,11 @@ else
         echo_error "Error: myfunction.sh not found"
 fi
 
+# 倒计时
+export PATH=$PATH:/root/bin
+clear
+countdown "13" " "
+
 # 全局变量
 CENTOS_ISO="CentOS-7-x86_64-Minimal-1708.iso"
 CENTOS_URL="http://mirrors.aliyun.com/centos/7/isos/x86_64/${CENTOS_ISO}"
