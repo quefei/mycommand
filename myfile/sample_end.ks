@@ -81,4 +81,3 @@ pwpolicy root --minlen=6 --minquality=50 --notstrict --nochanges --notempty
 pwpolicy user --minlen=6 --minquality=50 --notstrict --nochanges --notempty
 pwpolicy luks --minlen=6 --minquality=50 --notstrict --nochanges --notempty
 %end
-
