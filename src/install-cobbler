@@ -57,6 +57,21 @@ CONFIG_FILE_LIST="/etc/xinetd.d/tftp
                   /var/lib/cobbler/kickstarts/sample_end.ks
                  "
 
+IP_ADDR=$(ip_addr "ip")
+HOST_NAME="quenong"
+
+# 设置主机名
+cat > /etc/sysconfig/network <<-EOF
+NETWORKING=yes
+HOSTNAME=${HOST_NAME}
+EOF
+
+sed -i "/^10\./d"  /etc/hosts
+sed -i "/^172\./d" /etc/hosts
+sed -i "/^192\./d" /etc/hosts
+
+echo "${IP_ADDR} ${HOST_NAME}" >> /etc/hosts
+
 # 禁用 SELinux
 if ( sestatus -v | grep "SELinux status: *enabled" &> /dev/null ); then
         setenforce 0
@@ -73,8 +88,14 @@ if [[ -x "/etc/init.d/nginx" ]]; then
 fi
 
 # EPEL 源
-if [[ ! -f "/etc/yum.repos.d/epel.repo" ]] && [[ -s "/root/myfile/epel.repo" ]]; then
+if [[ -f "/etc/yum.repos.d/epel.repo" ]]; then
+        rm -rf /etc/yum.repos.d/epel.repo
+fi
+
+if [[ -s "/root/myfile/epel.repo" ]]; then
         mv /root/myfile/epel.repo /etc/yum.repos.d/epel.repo
+else
+        echo_error "Error: epel.repo not found"
 fi
 
 # 安装软件
