@@ -30,6 +30,7 @@ fi
 FILE_LIST="myfunction.sh option.sh
            backup-policy backup-centos backup-mysql
            caw
+           .mysql.conf
            quenong
           "
 
