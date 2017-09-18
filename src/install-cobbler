@@ -150,7 +150,11 @@ systemctl restart cobblerd
 sleep 3
 
 # 下载并挂载 ISO
-caw -ah -d ${CENTOS_DIR} -m ${CENTOS_MD5} ${CENTOS_URL_LOCAL} || caw -ah -d ${CENTOS_DIR} -m ${CENTOS_MD5} ${CENTOS_URL}
+if ( ping -c 1 "$IPADDR_1" &> /dev/null ); then
+        caw -ah -d ${CENTOS_DIR} -m ${CENTOS_MD5} ${CENTOS_URL_LOCAL}
+fi
+
+caw -ah -d ${CENTOS_DIR} -m ${CENTOS_MD5} ${CENTOS_URL}
 
 # 导入镜像
 if [[ ! -d "/var/www/cobbler/ks_mirror/${CENTOS_NAME}-${CENTOS_ARCH}" ]]; then
