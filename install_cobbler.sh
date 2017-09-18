@@ -37,16 +37,13 @@ fi
 #       2.全局变量
 #
 ############################################################
-USR_COMMAND="myfunction.sh option.sh backup-centos backup-mysql backup-policy
-             caw"
+USR_COMMAND="myfunction.sh option.sh caw"
 USR_FILE=
-ROOT_COMMAND="one-key config-install config-centos install-lnmp install-nodejs install-laravel config-laravel install-cobbler"
-ROOT_FILE="epel.repo lnmp1.4.tar.gz nginx.conf fastcgi.conf php.ini composer
-           tftp settings dhcp.template pxedefault.template pxeprofile.template dhcpd.conf sample_end.ks"
+ROOT_COMMAND="install-cobbler"
+ROOT_FILE="epel.repo tftp settings dhcp.template pxedefault.template pxeprofile.template dhcpd.conf sample_end.ks"
 ROOT_DIR="/root/bin"
 FILE_DIR="/root/myfile"
 EXCEPT_FILE_LIST="tftp settings"
-MD5="1d0e91c5c6b54a7ee57ddedbcf04ef2c"
 
 ############################################################
 #
@@ -180,12 +177,6 @@ change_ip
 for EXCEPT_FILE in ${EXCEPT_FILE_LIST}; do
         chmod 644 ${FILE_DIR}/${EXCEPT_FILE}
 done
-
-#
-if [[ -s "/root/myfile/lnmp1.4.tar.gz" ]] && [[ "$MD5" != "$(md5sum /root/myfile/lnmp1.4.tar.gz | awk '{ print $1 }')" ]]; then
-        rm -rf /root/myfile/lnmp1.4.tar.gz
-        echo_error "Error: lnmp1.4.tar.gz download failed"
-fi
 
 ############################################################
 #
