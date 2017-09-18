@@ -86,8 +86,8 @@ hwclock -w
 #
 yum -y update && yum -y upgrade
 
-# 禁用服务
-for SERVICE in "postfix"; do
+# 禁用 Apache，80 端口冲突
+for SERVICE in "postfix" "httpd"; do
         systemctl stop    ${SERVICE} || true
         systemctl disable ${SERVICE} || true
 done
