@@ -1,0 +1,188 @@
+#!/bin/bash
+
+export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+set -eu
+#set -x
+
+echo_color()
+{
+        echo -e "\e[1m\e[40;$2m$1\e[0m"
+}
+
+echo_error()
+{
+        echo_color "$1" "31"
+        exit 1
+}
+
+echo_warning()
+{
+        echo_color "$1" "33"
+        sleep 5
+}
+
+if [[ "$(id -u)" != "0" ]]; then
+        echo_error "Error: must run with root"
+fi
+
+if [[ -s "/usr/local/bin/myfunction.sh" ]]; then
+        . /usr/local/bin/myfunction.sh
+else
+        echo_error "Error: myfunction.sh not found"
+fi
+
+# 全局变量
+CENTOS_ISO="CentOS-7-x86_64-Minimal-1708.iso"
+CENTOS_URL="http://mirrors.aliyun.com/centos/7/isos/x86_64/${CENTOS_ISO}"
+IPADDR_1=$(ip_addr "ip_1")
+CENTOS_URL_LOCAL="http://${IPADDR_1}/${CENTOS_ISO}"
+CENTOS_MD5="5848f2fd31c7acf3811ad88eaca6f4aa"
+CENTOS_DIR="/var/www/html"
+CENTOS_NAME="CentOS-7.4"
+CENTOS_ARCH="x86_64"
+SERVICE_LIST="cobblerd rsyncd httpd xinetd tftp"
+
+CONFIG_FILE_LIST="/etc/xinetd.d/tftp
+                  /etc/cobbler/settings
+                  /etc/cobbler/dhcp.template
+                  /etc/cobbler/pxe/pxedefault.template
+                  /etc/cobbler/pxe/pxeprofile.template
+                  /etc/dhcp/dhcpd.conf
+                  /var/lib/cobbler/kickstarts/sample_end.ks
+                 "
+
+# 禁用 SELinux
+if ( sestatus -v | grep "SELinux status: *enabled" &> /dev/null ); then
+        setenforce 0
+        
+        sed -i "s/^SELINUX=enforcing/SELINUX=disabled/g"  /etc/selinux/config
+        sed -i "s/^SELINUX=permissive/SELINUX=disabled/g" /etc/selinux/config
+fi
+
+# 禁用 Nginx，80 端口冲突
+if [[ -x "/etc/init.d/nginx" ]]; then
+        /etc/init.d/nginx stop || true
+        chmod 644 /etc/init.d/nginx
+        echo_warning "Warning: /etc/init.d/nginx is disabled"
+fi
+
+# EPEL 源
+if [[ ! -f "/etc/yum.repos.d/epel.repo" ]] && [[ -s "/root/myfile/epel.repo" ]]; then
+        mv /root/myfile/epel.repo /etc/yum.repos.d/epel.repo
+fi
+
+# 安装软件
+for (( NUM=0; NUM < 5; NUM++ )); do
+        yum -y install dhcp tftp-server syslinux httpd xinetd cobbler pykickstart cobbler-web fence-agents \
+        rsync wget axel ntpdate vim-enhanced net-tools
+done
+
+# 同步时间并写入 BIOS
+adjust_time
+hwclock -w
+
+# 禁用服务
+for SERVICE in "postfix"; do
+        systemctl stop    ${SERVICE} || true
+        systemctl disable ${SERVICE} || true
+done
+
+# 启动服务
+for SERVICE in ${SERVICE_LIST}; do
+        systemctl restart ${SERVICE}
+        systemctl enable  ${SERVICE}
+        sleep 3
+done
+
+if ( ! grep "systemctl restart tftp" /etc/rc.d/rc.local &> /dev/null ); then
+        echo "systemctl restart tftp" >> /etc/rc.d/rc.local
+fi
+
+chmod 755 /etc/rc.d/rc.local
+
+# 自动下载 loader 程序
+for (( NUM=0; NUM < 5; NUM++ )); do
+        cobbler get-loaders || true
+done
+
+# 替换配置文件
+for CONFIG_FILE_PATH in ${CONFIG_FILE_LIST}; do
+        
+        if [[ -f "$CONFIG_FILE_PATH" ]]; then
+                mv ${CONFIG_FILE_PATH} ${CONFIG_FILE_PATH}.bak.$(date +"%Y%m%d%H%M%S")
+        fi
+        
+        CONFIG_FILE=$(path_file "$CONFIG_FILE_PATH")
+        
+        if [[ -s "/root/myfile/${CONFIG_FILE}" ]]; then
+                mv /root/myfile/${CONFIG_FILE} ${CONFIG_FILE_PATH}
+        else
+                echo_error "Error: ${CONFIG_FILE} not found"
+        fi
+        
+done
+
+# 同步与重启
+for (( NUM=0; NUM < 5; NUM++ )); do
+        cobbler sync || true
+done
+
+systemctl restart cobblerd
+sleep 3
+
+# 启动服务
+systemctl restart dhcpd
+systemctl enable  dhcpd
+sleep 3
+
+# 同步与重启
+for (( NUM=0; NUM < 5; NUM++ )); do
+        cobbler sync || true
+done
+
+systemctl restart cobblerd
+sleep 3
+
+# 下载并挂载 ISO
+caw -ah -d ${CENTOS_DIR} -m ${CENTOS_MD5} ${CENTOS_URL_LOCAL} || caw -ah -d ${CENTOS_DIR} -m ${CENTOS_MD5} ${CENTOS_URL}
+
+# 导入镜像
+if [[ ! -d "/var/www/cobbler/ks_mirror/${CENTOS_NAME}-${CENTOS_ARCH}" ]]; then
+        cobbler import --path=${CENTOS_DIR}/ISO --name=${CENTOS_NAME} --arch=${CENTOS_ARCH}
+fi
+
+# 同步与重启
+for (( NUM=0; NUM < 5; NUM++ )); do
+        cobbler sync || true
+done
+
+systemctl restart cobblerd
+sleep 3
+
+# 卸载 ISO
+umount ${CENTOS_DIR}/ISO &> /dev/null || true
+
+# 设置防火墙
+systemctl restart firewalld
+sleep 3
+
+for SERVICE in "http" "https" "dhcp" "tftp"; do
+        
+        if ( ! firewall-cmd --list-services | grep "$SERVICE" &> /dev/null ); then
+                firewall-cmd --add-service=${SERVICE} --permanent
+        fi
+        
+done
+
+if ( ! firewall-cmd --list-port | grep 25151 &> /dev/null ); then
+        firewall-cmd --zone=public --add-port=25151/tcp --permanent
+fi
+
+systemctl restart firewalld
+sleep 3
+
+# 结束
+time_success
+
+curl -sS http://git.oschina.net/quefei/mycommand/raw/master/uninstall_part.sh | bash
