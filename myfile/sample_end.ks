@@ -3,10 +3,10 @@ auth --enableshadow --passalgo=sha512
 
 
 ####
-harddrive --partition=sdb1 --dir=/
+url --url="http://###555.555.555.555###/cobbler/ks_mirror/CentOS-7.4-x86_64/"
 text
 
-network --bootproto=static --onboot=on --ip=192.168.8.5 --netmask=255.255.255.0 --gateway=192.168.8.2 --nameserver=114.114.114.114
+network --bootproto=static --onboot=on --ip=###666.666.666.666### --netmask=255.255.255.0 --gateway=###111.111.111.111### --nameserver=114.114.114.114
 network --hostname=quenong
 
 
@@ -35,9 +35,9 @@ clearpart --all --initlabel --drives=sda
 
 part        biosboot      --fstype="biosboot"    --ondisk=sda     --size=2
 part        /boot         --fstype="xfs"         --ondisk=sda     --size=1024
-part        pv.100        --fstype="lvmpv"       --ondisk=sda     --grow
+part        pv.200        --fstype="lvmpv"       --ondisk=sda     --grow
 
-volgroup    cl            --pesize=4096          pv.100
+volgroup    cl            --pesize=4096          pv.200
 logvol      swap          --fstype="swap"        --size=2048      --name=swap         --vgname=cl
 
 # 500G, 100g 50g 50g 262.75g
