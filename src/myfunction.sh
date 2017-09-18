@@ -297,13 +297,13 @@ mysql_password()
 ############################################################
 mysql_check()
 {
-        if [[ -s "$MYSQL_CONF" ]]; then
-                . "$MYSQL_CONF"
-        else
+        if [[ ! -s "$MYSQL_CONF" ]]; then
                 echo "MYSQL_USER=" > "$MYSQL_CONF"
                 echo "MYSQL_PASSWORD=" >> "$MYSQL_CONF"
                 echo "MYSQL_DATABASE=" >> "$MYSQL_CONF"
         fi
+        
+        . "$MYSQL_CONF"
         
         if [[ -z "$MYSQL_USER" ]]; then
                 echo_error "Error: Setting the user in ${MYSQL_CONF}"
