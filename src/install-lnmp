@@ -46,7 +46,7 @@ MEMORY_ALLOCATOR="1"
 # 创建 .my.cnf
 mysql_create
 
-# 移动软件包
+# 移动 LNMP 包
 if [[ -f "/usr/local/src/${LNMP_ORG}" ]]; then
         rm -rf /usr/local/src/${LNMP_ORG}
 fi
