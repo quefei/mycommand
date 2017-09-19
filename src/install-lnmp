@@ -177,5 +177,4 @@ systemctl enable firewalld
 
 # 结束
 mysql_remove
-
 time_success
