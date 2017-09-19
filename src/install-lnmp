@@ -69,6 +69,9 @@ cd ${LNMP_DIR}
 # 安装状态
 echo "failed" > /root/.lnmp.status
 
+# 锁定安装
+echo "ONEKEY_LOCK=1" > /root/.quenong.lock
+
 # 实现 LNMP 自动退出
 sed -i "/Install lnmp.*completed.*enjoy it/a\    sleep 60; killall tee; exit" ${LNMP_DIR}/include/end.sh
 sed -i "/Install lnmp.*completed.*enjoy it/a\    echo \"success\" > /root/.lnmp.status" ${LNMP_DIR}/include/end.sh
