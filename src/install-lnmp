@@ -57,7 +57,7 @@ else
         echo_error "Error: ${LNMP_ORG} not found"
 fi
 
-# 解压软件包
+# 解压 LNMP 包
 if [[ -d "$LNMP_DIR" ]]; then
         mv ${LNMP_DIR} ${LNMP_DIR}.bak.$(date +"%Y%m%d%H%M%S")
 fi
