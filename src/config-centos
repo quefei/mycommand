@@ -48,7 +48,7 @@ sed -i "/^192\./d" /etc/hosts
 
 echo "${IP_ADDR} ${HOST_NAME}" >> /etc/hosts
 
-# 禁用 SELinux
+# 禁用 SELinux，开机前未禁用 SELinux 会导致备份操作系统时报错
 if ( sestatus -v | grep "SELinux status: *enabled" &> /dev/null ); then
         setenforce 0
         
