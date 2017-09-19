@@ -75,7 +75,7 @@ sed -i "/Install lnmp.*completed.*enjoy it/a\    echo \"success\" > /root/.lnmp.
 sed -i "/Install lnmp.*completed.*enjoy it/a\    # Ivan $(date +"%Y-%m-%d %H:%M:%S")" ${LNMP_DIR}/include/end.sh
 sed -i "/Install lnmp.*completed.*enjoy it/a\    " ${LNMP_DIR}/include/end.sh
 
-# 自动输入
+# 自动输入安装选项
 VAR1="$MYSQL_VERSION"
 VAR2="$MYSQL_PASSWORD"
 VAR3="$MYSQL_INNODB"
