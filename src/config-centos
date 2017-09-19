@@ -73,7 +73,7 @@ else
         echo_error "Error: epel.repo not found"
 fi
 
-#
+# 重新生成缓存
 yum clean all && yum makecache
 
 # 安装软件
