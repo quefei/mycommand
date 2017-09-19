@@ -106,7 +106,7 @@ fi
 
 cd - &> /dev/null
 
-# 替换配置文件
+# 替换 Nginx 配置文件
 for CONFIG_FILE in "nginx.conf" "fastcgi.conf"; do
         
         if [[ -s "/root/myfile/${CONFIG_FILE}" ]]; then
@@ -146,7 +146,7 @@ make install
 
 cd - &> /dev/null
 
-# 替换配置文件
+# 替换 PHP 配置文件
 if [[ -s "/root/myfile/php.ini" ]]; then
         mv /usr/local/php/etc/php.ini /usr/local/php/etc/php.ini.bak.$(date +"%Y%m%d%H%M%S")
         mv /root/myfile/php.ini /usr/local/php/etc/php.ini
