@@ -58,6 +58,10 @@ if ( sestatus -v | grep "SELinux status: *enabled" &> /dev/null ); then
         echo "enabled" > /root/.selinux.status
 fi
 
+# 禁用 Apache，80 端口冲突
+systemctl stop httpd || true
+systemctl disable httpd &> /dev/null && echo_warning "Warning: httpd is disabled" || true
+
 # EPEL 源
 if [[ -f "/etc/yum.repos.d/epel.repo" ]]; then
         rm -rf /etc/yum.repos.d/epel.repo
@@ -91,10 +95,6 @@ for SERVICE in "postfix"; do
         systemctl stop    ${SERVICE} || true
         systemctl disable ${SERVICE} || true
 done
-
-# 禁用 Apache，80 端口冲突
-systemctl stop httpd || true
-systemctl disable httpd &> /dev/null && echo_warning "Warning: httpd is disabled" || true
 
 # 设置防火墙
 systemctl restart firewalld
