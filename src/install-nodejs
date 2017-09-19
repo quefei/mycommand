@@ -52,7 +52,9 @@ tnvm install "$NODE_VERSION"
 tnvm use "$NODE_VERSION"
 
 # 安装 cnpm
-npm install -g cnpm --registry=https://registry.npm.taobao.org
+for (( NUM=0; NUM < 5; NUM++ )); do
+        npm install -g cnpm --registry=https://registry.npm.taobao.org && break 1 || true
+done
 
 # 安装 yarn
 cnpm install -g yarn
