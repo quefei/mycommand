@@ -37,7 +37,7 @@ export PATH=$PATH:/root/bin
 clear
 countdown "13" " "
 
-#
+# 开始安装
 config-centos
 
 install-lnmp
