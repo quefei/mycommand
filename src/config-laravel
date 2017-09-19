@@ -33,9 +33,43 @@ else
 fi
 
 # 全局变量
+LARAVEL_ROOT="/usr/local/nginx/html/laravel"
+ENV_OPTION_LIST="CACHE_DRIVER
+                 DB_CONNECTION
+                 DB_HOST
+                 DB_PORT
+                 DB_DATABASE
+                 DB_USERNAME
+                 DB_PASSWORD
+                "
 
 # 创建 .my.cnf
 mysql_create
+
+# 创建数据库
+mysql -e "create database ${MYSQL_DATABASE}"
+
+# 配置 .env
+for ENV_OPTION in ${ENV_OPTION_LIST}; do
+        sed -i "/^${ENV_OPTION}=/d" ${LARAVEL_ROOT}/.env
+done
+
+sed -i "/^$/d" ${LARAVEL_ROOT}/.env
+
+cat >> ${LARAVEL_ROOT}/.env <<-EOF
+
+CACHE_DRIVER=array
+
+DB_CONNECTION=mysql
+DB_HOST=localhost
+DB_PORT=3306
+DB_DATABASE=${MYSQL_DATABASE}
+DB_USERNAME=${MYSQL_USER}
+DB_PASSWORD=${MYSQL_PASSWORD}
+
+EOF
+
+#
 
 # 结束
 mysql_remove
