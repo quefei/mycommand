@@ -42,7 +42,7 @@ config-centos
 
 install-lnmp
 
-#
+# 备份 LNMP
 if [[ ! -s "/root/.selinux.status" ]] || ( ! grep "enabled" /root/.selinux.status &> /dev/null ); then
         backup-policy init
 fi
@@ -53,7 +53,7 @@ install-laravel
 
 config-laravel
 
-#
+# 备份 Laravel
 if [[ ! -s "/root/.selinux.status" ]] || ( ! grep "enabled" /root/.selinux.status &> /dev/null ); then
         backup-policy init
 else
