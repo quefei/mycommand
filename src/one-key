@@ -65,6 +65,9 @@ else
         rm -rf /root/.selinux.status
 fi
 
+# 锁定安装
+echo "ONEKEY_LOCK=0" > /root/.quenong.lock
+
 # 结束
 time_success
 
