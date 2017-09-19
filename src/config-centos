@@ -87,7 +87,7 @@ done
 adjust_time
 hwclock -w
 
-#
+# 全面升级
 yum -y update && yum -y upgrade
 
 # 禁用服务
