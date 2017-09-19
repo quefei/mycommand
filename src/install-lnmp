@@ -43,10 +43,10 @@ MYSQL_INNODB="Y"
 PHP_VERSION="7"
 MEMORY_ALLOCATOR="1"
 
-#
+# 创建 .my.cnf
 mysql_create
 
-#
+# 移动软件包
 if [[ -f "/usr/local/src/${LNMP_ORG}" ]]; then
         rm -rf /usr/local/src/${LNMP_ORG}
 fi
@@ -57,7 +57,7 @@ else
         echo_error "Error: ${LNMP_ORG} not found"
 fi
 
-#
+# 解压软件包
 if [[ -d "$LNMP_DIR" ]]; then
         mv ${LNMP_DIR} ${LNMP_DIR}.bak.$(date +"%Y%m%d%H%M%S")
 fi
@@ -66,7 +66,7 @@ tar -xzvf /usr/local/src/${LNMP_ORG} -C /usr/local/src
 
 cd ${LNMP_DIR}
 
-#
+# 安装状态
 echo "failed" > /root/.lnmp.status
 
 # 实现 LNMP 自动退出
@@ -75,7 +75,7 @@ sed -i "/Install lnmp.*completed.*enjoy it/a\    echo \"success\" > /root/.lnmp.
 sed -i "/Install lnmp.*completed.*enjoy it/a\    # Ivan $(date +"%Y-%m-%d %H:%M:%S")" ${LNMP_DIR}/include/end.sh
 sed -i "/Install lnmp.*completed.*enjoy it/a\    " ${LNMP_DIR}/include/end.sh
 
-#
+# 自动输入
 VAR1="$MYSQL_VERSION"
 VAR2="$MYSQL_PASSWORD"
 VAR3="$MYSQL_INNODB"
@@ -90,14 +90,14 @@ ${VAR4}
 ${VAR5}
 EOF
 
-#
+# 安装状态
 if ( grep "failed" /root/.lnmp.status &> /dev/null ); then
         echo_error "Error: install lnmp failed"
 fi
 
 rm -rf /root/.lnmp.status
 
-#
+# 复制软件包
 touch /usr/local/nginx/logs/access.log
 
 if [[ ! -f "/usr/local/src/${PHP_TGZ}" ]]; then
@@ -106,7 +106,7 @@ fi
 
 cd - &> /dev/null
 
-#
+# 替换配置文件
 for CONFIG_FILE in "nginx.conf" "fastcgi.conf"; do
         
         if [[ -s "/root/myfile/${CONFIG_FILE}" ]]; then
@@ -118,10 +118,10 @@ for CONFIG_FILE in "nginx.conf" "fastcgi.conf"; do
         
 done
 
-#
+# 创建 .my.cnf
 mysql_create
 
-#
+# 设置 MySQL 权限
 mysql <<-EOF
 use mysql;
 select User, Host from user;
@@ -130,7 +130,7 @@ flush privileges;
 exit
 EOF
 
-#
+# 安装 PHP 扩展
 if [[ -d "$PHP_DIR" ]]; then
         mv ${PHP_DIR} ${PHP_DIR}.bak.$(date +"%Y%m%d%H%M%S")
 fi
@@ -146,7 +146,7 @@ make install
 
 cd - &> /dev/null
 
-#
+# 替换配置文件
 if [[ -s "/root/myfile/php.ini" ]]; then
         mv /usr/local/php/etc/php.ini /usr/local/php/etc/php.ini.bak.$(date +"%Y%m%d%H%M%S")
         mv /root/myfile/php.ini /usr/local/php/etc/php.ini
@@ -154,7 +154,7 @@ else
         echo_error "Error: php.ini not found"
 fi
 
-#
+# 设置防火墙
 systemctl restart firewalld
 sleep 3
 
