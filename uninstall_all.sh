@@ -32,6 +32,7 @@ FILE_LIST="myfunction.sh option.sh
            caw
            .mysql.conf
            quenong
+           #.quenong.lock
           "
 
 DIR_LIST="/usr/local/bin /root"
