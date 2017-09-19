@@ -31,7 +31,7 @@ FILE_LIST="install-cobbler test-command one-key config-centos install-lnmp insta
            epel.repo
            lnmp1.4.tar.gz nginx.conf fastcgi.conf php.ini composer
            tftp settings dhcp.template pxedefault.template pxeprofile.template dhcpd.conf sample_end.ks
-           
+           .selinux.status
           "
 
 DIR_LIST="/root /root/bin /root/myfile"
