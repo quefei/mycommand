@@ -97,7 +97,7 @@ fi
 
 rm -rf /root/.lnmp.status
 
-# 复制软件包
+# 复制 PHP 包
 touch /usr/local/nginx/logs/access.log
 
 if [[ ! -f "/usr/local/src/${PHP_TGZ}" ]]; then
