@@ -1,0 +1,56 @@
+#!/bin/bash
+
+export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+set -e
+#set -u
+#set -x
+
+echo_color()
+{
+        echo -e "\e[1m\e[40;$2m$1\e[0m"
+}
+
+echo_error()
+{
+        echo_color "$1" "31"
+        exit 1
+}
+
+echo_warning()
+{
+        echo_color "$1" "33"
+        sleep 5
+}
+
+if [[ "$(id -u)" != "0" ]]; then
+        echo_error "Error: must run with root"
+fi
+
+if [[ -s "/usr/local/bin/myfunction.sh" ]]; then
+        . /usr/local/bin/myfunction.sh
+else
+        echo_error "Error: myfunction.sh not found"
+fi
+
+# 全局变量
+LARAVEL_ROOT="/usr/local/nginx/html/laravel"
+
+# 进入 Laravel 根目录
+cd ${LARAVEL_ROOT}
+
+# 加载 tnvm，保证 cnpm 可用
+export TNVM_DIR="/root/.tnvm"
+
+# This loads nvm
+if [[ -s "${TNVM_DIR}/tnvm.sh" ]]; then
+        . ${TNVM_DIR}/tnvm.sh
+fi
+
+# 安装 Laravel Mix
+for (( NUM=0; NUM < 5; NUM++ )); do
+        cnpm install && break 1 || true
+done
+
+# 结束
+time_success
