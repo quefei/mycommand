@@ -33,7 +33,7 @@ ROOT_COMMAND="one-key config-centos install-lnmp install-nodejs install-laravel 
 ROOT_FILE="epel.repo lnmp1.4.tar.gz nginx.conf fastcgi.conf php.ini composer"
 ROOT_DIR="/root/bin"
 FILE_DIR="/root/myfile"
-MD5="1d0e91c5c6b54a7ee57ddedbcf04ef2c"
+MD5="a342f2841eab359b39940d2dcf846a55"
 
 # 函数
 # download DIR URL1 URL2 FILE1 FILE2 FILE3 ...
