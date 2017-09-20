@@ -27,7 +27,7 @@ if [[ "$(id -u)" != "0" ]]; then
 fi
 
 # 全局变量
-FILE_LIST="install-cobbler test-command one-key config-centos install-lnmp install-nodejs install-laravel config-laravel
+FILE_LIST="install-cobbler test-command one-key config-centos install-lnmp install-nodejs install-laravel config-laravel nodejs-package composer-package
            epel.repo
            lnmp1.4.tar.gz nginx.conf fastcgi.conf php.ini composer
            tftp settings dhcp.template pxedefault.template pxeprofile.template dhcpd.conf sample_end.ks

@@ -53,6 +53,10 @@ install-laravel
 
 config-laravel
 
+nodejs-package
+
+composer-package
+
 # 备份 Laravel
 if [[ ! -s "/root/.selinux.status" ]] || ( ! grep "enabled" /root/.selinux.status &> /dev/null ); then
         backup-policy init
