@@ -69,13 +69,6 @@ DB_PASSWORD=${MYSQL_PASSWORD}
 
 EOF
 
-# 安装 Laravel Mix
-cd ${LARAVEL_ROOT}
-
-for (( NUM=0; NUM < 5; NUM++ )); do
-        cnpm install && break 1 || true
-done
-
 # 结束
 mysql_remove
 time_success
