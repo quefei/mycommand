@@ -72,6 +72,9 @@ fi
 # 锁定安装
 echo "ONEKEY_LOCK=0" > /root/.quenong.lock
 
+# 定时重启
+shutdown -r +600
+
 # 结束
 time_success
 
