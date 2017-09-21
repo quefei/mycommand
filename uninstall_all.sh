@@ -38,7 +38,7 @@ FILE_LIST="myfunction.sh option.sh
 DIR_LIST="/usr/local/bin /root"
 
 # 操作
-curl -sS http://git.oschina.net/quefei/mycommand/raw/master/uninstall_part.sh | bash
+curl -sS https://gitee.com/quefei/mycommand/raw/master/uninstall_part.sh | bash
 
 #
 for DIR in ${DIR_LIST}; do

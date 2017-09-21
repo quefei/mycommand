@@ -50,7 +50,7 @@ download()
         fi
         
         if [[ -z "$URL1" ]]; then
-                URL1="http://git.oschina.net/quefei/mycommand/raw/master"
+                URL1="https://gitee.com/quefei/mycommand/raw/master"
         fi
         
         if [[ -z "$URL2" ]]; then

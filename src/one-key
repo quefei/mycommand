@@ -78,4 +78,4 @@ shutdown -r +600
 # 结束
 time_success
 
-curl -sS http://git.oschina.net/quefei/mycommand/raw/master/uninstall_part.sh | bash
+curl -sS https://gitee.com/quefei/mycommand/raw/master/uninstall_part.sh | bash
