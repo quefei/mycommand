@@ -66,7 +66,7 @@ kexec-tools
 %post
 systemctl disable postfix.service
 
-curl -sS https://raw.githubusercontent.com/quefei/quenong/master/install.sh | bash
+curl -sS https://gitee.com/quefei/quenong/raw/master/install.sh | bash
 %end
 
 
