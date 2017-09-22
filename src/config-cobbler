@@ -33,6 +33,9 @@ else
 fi
 
 # 全局变量
+CENTOS_NAME="CentOS-7.4"
+CENTOS_ARCH="x86_64"
+
 CONFIG_FILE_LIST="/etc/xinetd.d/tftp
                   /etc/cobbler/settings
                   /etc/cobbler/dhcp.template
@@ -41,6 +44,11 @@ CONFIG_FILE_LIST="/etc/xinetd.d/tftp
                   /etc/dhcp/dhcpd.conf
                   /var/lib/cobbler/kickstarts/sample_end.ks
                  "
+
+# 检测 Cobbler
+if [[ ! -d "/var/www/cobbler/ks_mirror/${CENTOS_NAME}-${CENTOS_ARCH}" ]]; then
+        echo_error "Error: cobbler is not installed"
+fi
 
 # 替换配置文件
 for CONFIG_FILE_PATH in ${CONFIG_FILE_LIST}; do
@@ -58,6 +66,17 @@ for CONFIG_FILE_PATH in ${CONFIG_FILE_LIST}; do
         fi
         
 done
+
+# 同步与重启服务
+for (( NUM=0; NUM < 2; NUM++ )); do
+        cobbler sync || true
+done
+
+systemctl restart cobblerd
+sleep 3
+
+systemctl restart dhcpd
+sleep 3
 
 # 结束
 time_success
