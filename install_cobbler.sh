@@ -29,7 +29,7 @@ fi
 # 全局变量
 USR_COMMAND="myfunction.sh option.sh caw"
 USR_FILE=
-ROOT_COMMAND="install-cobbler"
+ROOT_COMMAND="install-cobbler config-cobbler"
 ROOT_FILE="epel.repo tftp settings dhcp.template pxedefault.template pxeprofile.template dhcpd.conf sample_end.ks"
 ROOT_DIR="/root/bin"
 FILE_DIR="/root/myfile"

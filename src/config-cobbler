@@ -1,0 +1,65 @@
+#!/bin/bash
+
+export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+set -eu
+#set -x
+
+echo_color()
+{
+        echo -e "\e[1m\e[40;$2m$1\e[0m"
+}
+
+echo_error()
+{
+        echo_color "$1" "31"
+        exit 1
+}
+
+echo_warning()
+{
+        echo_color "$1" "33"
+        sleep 5
+}
+
+if [[ "$(id -u)" != "0" ]]; then
+        echo_error "Error: must run with root"
+fi
+
+if [[ -s "/usr/local/bin/myfunction.sh" ]]; then
+        . /usr/local/bin/myfunction.sh
+else
+        echo_error "Error: myfunction.sh not found"
+fi
+
+# 全局变量
+CONFIG_FILE_LIST="/etc/xinetd.d/tftp
+                  /etc/cobbler/settings
+                  /etc/cobbler/dhcp.template
+                  /etc/cobbler/pxe/pxedefault.template
+                  /etc/cobbler/pxe/pxeprofile.template
+                  /etc/dhcp/dhcpd.conf
+                  /var/lib/cobbler/kickstarts/sample_end.ks
+                 "
+
+# 替换配置文件
+for CONFIG_FILE_PATH in ${CONFIG_FILE_LIST}; do
+        
+        if [[ -f "$CONFIG_FILE_PATH" ]]; then
+                mv ${CONFIG_FILE_PATH} ${CONFIG_FILE_PATH}.bak.$(date +"%Y%m%d%H%M%S")
+        fi
+        
+        CONFIG_FILE=$(path_file "$CONFIG_FILE_PATH")
+        
+        if [[ -s "/root/myfile/${CONFIG_FILE}" ]]; then
+                mv /root/myfile/${CONFIG_FILE} ${CONFIG_FILE_PATH}
+        else
+                echo_error "Error: ${CONFIG_FILE} not found"
+        fi
+        
+done
+
+# 结束
+time_success
+
+curl -sS https://gitee.com/quefei/mycommand/raw/master/uninstall_part.sh | bash
